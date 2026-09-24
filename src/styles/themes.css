@@ -1,0 +1,124 @@
+/*
+ * TEMAS
+ * Cada tema é um bloco [data-theme="<id>"] que define TODAS as variáveis abaixo.
+ * Componentes nunca usam cor/fonte fixa: só estas variáveis (direto ou via
+ * utilitários do Tailwind mapeados em globals.css).
+ *
+ * Para criar um tema novo: copie o bloco "terminal", troque os valores,
+ * e registre o id em src/config/themes.ts.
+ *
+ * Contrato de variáveis
+ *   superfícies ..... --bg --surface --surface-2
+ *   texto ........... --fg --muted --on-accent
+ *   linhas .......... --line --line-strong --border-style --divider-style
+ *   acento .......... --accent --status
+ *   fontes .......... --ff-display --ff-body --ff-mono --display-weight --display-tracking
+ *   forma ........... --radius --stroke-width
+ *   textura ......... --bg-texture --bg-texture-size --grain-opacity
+ *   cursor .......... --cursor-size --cursor-radius --cursor-fill --cursor-border
+ *                     --cursor-link-size --cursor-link-fill --cursor-link-border --cursor-cross
+ *                     --cursor-on-fill (borda do cursor sobre elementos preenchidos com o acento)
+ *   transição ....... --transition-bg --transition-fg
+ */
+
+:root,
+[data-theme="terminal"] {
+  color-scheme: dark;
+
+  --bg: #0a0a0a;
+  --surface: #0e0e0e;
+  --surface-2: #151515;
+
+  --fg: #ededed;
+  --muted: #8f8f8f;
+  --on-accent: #0a0a0a;
+
+  --line: rgba(255, 255, 255, 0.09);
+  --line-strong: rgba(255, 255, 255, 0.2);
+  --border-style: solid;
+  --divider-style: solid;
+
+  --accent: #ccf200;
+  --status: #ccf200;
+
+  --ff-display: var(--ff-aldrich), "Space Grotesk", sans-serif;
+  --ff-body: var(--ff-inter), system-ui, sans-serif;
+  --ff-mono: var(--ff-jetbrains), ui-monospace, monospace;
+  --display-weight: 400;
+  --display-tracking: -0.02em;
+
+  --radius: 0px;
+  --stroke-width: 1.5px;
+
+  --bg-texture:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  --bg-texture-size: 40px 40px;
+  --grain-opacity: 0.035;
+
+  /* ponto que vira anel */
+  --cursor-size: 12px;
+  --cursor-radius: 50%;
+  --cursor-fill: var(--accent);
+  --cursor-border: var(--accent);
+  --cursor-link-size: 44px;
+  --cursor-link-fill: transparent;
+  --cursor-link-border: var(--accent);
+  --cursor-cross: 0;
+  --cursor-on-fill: var(--on-accent);
+
+  --transition-bg: var(--accent);
+  --transition-fg: var(--on-accent);
+}
+
+[data-theme="blueprint"] {
+  color-scheme: light;
+
+  --bg: #f4f4f4;
+  --surface: #efefec;
+  --surface-2: #e7e7e3;
+
+  --fg: #0c0c0c;
+  --muted: #555555;
+  --on-accent: #f4f4f4;
+
+  --line: rgba(12, 12, 12, 0.16);
+  --line-strong: rgba(12, 12, 12, 0.45);
+  --border-style: solid;
+  --divider-style: dashed;
+
+  --accent: #d92a1c;
+  --status: #d92a1c;
+
+  --ff-display: var(--ff-space-grotesk), "Arial Narrow", sans-serif;
+  --ff-body: var(--ff-space-grotesk), system-ui, sans-serif;
+  --ff-mono: var(--ff-plex-mono), ui-monospace, monospace;
+  --display-weight: 700;
+  --display-tracking: -0.045em;
+
+  --radius: 0px;
+  --stroke-width: 1.5px;
+
+  /* malha de prancheta: linhas maiores a cada 40 px + subdivisão de 8 px */
+  --bg-texture:
+    linear-gradient(rgba(12, 12, 12, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(12, 12, 12, 0.1) 1px, transparent 1px),
+    linear-gradient(rgba(12, 12, 12, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(12, 12, 12, 0.04) 1px, transparent 1px);
+  --bg-texture-size: 40px 40px, 40px 40px, 8px 8px, 8px 8px;
+  --grain-opacity: 0.045;
+
+  /* mira de prancheta que vira quadro de seleção */
+  --cursor-size: 10px;
+  --cursor-radius: 0px;
+  --cursor-fill: transparent;
+  --cursor-border: var(--fg);
+  --cursor-link-size: 40px;
+  --cursor-link-fill: transparent;
+  --cursor-link-border: var(--accent);
+  --cursor-cross: 1;
+  --cursor-on-fill: var(--on-accent);
+
+  --transition-bg: var(--fg);
+  --transition-fg: var(--bg);
+}
