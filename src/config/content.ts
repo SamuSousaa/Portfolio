@@ -21,6 +21,10 @@ export const PROFILE = {
   },
   status: { en: "Accepting Proposals", pt: "Aceitando propostas", es: "Aceptando proyectos" } as Localized,
   version: "V.1.0",
+  /** Foto em /public (ex.: "/about/portrait.jpg"), idealmente 4:5. Sem ela, o retrato vira prancha técnica. */
+  portrait: undefined as { src: string; alt: Localized } | undefined,
+  /** TODO: preencher. Parágrafos da página Sobre; vazio = "aguardando dados". */
+  about: [] as Localized[],
 };
 
 export const CONTACT = {
@@ -75,6 +79,18 @@ export type Experience = { period: string; role: Localized; org: string };
 
 /** TODO: preencher. Vazio = o painel mostra o estado "aguardando dados". */
 export const EXPERIENCE: Experience[] = [];
+
+export type SkillGroup = { group: Localized; items: string[] };
+
+/** Stack da página Sobre, por grupo. TODO: completar (por ora, só o que já aparece no site). */
+export const SKILLS: SkillGroup[] = [
+  { group: { en: "LANGUAGES", pt: "LINGUAGENS", es: "LENGUAJES" }, items: ["TypeScript"] },
+  { group: { en: "FRAMEWORKS", pt: "FRAMEWORKS", es: "FRAMEWORKS" }, items: ["Next.js"] },
+  {
+    group: { en: "AI", pt: "IA", es: "IA" },
+    items: ["LLM integration", "Agentic systems"],
+  },
+];
 
 export const MARQUEE: Localized<string[]> = {
   en: ["AGENTIC SYSTEMS", "DEVELOPER TOOLS", "TYPESCRIPT", "NEXT.JS", "LLM INTEGRATION", "THOUGHTFUL PRODUCTS"],

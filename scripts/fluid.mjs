@@ -1,21 +1,22 @@
-// Teste de fluidez: trocar tema/idioma não pode mover nada. node scripts/fluid.mjs [baseURL]
+// Teste de fluidez: trocar tema/idioma não pode mover nada. node scripts/fluid.mjs [baseURL] [rota]
 import { chromium } from "playwright-core";
 import fs from "node:fs";
 
 const BASE = process.argv[2] ?? "http://localhost:3100";
+const PATH = process.argv[3] ?? "/";
 const OUT = "screenshots/fluid";
 fs.mkdirSync(OUT, { recursive: true });
-const THEMES = ["terminal", "blueprint", "cobalto", "forja", "manuscrito", "sonar", "herbario"];
+const THEMES = ["terminal", "blueprint", "cobalto", "forja", "sonar", "herbario"];
 const NAMES = { herbario: "HERBÁRIO" };
 const browser = await chromium.launch({ executablePath: "C:/Program Files/Google/Chrome/Application/chrome.exe" });
 
-// elementos cujo lugar/tamanho não pode mudar
+// elementos cujo lugar/tamanho não pode mudar (além destes, todo [data-probe] da página)
 const PROBES = {
   "hero-line-1": "h1 [data-intro=line] >> nth=0",
   "hero-line-2": "h1 [data-intro=line] >> nth=1",
   bio: "section .font-mono.text-muted >> nth=0",
   button: ".btn-primary",
-  marquee: ".trilho",
+  marquee: ".vt-marquee", // a caixa; a faixa em si rola o tempo todo
   panels: "[aria-label] dl >> nth=0",
   "topbar-hud": "header .status-dot >> nth=0",
   "topbar-path": "header p.label >> nth=-1",
@@ -30,7 +31,13 @@ async function rects(p) {
     const b = await loc.first().boundingBox();
     if (b) out[k] = { x: Math.round(b.x), y: Math.round(b.y), w: Math.round(b.width), h: Math.round(b.height) };
   }
-  return out;
+  const extra = await p.$$eval("[data-probe]", (els) =>
+    els.map((el) => {
+      const b = el.getBoundingClientRect();
+      return [el.dataset.probe, { x: Math.round(b.x), y: Math.round(b.y + scrollY), w: Math.round(b.width), h: Math.round(b.height) }];
+    }),
+  );
+  return { ...out, ...Object.fromEntries(extra) };
 }
 function diff(a, b) {
   const d = [];
@@ -48,7 +55,7 @@ for (const [w, h] of [[1440, 900], [390, 844]]) {
   const p = await ctx.newPage();
   const errors = [];
   p.on("pageerror", (e) => errors.push(String(e)));
-  await p.goto(BASE + "/", { waitUntil: "networkidle" });
+  await p.goto(BASE + PATH, { waitUntil: "networkidle" });
   await p.waitForTimeout(2600);
   const base = await rects(p);
 
