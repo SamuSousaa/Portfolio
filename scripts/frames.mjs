@@ -2,7 +2,7 @@
 import { chromium } from "playwright-core";
 const BASE = process.argv[2] ?? "http://localhost:3100";
 const b = await chromium.launch({ executablePath: "C:/Program Files/Google/Chrome/Application/chrome.exe", args: ["--enable-gpu-rasterization", "--ignore-gpu-blocklist"] });
-const pairs = [["cobalto", "forja"], ["forja", "herbario"], ["manuscrito", "sonar"]];
+const pairs = [["cobalto", "forja"], ["forja", "herbario"], ["herbario", "sonar"]];
 const NAME = { forja: "FORJA", herbario: "HERBÁRIO", sonar: "SONAR" };
 for (const [from, to] of pairs) {
   const ctx = await b.newContext({ viewport: { width: 1440, height: 900 } });

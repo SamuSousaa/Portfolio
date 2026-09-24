@@ -6,7 +6,7 @@ import zlib from "node:zlib";
 import fs from "node:fs";
 
 const [BASE = "http://localhost:3100", FROM = "cobalto", TO = "forja"] = process.argv.slice(2);
-const NAME = { terminal: "TERMINAL", blueprint: "BLUEPRINT", cobalto: "COBALTO", forja: "FORJA", manuscrito: "MANUSCRITO", sonar: "SONAR", herbario: "HERBÁRIO" };
+const NAME = { terminal: "TERMINAL", blueprint: "BLUEPRINT", cobalto: "COBALTO", forja: "FORJA", sonar: "SONAR", herbario: "HERBÁRIO" };
 const OUT = "screenshots/flicker";
 fs.rmSync(OUT, { recursive: true, force: true });
 fs.mkdirSync(OUT, { recursive: true });

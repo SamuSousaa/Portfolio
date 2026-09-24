@@ -96,6 +96,37 @@
     text-shadow: var(--name2-hover-shadow);
   }
 
+  /* "A" em segmentos sobrepostos (Hero): o SVG cobre o glifo, que fica sem contorno */
+  .glyph-a {
+    position: relative;
+  }
+  .glyph-a > svg {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0.984em;
+    height: 1.24em;
+    overflow: visible;
+    fill: none;
+    stroke: var(--name2-stroke-color);
+    stroke-width: var(--name2-stroke);
+    stroke-linejoin: miter;
+    transition: stroke 0.6s;
+  }
+  .glyph-a > svg path {
+    vector-effect: non-scaling-stroke;
+  }
+  .name-accent:hover .glyph-a > svg {
+    stroke: var(--accent);
+  }
+  [data-theme="cobalto"] .glyph-a {
+    -webkit-text-stroke-color: transparent;
+  }
+  [data-theme="cobalto"] .glyph-a > svg {
+    display: block;
+  }
+
   /* botão principal: contorno, preenchido ou invertido conforme o tema */
   .btn-bracket.btn-primary {
     background: var(--btn-bg);

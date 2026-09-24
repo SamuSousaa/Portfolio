@@ -8,6 +8,28 @@ import { Monogram } from "./Monogram";
 import { useI18n } from "../I18nProvider";
 import { Swap } from "@/components/Swap";
 
+/*
+ * "A" montado em segmentos independentes que se sobrepõem (pernas cruzadas no
+ * ápice + barra por cima), desenhado sobre o glifo da fonte. Só aparece nos
+ * temas que ligam .glyph-a (COBALTO); nos outros fica o "A" da própria fonte.
+ * Coordenadas em milésimos de em, nas métricas da Unbounded: ascendente 995,
+ * descendente 245, altura das maiúsculas 750, largura de tinta 984.
+ */
+const A_LEGS = "M0 995 L230 995 L607 245 L377 245 Z M984 995 L754 995 L377 245 L607 245 Z";
+const A_BAR = "M110 690 H874 V860 H110 Z";
+
+function GlyphA() {
+  return (
+    <span className="glyph-a">
+      A
+      <svg aria-hidden="true" viewBox="0 0 984 1240" preserveAspectRatio="none">
+        <path d={A_LEGS} />
+        <path d={A_BAR} />
+      </svg>
+    </span>
+  );
+}
+
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
   const { tr } = useI18n();
@@ -37,7 +59,7 @@ export function Hero() {
           </span>
           <span className="block overflow-hidden pb-[0.06em]">
             <span data-intro="line" className="name-accent block">
-              {PROFILE.lastName}
+              {PROFILE.lastName.split(/(A)/).map((part, i) => (part === "A" ? <GlyphA key={i} /> : part))}
             </span>
           </span>
         </h1>

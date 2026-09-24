@@ -9,11 +9,11 @@ const OUT = "screenshots/transition";
 const SLOW = 0.05; // 400 ms viram 8 s
 fs.rmSync(OUT, { recursive: true, force: true });
 fs.mkdirSync(OUT, { recursive: true });
-const NAME = { terminal: "TERMINAL", blueprint: "BLUEPRINT", cobalto: "COBALTO", forja: "FORJA", manuscrito: "MANUSCRITO", sonar: "SONAR", herbario: "HERBÁRIO" };
+const NAME = { terminal: "TERMINAL", blueprint: "BLUEPRINT", cobalto: "COBALTO", forja: "FORJA", sonar: "SONAR", herbario: "HERBÁRIO" };
 const PAIRS = [
   ["cobalto", "forja", "claro → escuro"],
   ["forja", "herbario", "escuro → claro"],
-  ["manuscrito", "forja", "fontes bem diferentes"],
+  ["blueprint", "sonar", "fontes bem diferentes"],
   ["sonar", "blueprint", "fontes diferentes, escuro → claro"],
   ["herbario", "terminal", "entra o CRT"],
 ];

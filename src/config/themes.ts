@@ -63,16 +63,6 @@ export const THEMES: Theme[] = [
     swatch: ["#161616", "#FF4A1C"],
   },
   {
-    id: "manuscrito",
-    name: "MANUSCRITO",
-    description: {
-      en: "Blue paper, navy ink. Editorial and calm.",
-      pt: "Papel azul, tinta marinho. Editorial e calmo.",
-      es: "Papel azul, tinta marina. Editorial y sereno.",
-    },
-    swatch: ["#DCE6F2", "#1F4FD8"],
-  },
-  {
     id: "sonar",
     name: "SONAR",
     description: {

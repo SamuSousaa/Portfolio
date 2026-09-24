@@ -6,7 +6,6 @@ import {
   IBM_Plex_Mono,
   Unbounded,
   Oswald,
-  Outfit,
   Turret_Road,
   Archivo,
 } from "next/font/google";
@@ -41,8 +40,6 @@ export const plexMono = IBM_Plex_Mono({
 export const unbounded = Unbounded({ subsets: ["latin"], variable: "--ff-unbounded", display: "swap", preload: false });
 // FORJA
 export const oswald = Oswald({ subsets: ["latin"], variable: "--ff-oswald", display: "swap", preload: false });
-// MANUSCRITO — geométrica; vazada mostra as sobreposições internas
-export const outfit = Outfit({ subsets: ["latin"], variable: "--ff-outfit", display: "swap", preload: false });
 // SONAR — quadrada com terminais curvos, leitura de instrumento
 export const turretRoad = Turret_Road({
   subsets: ["latin"],
@@ -61,4 +58,4 @@ export const archivo = Archivo({
   preload: false,
 });
 
-export const fontVariables = [aldrich, jetbrains, inter, spaceGrotesk, plexMono, unbounded, oswald, outfit, turretRoad, archivo].map((f) => f.variable).join(" ");
+export const fontVariables = [aldrich, jetbrains, inter, spaceGrotesk, plexMono, unbounded, oswald, turretRoad, archivo].map((f) => f.variable).join(" ");

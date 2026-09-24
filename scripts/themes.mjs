@@ -4,7 +4,7 @@ import fs from "node:fs";
 
 const BASE = process.argv[2] ?? "http://localhost:3100";
 const OUT = "screenshots/themes";
-const THEMES = ["terminal", "blueprint", "cobalto", "forja", "manuscrito", "sonar", "herbario"];
+const THEMES = ["terminal", "blueprint", "cobalto", "forja", "sonar", "herbario"];
 fs.mkdirSync(OUT, { recursive: true });
 const browser = await chromium.launch({ executablePath: "C:/Program Files/Google/Chrome/Application/chrome.exe" });
 
