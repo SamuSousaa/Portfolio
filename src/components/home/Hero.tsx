@@ -20,7 +20,7 @@ export function Hero() {
       className="relative isolate grid flex-1 content-center overflow-hidden gap-12 px-5 pb-14 pt-10 nav:px-12 nav:py-16 min-[1100px]:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] min-[1100px]:items-center min-[1100px]:gap-14"
     >
       {/* marca d'água: invisível em TERMINAL/BLUEPRINT (--watermark-opacity: 0) */}
-      <span aria-hidden="true" className="watermark -bottom-[0.12em] right-[2%] -z-10 text-[calc(clamp(14rem,34vw,34rem)*var(--display-scale))]">
+      <span aria-hidden="true" className="vt-display-watermark watermark -bottom-[0.12em] right-[2%] -z-10 text-[calc(clamp(14rem,34vw,34rem)*var(--display-scale))]">
         {PROFILE.initials}
       </span>
 
@@ -29,7 +29,7 @@ export function Hero() {
           <span className="text-accent">SYS.01</span> — <Swap v={tr((d) => d.portfolio)} /> / {new Date().getFullYear()}
         </p>
 
-        <h1 className="display -ml-[0.05em] [--fs:min(20cqi,12.5rem)]">
+        <h1 className="vt-display-title display -ml-[0.05em] [--fs:min(18cqi,11.25rem)] tracking-[calc(var(--display-tracking)_-_0.03em)]">
           <span className="block overflow-hidden pb-[0.04em]">
             <span data-intro="line" className="block">
               {PROFILE.firstName}

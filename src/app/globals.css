@@ -29,12 +29,9 @@
     border-style: var(--border-style);
   }
 
-  /* fundo e textura no <html>, para a camada .fx (z-index -1) ficar entre eles e o conteúdo */
+  /* só a cor no <html>; grid/pontos/pauta ficam na camada .theme-texture (pode fazer crossfade) */
   html {
     background-color: var(--bg);
-    background-image: var(--bg-texture);
-    background-size: var(--bg-texture-size);
-    background-attachment: fixed;
     color: var(--fg);
     font-family: var(--ff-body);
     -webkit-font-smoothing: antialiased;
@@ -201,10 +198,11 @@
     }
   }
 
-  /* marquee */
+  /* marquee: loop contínuo; duração = largura de uma volta (--run, em px) ÷ --marquee-speed */
   .trilho {
     display: inline-flex;
-    animation: correr 38s linear infinite;
+    animation: correr linear infinite;
+    animation-duration: calc(var(--run, 1600) / var(--marquee-speed) * 1s);
   }
   @keyframes correr {
     to {
@@ -316,6 +314,11 @@
   }
 }
 
+/* velocidade do marquee, em px por segundo (também usada na troca de tema, abaixo) */
+:root {
+  --marquee-speed: 40;
+}
+
 /* altura da barra superior (1 linha ≥1180 px; 2 linhas abaixo, com o HUD) */
 :root {
   --topbar-h: 89px;
@@ -365,15 +368,39 @@
 }
 
 /* camada de efeito do tema (brasa, varredura de radar...) */
+.theme-texture {
+  pointer-events: none;
+  background-image: var(--bg-texture);
+  background-size: var(--bg-texture-size);
+}
+.theme-texture--page {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+}
 .fx {
   position: fixed;
   inset: 0;
   z-index: -1;
   overflow: hidden;
   pointer-events: none;
-  background: var(--fx-bg);
   opacity: var(--fx-opacity);
+}
+.fx::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--fx-bg);
   animation: var(--fx-anim);
+}
+/* linhas de varredura CRT (TERMINAL) */
+.crt {
+  position: fixed;
+  inset: 0;
+  z-index: 65;
+  pointer-events: none;
+  opacity: var(--crt-opacity);
+  background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0 1px, transparent 1px 3px);
 }
 .fx::before {
   content: "";
@@ -385,6 +412,12 @@
   border-radius: 50%;
   background: var(--fx-sweep);
   animation: fx-spin var(--fx-sweep-duration) linear infinite;
+}
+/* varredura no mostrador do monograma */
+.dial-sweep {
+  background: conic-gradient(from 0deg, color-mix(in srgb, var(--accent) 30%, transparent), transparent 70deg);
+  opacity: var(--dial-sweep-opacity);
+  animation: fx-spin 6s linear infinite;
 }
 @keyframes fx-spin {
   to {
@@ -401,33 +434,206 @@
 }
 
 /*
- * Trocas fluidas (View Transitions API).
- * Tema: a versão nova sobe de baixo para cima, linear e rápida.
- * Idioma: crossfade curto. O layout não muda em nenhum dos dois.
+ * TROCA DE TEMA — onda em três camadas (portfólio do Hans Honlonkou), feita pelo
+ * compositor (View Transitions): o navegador fotografa cada camada antes e depois
+ * da troca e só faz crossfade de opacidade entre elas. Nada é repintado quadro a
+ * quadro, então a troca é contínua, sem saltos, e a mudança de fonte some no crossfade.
+ *   1. fundo da sidebar, do topo e do menu mobile ... instantâneo
+ *   2. conteúdo, textos da sidebar, grid, efeitos ... 400 ms, ease
+ *   3. fundo da área principal ...................... 500 ms, cubic-bezier(.4,0,.2,1)
+ * Camadas = elementos com view-transition-name (ver .vt-* abaixo).
  */
+.page-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  pointer-events: none;
+  background-color: var(--bg);
+}
+.vt-page-bg { view-transition-name: page-bg; }
+.vt-texture { view-transition-name: texture; }
+.vt-fx { view-transition-name: fx; }
+.vt-crt { view-transition-name: crt; }
+.vt-content { view-transition-name: content; }
+.vt-sidebar { view-transition-name: sidebar; }
+.vt-sidebar-bg { view-transition-name: sidebar-bg; }
+.vt-topbar-bg { view-transition-name: topbar-bg; }
+.vt-menu { view-transition-name: menu; }
+.vt-menu-bg { view-transition-name: menu-bg; }
+.vt-grain { view-transition-name: grain; }
+.vt-cursor { view-transition-name: cursor; }
+.vt-marquee { view-transition-name: marquee; }
+/* elementos cuja FORMA muda com o tema (fonte, grid): ver "dissolve e ressurge" abaixo */
+.vt-display-title { view-transition-name: display-title; }
+.vt-display-mono { view-transition-name: display-mono; }
+.vt-display-watermark { view-transition-name: display-watermark; }
+.vt-display-cover { view-transition-name: display-cover; }
+
+/* ordem das fotos no overlay: fundos embaixo, textos por cima, cursor no topo */
+::view-transition-group(root) { z-index: 0; }
+::view-transition-group(page-bg) { z-index: 1; }
+::view-transition-group(texture) { z-index: 2; }
+::view-transition-group(fx) { z-index: 3; }
+::view-transition-group(topbar-bg) { z-index: 4; }
+::view-transition-group(content) { z-index: 5; }
+::view-transition-group(marquee) { z-index: 6; overflow: clip; }
+::view-transition-group(display-title) { z-index: 6; }
+::view-transition-group(display-mono) { z-index: 6; }
+::view-transition-group(display-watermark) { z-index: 4; }
+::view-transition-group(display-cover) { z-index: 6; }
+
+/*
+ * Por padrão a foto antiga é esticada até o tamanho da caixa nova. Com outra
+ * fonte a caixa muda de largura, e o texto antigo apareceria ampliado e
+ * deslocado. Aqui cada foto mantém o tamanho natural, ancorada no ponto certo.
+ */
+::view-transition-old(display-title),
+::view-transition-new(display-title) {
+  inline-size: auto;
+  block-size: auto;
+  inset: 0 auto auto 0; /* título: preso à esquerda, como no layout */
+}
+::view-transition-old(display-mono),
+::view-transition-new(display-mono),
+::view-transition-old(display-cover),
+::view-transition-new(display-cover) {
+  inline-size: auto;
+  block-size: auto;
+  inset: 50% auto auto 50%;
+  translate: -50% -50%; /* monograma e capa: centrados, mesmo se a foto for maior que a caixa */
+}
+::view-transition-old(display-watermark),
+::view-transition-new(display-watermark) {
+  inline-size: auto;
+  block-size: auto;
+  inset: auto 0 0 auto; /* marca d'água: presa embaixo à direita */
+}
+::view-transition-group(sidebar-bg) { z-index: 7; }
+::view-transition-group(sidebar) { z-index: 8; }
+::view-transition-group(grain) { z-index: 9; }
+::view-transition-group(crt) { z-index: 10; }
+::view-transition-group(menu-bg) { z-index: 11; }
+::view-transition-group(menu) { z-index: 12; }
+::view-transition-group(cursor) { z-index: 13; }
+
+/* tamanho/posição das camadas não mudam: sem morph, só crossfade */
+html.vt-theme::view-transition-group(*) {
+  animation: none;
+}
+/* 0. o resto, o grão e o cursor trocam direto (o cursor novo segue o mouse ao vivo) */
+html.vt-theme::view-transition-old(root),
+html.vt-theme::view-transition-old(grain),
+html.vt-theme::view-transition-old(cursor) {
+  display: none;
+}
+html.vt-theme::view-transition-new(root),
+html.vt-theme::view-transition-new(grain),
+html.vt-theme::view-transition-new(cursor) {
+  animation: none;
+}
+/* 1. fundos da sidebar, do topo e do menu: instantâneos */
+html.vt-theme::view-transition-old(sidebar-bg),
+html.vt-theme::view-transition-old(topbar-bg),
+html.vt-theme::view-transition-old(menu-bg) {
+  display: none;
+}
+html.vt-theme::view-transition-new(sidebar-bg),
+html.vt-theme::view-transition-new(topbar-bg),
+html.vt-theme::view-transition-new(menu-bg) {
+  animation: none;
+}
+/* 2. conteúdo: 400 ms, ease */
+html.vt-theme::view-transition-old(content),
+html.vt-theme::view-transition-new(content),
+html.vt-theme::view-transition-old(sidebar),
+html.vt-theme::view-transition-new(sidebar),
+html.vt-theme::view-transition-old(menu),
+html.vt-theme::view-transition-new(menu),
+html.vt-theme::view-transition-old(fx),
+html.vt-theme::view-transition-new(fx),
+html.vt-theme::view-transition-old(crt),
+html.vt-theme::view-transition-new(crt) {
+  animation-duration: 0.4s;
+  animation-timing-function: ease;
+}
+/*
+ * Títulos, monograma, marca d'água, capa e grid mudam de FORMA entre temas (outra
+ * fonte, outro desenho de grid). Num crossfade as duas versões apareceriam
+ * sobrepostas por um instante (dupla exposição = "piscada"). Aqui a antiga se
+ * dissolve em 200 ms e só então a nova surge em 200 ms: nunca há duas versões
+ * na tela, e a troca de fonte acontece no ponto em que nenhuma está visível.
+ */
+html.vt-theme::view-transition-old(display-title),
+html.vt-theme::view-transition-old(display-mono),
+html.vt-theme::view-transition-old(display-watermark),
+html.vt-theme::view-transition-old(display-cover),
+html.vt-theme::view-transition-old(texture) {
+  animation: vt-fade-out 0.2s ease-in both;
+}
+html.vt-theme::view-transition-new(display-title),
+html.vt-theme::view-transition-new(display-mono),
+html.vt-theme::view-transition-new(display-watermark),
+html.vt-theme::view-transition-new(display-cover),
+html.vt-theme::view-transition-new(texture) {
+  animation: vt-fade-in 0.2s ease-out 0.2s both;
+}
+
+/*
+ * Marquee: a foto nova é ao vivo (continua rodando), mas a antiga é estática.
+ * Para não "fantasmear", a antiga desliza na mesma velocidade da faixa enquanto
+ * some: as duas ficam alinhadas e a faixa segue como se nada tivesse acontecido.
+ */
+html.vt-theme::view-transition-old(marquee) {
+  animation:
+    vt-fade-out 0.4s ease both,
+    marquee-drift-theme 0.4s linear both;
+}
+html.vt-theme::view-transition-new(marquee) {
+  animation: vt-fade-in 0.4s ease both;
+}
+/* começa já deslocada pelo atraso da foto (--vt-lag) e segue na velocidade da faixa */
+@keyframes marquee-drift-theme {
+  from {
+    transform: translateX(calc(var(--marquee-speed) * var(--vt-lag, 0) * -0.001px));
+  }
+  to {
+    transform: translateX(calc(var(--marquee-speed) * (var(--vt-lag, 0) * 0.001 + 0.4) * -1px));
+  }
+}
+
+/* 3. fundo da área principal: 500 ms, começa devagar */
+html.vt-theme::view-transition-old(page-bg),
+html.vt-theme::view-transition-new(page-bg) {
+  animation-duration: 0.5s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Troca de idioma: crossfade curto (View Transitions API). O layout não muda. */
 ::view-transition-old(root),
 ::view-transition-new(root) {
   mix-blend-mode: normal;
 }
-html.vt-theme::view-transition-old(root) {
+html.vt-lang::view-transition-group(*) {
   animation: none;
 }
-html.vt-theme::view-transition-new(root) {
-  animation: vt-wipe-up 0.5s linear both;
-}
-@keyframes vt-wipe-up {
-  from {
-    clip-path: inset(100% 0 0 0);
-  }
-  to {
-    clip-path: inset(0 0 0 0);
-  }
-}
-html.vt-lang::view-transition-old(root) {
+html.vt-lang::view-transition-old(*) {
   animation: vt-fade-out 0.28s ease-out both;
 }
-html.vt-lang::view-transition-new(root) {
+html.vt-lang::view-transition-new(*) {
   animation: vt-fade-in 0.28s ease-out both;
+}
+html.vt-lang::view-transition-old(marquee) {
+  animation:
+    vt-fade-out 0.28s ease-out both,
+    marquee-drift-lang 0.28s linear both;
+}
+@keyframes marquee-drift-lang {
+  from {
+    transform: translateX(calc(var(--marquee-speed) * var(--vt-lag, 0) * -0.001px));
+  }
+  to {
+    transform: translateX(calc(var(--marquee-speed) * (var(--vt-lag, 0) * 0.001 + 0.28) * -1px));
+  }
 }
 @keyframes vt-fade-out {
   to {

@@ -8,7 +8,7 @@
  * e registre o id em src/config/themes.ts (e as fontes em src/lib/fonts.ts).
  *
  * Contrato de variáveis
- *   superfícies ..... --bg --surface --surface-2
+ *   superfícies ..... --c-bg --c-surface (cores cruas; o código usa --bg/--surface) --surface-2
  *   texto ........... --fg --muted --on-accent
  *   linhas .......... --line --line-strong --border-style --divider-style
  *   acento .......... --accent --status
@@ -24,19 +24,184 @@
  *   textura ......... --bg-texture --bg-texture-size --grain-opacity --watermark-opacity
  *   efeito .......... --fx-bg --fx-anim --fx-opacity (camada fixa atrás do conteúdo)
  *                     --fx-sweep --fx-sweep-size --fx-sweep-duration --fx-x --fx-y (disco girando)
+ *                     --dial-sweep-opacity (varredura no mostrador do monograma; 0 = desligada)
+ *                     --crt-opacity (linhas de varredura CRT por cima da página; 0 = desligadas)
  *   cursor .......... --cursor-size --cursor-radius --cursor-fill --cursor-border
  *                     --cursor-link-size --cursor-link-fill --cursor-link-border --cursor-cross
  *                     --cursor-on-fill (borda do cursor sobre elementos preenchidos)
  *   transição ....... --transition-bg --transition-fg
  */
 
+/*
+ * Tokens tipados (cores e intensidades). A troca de tema é feita por View
+ * Transition (ver globals.css), mas manter os tipos deixa os tokens
+ * interpoláveis se algum componente quiser animá-los.
+ * Tema novo: nada a fazer aqui, a não ser que crie um token de cor novo.
+ */
+@property --bg {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --surface {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --surface-2 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --fg {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --muted {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --on-accent {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --line {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --line-strong {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --accent {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --status {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --btn-bg {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --btn-fg {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --btn-border {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --btn-hover-bg {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --btn-hover-fg {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --btn-hover-border {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --cursor-fill {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --cursor-border {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --cursor-link-fill {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --cursor-link-border {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --cursor-on-fill {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --transition-bg {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --transition-fg {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --name2-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --name2-stroke-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --grain-opacity {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@property --watermark-opacity {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@property --fx-opacity {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@property --crt-opacity {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@property --dial-sweep-opacity {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+/* Os temas definem as cores cruas --c-bg e --c-surface; o resto do código usa --bg / --surface. */
+:root {
+  --bg: var(--c-bg);
+  --surface: var(--c-surface);
+}
+
 /* ───────────────────────── TERMINAL (padrão) ───────────────────────── */
 :root,
 [data-theme="terminal"] {
   color-scheme: dark;
 
-  --bg: #0a0a0a;
-  --surface: #0e0e0e;
+  --c-bg: #0a0a0a;
+  --c-surface: #0e0e0e;
   --surface-2: #151515;
 
   --fg: #ededed;
@@ -109,14 +274,16 @@
   --fx-sweep-duration: 0s;
   --fx-x: 50%;
   --fx-y: 50%;
+  --dial-sweep-opacity: 0;
+  --crt-opacity: 0.55;
 }
 
 /* ───────────────────────── BLUEPRINT ───────────────────────── */
 [data-theme="blueprint"] {
   color-scheme: light;
 
-  --bg: #f4f4f4;
-  --surface: #efefec;
+  --c-bg: #f4f4f4;
+  --c-surface: #efefec;
   --surface-2: #e7e7e3;
 
   --fg: #0c0c0c;
@@ -190,6 +357,8 @@
   --fx-sweep-duration: 0s;
   --fx-x: 50%;
   --fx-y: 50%;
+  --dial-sweep-opacity: 0;
+  --crt-opacity: 0;
 }
 
 /* ───────────────────────── COBALTO ─────────────────────────
@@ -197,8 +366,8 @@
 [data-theme="cobalto"] {
   color-scheme: light;
 
-  --bg: #eeeeec;
-  --surface: #f7f7f5;
+  --c-bg: #eeeeec;
+  --c-surface: #f7f7f5;
   --surface-2: #e6e6e3;
 
   --fg: #0d0d0d;
@@ -271,6 +440,8 @@
   --fx-sweep-duration: 0s;
   --fx-x: 50%;
   --fx-y: 50%;
+  --dial-sweep-opacity: 0;
+  --crt-opacity: 0;
 }
 
 /* ───────────────────────── FORJA ─────────────────────────
@@ -278,8 +449,8 @@
 [data-theme="forja"] {
   color-scheme: dark;
 
-  --bg: #161616;
-  --surface: #1e1e1e;
+  --c-bg: #161616;
+  --c-surface: #1e1e1e;
   --surface-2: #252525;
 
   --fg: #ededed;
@@ -349,6 +520,8 @@
   --fx-sweep-duration: 0s;
   --fx-x: 50%;
   --fx-y: 50%;
+  --dial-sweep-opacity: 0;
+  --crt-opacity: 0;
 }
 
 /* ───────────────────────── MANUSCRITO ─────────────────────────
@@ -356,8 +529,8 @@
 [data-theme="manuscrito"] {
   color-scheme: light;
 
-  --bg: #dce6f2;
-  --surface: #e8eef6;
+  --c-bg: #dce6f2;
+  --c-surface: #e8eef6;
   --surface-2: #d2ddeb;
 
   --fg: #0b1b3a;
@@ -429,15 +602,17 @@
   --fx-sweep-duration: 0s;
   --fx-x: 50%;
   --fx-y: 50%;
+  --dial-sweep-opacity: 0;
+  --crt-opacity: 0;
 }
 
 /* ───────────────────────── SONAR ─────────────────────────
-   Profundidade e sinal. Turret Road 800; grade fina, eixos em mira e varredura de radar. */
+   Profundidade e sinal. Turret Road 800; grade fina e varredura de radar no mostrador do monograma. */
 [data-theme="sonar"] {
   color-scheme: dark;
 
-  --bg: #0e1c2b;
-  --surface: #132536;
+  --c-bg: #0e1c2b;
+  --c-surface: #132536;
   --surface-2: #182d41;
 
   --fg: #e6eef5;
@@ -482,11 +657,9 @@
   --stroke-width: 1.5px;
 
   --bg-texture: 
-    linear-gradient(90deg, transparent calc(78% - 0.5px), rgba(44, 196, 212, 0.14) calc(78% - 0.5px) calc(78% + 0.5px), transparent calc(78% + 0.5px)),
-    linear-gradient(transparent calc(70% - 0.5px), rgba(44, 196, 212, 0.14) calc(70% - 0.5px) calc(70% + 0.5px), transparent calc(70% + 0.5px)),
     linear-gradient(rgba(230, 238, 245, 0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgba(230, 238, 245, 0.03) 1px, transparent 1px);
-  --bg-texture-size: 100% 100%, 100% 100%, 30px 30px, 30px 30px;
+  --bg-texture-size: 30px 30px, 30px 30px;
   --grain-opacity: 0.045;
   --watermark-opacity: 0.05;
 
@@ -505,12 +678,14 @@
   --transition-fg: var(--on-accent);
   --fx-bg: none;
   --fx-anim: none;
-  --fx-opacity: 1;
-  --fx-sweep: conic-gradient(from 0deg, rgba(44, 196, 212, 0.16), transparent 60deg);
-  --fx-sweep-size: 260vmax;
-  --fx-sweep-duration: 9s;
-  --fx-x: 78%;
-  --fx-y: 70%;
+  --fx-opacity: 0;
+  --fx-sweep: none;
+  --fx-sweep-size: 0px;
+  --fx-sweep-duration: 0s;
+  --fx-x: 50%;
+  --fx-y: 50%;
+  --dial-sweep-opacity: 1;
+  --crt-opacity: 0;
 }
 
 /* ───────────────────────── HERBÁRIO ─────────────────────────
@@ -518,8 +693,8 @@
 [data-theme="herbario"] {
   color-scheme: light;
 
-  --bg: #efeee6;
-  --surface: #f6f5ef;
+  --c-bg: #efeee6;
+  --c-surface: #f6f5ef;
   --surface-2: #e6e5db;
 
   --fg: #111111;
@@ -588,4 +763,6 @@
   --fx-sweep-duration: 0s;
   --fx-x: 50%;
   --fx-y: 50%;
+  --dial-sweep-opacity: 0;
+  --crt-opacity: 0;
 }

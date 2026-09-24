@@ -33,7 +33,7 @@ export function PageTitle({ href, title, note, meta, children }: Props) {
         {title ? ` / ${title.toUpperCase()}` : ""}
         {meta ? <span className="text-fg"> — {meta}</span> : null}
       </p>
-      <h1 className="display -ml-[0.04em] [--fs:clamp(3.25rem,11vw,10rem)]">
+      <h1 className="vt-display-title display -ml-[0.04em] [--fs:clamp(3.25rem,11vw,10rem)]">
         <span className="block overflow-hidden pb-[0.05em]">
           <span data-intro="line" className="block">
             {title ?? (labels ? <Swap v={labels} /> : null)}

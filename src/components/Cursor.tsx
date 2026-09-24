@@ -41,5 +41,5 @@ export function Cursor() {
     };
   }, []);
 
-  return <div ref={ref} className="cursor" aria-hidden="true" />;
+  return <div ref={ref} className="cursor vt-cursor" aria-hidden="true" />;
 }

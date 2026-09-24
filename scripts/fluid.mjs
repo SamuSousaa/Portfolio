@@ -68,7 +68,7 @@ for (const [w, h] of [[1440, 900], [390, 844]]) {
   // temas
   for (const theme of THEMES.slice(1).concat("terminal")) {
     await openMenu();
-    const dot = p.locator(`${scope} [role=radio][aria-label^="${NAMES[theme] ?? theme.toUpperCase()}"]`);
+    const dot = p.locator(`${scope} [aria-pressed][aria-label$=" ${NAMES[theme] ?? theme.toUpperCase()}"]`);
     await dot.hover().catch(() => {});
     await dot.click();
     if (!mobile && theme === "forja") {

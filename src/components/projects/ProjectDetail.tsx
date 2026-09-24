@@ -62,7 +62,7 @@ export function ProjectDetail({ project }: { project: Project }) {
             {String(index + 1).padStart(2, "0")} — {project.name.toUpperCase()}
           </span>
         </p>
-        <h1 className="display -ml-[0.04em] [--fs:clamp(3.5rem,13vw,12rem)]">
+        <h1 className="vt-display-title display -ml-[0.04em] [--fs:clamp(3.5rem,13vw,12rem)]">
           <span className="block overflow-hidden pb-[0.05em]">
             <span data-intro="line" className="block">
               {project.name}

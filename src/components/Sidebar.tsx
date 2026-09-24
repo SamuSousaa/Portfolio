@@ -16,7 +16,9 @@ export function Sidebar() {
   const year = new Date().getFullYear();
 
   return (
-    <aside className="fixed inset-y-0 left-0 z-40 hidden w-[260px] flex-col border-r border-line bg-surface nav:flex">
+    <aside className="vt-sidebar fixed inset-y-0 left-0 z-40 hidden w-[260px] flex-col border-r border-line [--ring-gap:var(--c-surface)] nav:flex">
+      {/* fundo em camada própria: troca na hora, enquanto os textos esmaecem */}
+      <div className="vt-sidebar-bg absolute inset-0 -z-10 bg-[var(--c-surface)]" aria-hidden="true" />
       <div className="flex h-14 shrink-0 items-center border-b border-line px-6">
         <Logo />
       </div>

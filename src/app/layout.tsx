@@ -36,18 +36,21 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <I18nProvider initial={locale}>
           <ThemeProvider>
             <PageTransitionProvider>
-              {/* efeito de fundo do tema (brasa, radar...) */}
-              <div className="fx" aria-hidden="true" />
+              {/* camadas do tema: textura (grid/pontos/pauta), efeito (brasa) e CRT */}
+              <div className="page-bg vt-page-bg" aria-hidden="true" />
+              <div className="theme-texture theme-texture--page vt-texture" aria-hidden="true" />
+              <div className="fx vt-fx" aria-hidden="true" />
               <SmoothScroll />
               <Sidebar />
-              <div className="flex min-h-dvh flex-col nav:pl-[260px]">
+              <div className="vt-content flex min-h-dvh flex-col nav:pl-[260px]">
                 <Topbar />
                 <main id="conteudo" className="flex-1">
                   {children}
                 </main>
               </div>
               <Cursor />
-              <div className="grain" aria-hidden="true" />
+              <div className="grain vt-grain" aria-hidden="true" />
+              <div className="crt vt-crt" aria-hidden="true" />
             </PageTransitionProvider>
           </ThemeProvider>
         </I18nProvider>

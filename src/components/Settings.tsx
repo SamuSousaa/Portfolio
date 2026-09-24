@@ -37,7 +37,7 @@ export function ThemeSwitcher({ align = "start" }: { align?: "start" | "center" 
       </div>
 
       <div
-        role="radiogroup"
+        role="group"
         aria-label={t.a11y.themeGroup}
         className={`flex items-center ${align === "center" ? "justify-center gap-2.5" : "justify-between"}`}
         onMouseLeave={() => setHovered(null)}
@@ -48,9 +48,8 @@ export function ThemeSwitcher({ align = "start" }: { align?: "start" | "center" 
             <button
               key={th.id}
               type="button"
-              role="radio"
-              aria-checked={active}
-              aria-label={`${th.name}: ${pick(th.description)}`}
+              aria-pressed={active}
+              aria-label={`${t.a11y.themeButton} ${th.name}`}
               onClick={() => setTheme(th.id)}
               onMouseEnter={() => {
                 setHovered(th.id);
@@ -61,17 +60,12 @@ export function ThemeSwitcher({ align = "start" }: { align?: "start" | "center" 
                 preload(th.id);
               }}
               onBlur={() => setHovered(null)}
-              className={`grid size-[22px] shrink-0 place-items-center rounded-full border transition-[border-color,transform] duration-200 hover:scale-110 ${
-                active ? "border-accent" : "border-transparent"
+              /* miniatura do tema: fundo do tema + borda no acento; a ativa ganha anel na cor do texto atual */
+              className={`size-6 shrink-0 rounded-full border transition-transform duration-200 hover:scale-[1.15] focus-visible:scale-[1.15] ${
+                active ? "shadow-[0_0_0_2px_var(--ring-gap,var(--c-bg)),0_0_0_3px_var(--fg)]" : ""
               }`}
-            >
-              <span
-                className="grid size-3.5 place-items-center rounded-full ring-1 ring-line-strong"
-                style={{ background: th.swatch[0] }}
-              >
-                <span className="size-1.5 rounded-full" style={{ background: th.swatch[1] }} />
-              </span>
-            </button>
+              style={{ background: th.swatch[0], borderColor: th.swatch[1] }}
+            />
           );
         })}
       </div>

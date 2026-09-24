@@ -104,9 +104,10 @@ export function MobileMenu({ open, onClose, returnFocusRef, current }: Props) {
       aria-hidden={!open}
       inert={!open}
       data-open={open}
-      className="menu-mobile fixed inset-0 z-[8000] flex flex-col bg-bg nav:hidden"
-      style={{ backgroundImage: "var(--bg-texture)", backgroundSize: "var(--bg-texture-size)" }}
+      className="menu-mobile vt-menu fixed inset-0 z-[8000] isolate flex flex-col nav:hidden"
     >
+      <div className="vt-menu-bg absolute inset-0 -z-20 bg-[var(--c-bg)]" aria-hidden="true" />
+      <div className="theme-texture absolute inset-0 -z-10" aria-hidden="true" />
       <div className="flex h-14 shrink-0 items-center justify-between border-b border-line px-5">
         <p className="label !text-fg" data-menu-fade style={{ "--i": 0 } as React.CSSProperties}>
           <span className="text-accent">/</span> <Swap v={current} />

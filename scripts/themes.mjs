@@ -52,12 +52,12 @@ for (const theme of THEMES) {
   await p.waitForTimeout(1500);
   const seq = [{ theme: "terminal", fonts: await loadedFamilies(p) }];
   for (const theme of THEMES.slice(1)) {
-    await p.click(`aside [role=radio][aria-label^="${theme === "herbario" ? "HERBÁRIO" : theme.toUpperCase()}"]`);
+    await p.click(`aside [aria-pressed][aria-label$=" ${theme === "herbario" ? "HERBÁRIO" : theme.toUpperCase()}"]`);
     await p.waitForTimeout(1500);
     seq.push({ theme, fonts: await loadedFamilies(p) });
   }
   // balão do seletor
-  await p.hover(`aside [role=radio][aria-label^="SONAR"]`);
+  await p.hover(`aside [aria-pressed][aria-label$=" SONAR"]`);
   await p.waitForTimeout(400);
   await p.screenshot({ path: `${OUT}/selector-hover.png`, clip: { x: 0, y: 600, width: 330, height: 300 } });
   report.push({ onDemand: seq.map((s, i) => ({ theme: s.theme, newlyLoaded: s.fonts.filter((f) => !(seq[i - 1]?.fonts ?? []).includes(f)) })) });

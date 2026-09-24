@@ -60,6 +60,11 @@ export function Monogram() {
         {t.scale}
       </span>
 
+      {/* varredura de radar dentro do círculo de cota (só onde o tema define --dial-sweep) */}
+      <span aria-hidden="true" className="absolute inset-[12.5%]" data-depth="-8">
+        <span className="dial-sweep block size-full rounded-full" />
+      </span>
+
       <svg viewBox="0 0 400 400" className="absolute inset-0 size-full" aria-hidden="true" data-depth="-8">
         {/* mira */}
         <g stroke="var(--accent)" strokeWidth="1">
@@ -79,16 +84,23 @@ export function Monogram() {
         </g>
       </svg>
 
-      {/* iniciais */}
+      {/*
+        iniciais: a caixa de cada letra é aparada na altura das maiúsculas
+        (text-box-trim), então o centro da caixa é o centro visual do "SS" em
+        qualquer fonte. A cópia vazada fica 0,03 em para baixo/direita e a
+        sólida 0,03 em para cima/esquerda: o PAR fica centrado na mira.
+      */}
       <div className="absolute inset-0 grid place-items-center" data-depth="14">
-        <div className="relative">
+        <div className="vt-display-mono relative">
           <span
             aria-hidden="true"
-            className="display vazado absolute left-0 top-0 block translate-x-[0.06em] translate-y-[0.06em] [--fs:clamp(5rem,12vw,10rem)] ![-webkit-text-stroke-color:var(--accent)] transition-transform duration-500 group-hover:translate-x-[0.1em] group-hover:translate-y-[0.1em]"
+            className="display vazado absolute inset-0 block translate-x-[0.03em] translate-y-[0.03em] whitespace-nowrap [--fs:clamp(5rem,12vw,10rem)] [text-box:trim-both_cap_alphabetic] ![-webkit-text-stroke-color:var(--accent)] transition-transform duration-500 group-hover:translate-x-[0.07em] group-hover:translate-y-[0.07em]"
           >
             {PROFILE.initials}
           </span>
-          <span className="display relative block [--fs:clamp(5rem,12vw,10rem)] text-fg">{PROFILE.initials}</span>
+          <span className="display relative block -translate-x-[0.03em] -translate-y-[0.03em] whitespace-nowrap text-fg [--fs:clamp(5rem,12vw,10rem)] [text-box:trim-both_cap_alphabetic]">
+            {PROFILE.initials}
+          </span>
         </div>
       </div>
 
