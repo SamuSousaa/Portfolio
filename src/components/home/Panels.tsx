@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { EXPERIENCE, FEATURED_SLOTS, PROFILE, PROJECTS } from "@/config/content";
-import { gsap, useGSAP } from "@/lib/motion";
+import { useReveal } from "@/lib/useReveal";
 import { TransitionLink } from "../PageTransition";
 import { HudStatus } from "../Hud";
 import { useI18n } from "../I18nProvider";
@@ -24,24 +24,7 @@ export function Panels() {
   const ref = useRef<HTMLElement>(null);
   const { t, pick } = useI18n();
 
-  // revelação amarrada ao scroll e reversível
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach((el) => {
-          gsap.from(el, {
-            y: 40,
-            opacity: 0,
-            duration: 0.8,
-            ease: "power3.out",
-            scrollTrigger: { trigger: el, start: "top 88%", toggleActions: "play none none reverse" },
-          });
-        });
-      });
-    },
-    { scope: ref },
-  );
+  useReveal(ref);
 
   const slots = Array.from({ length: Math.max(FEATURED_SLOTS, PROJECTS.length) }, (_, i) => PROJECTS[i] ?? null);
 

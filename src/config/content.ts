@@ -29,12 +29,29 @@ export const CONTACT = {
   linkedin: "https://www.linkedin.com/in/samuel-sousa-33153443a/",
 };
 
+export type ProjectStatus = "live" | "wip" | "archived";
+
+/**
+ * Um projeto. Só slug, name, description, stack e year são obrigatórios;
+ * o resto aparece na página quando existir (senão, o bloco mostra "aguardando dados").
+ */
 export type Project = {
   slug: string;
   name: string;
+  /** Uma linha, usada no índice e nos cards */
   description: Localized;
   stack: string[];
   year: string;
+  /** Seu papel no projeto (ex.: "Full-stack · Design") */
+  role?: Localized;
+  status?: ProjectStatus;
+  links?: { live?: string; repo?: string };
+  /** Imagem em /public (ex.: "/projects/hedge/cover.jpg"), idealmente 16:10 */
+  cover?: { src: string; alt: Localized };
+  /** Parágrafo de apresentação da página do projeto */
+  overview?: Localized;
+  /** Blocos livres: problema, solução, resultado... */
+  sections?: { title: Localized; body: Localized }[];
 };
 
 export const PROJECTS: Project[] = [

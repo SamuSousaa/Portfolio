@@ -101,6 +101,17 @@ for (const theme of ["terminal", "blueprint"]) {
       const after = await p.evaluate(() => ({ theme: window.__firstTheme }));
       report.push({ tag, persistedAfterReload: after.theme });
     }
+    // páginas de projeto (volta ao tema do cenário)
+    await p.evaluate((t) => localStorage.setItem("tema", t), theme);
+    for (const [path, name] of [["/projects", "projects-index"], ["/projects/hedge", "project-detail"]]) {
+      await p.goto(BASE + path, { waitUntil: "networkidle" });
+      await p.waitForTimeout(2200);
+      await p.screenshot({ path: `${OUT}/${tag}-${name}.png` });
+      await scrollThrough(p);
+      await p.screenshot({ path: `${OUT}/${tag}-${name}-full.png`, fullPage: true });
+      const o = await p.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+      if (o > 0) errors.push(`overflow ${o}px em ${path}`);
+    }
     report.push({ tag, first, overflow, errors });
     await ctx.close();
   }

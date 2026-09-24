@@ -2,42 +2,16 @@
 
 import { useRef } from "react";
 import { PROFILE } from "@/config/content";
-import { gsap, useGSAP } from "@/lib/motion";
+import { useIntro } from "@/lib/useIntro";
 import { TransitionLink } from "../PageTransition";
 import { Monogram } from "./Monogram";
 import { useI18n } from "../I18nProvider";
-
-let firstLoad = true;
 
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
   const { t, pick } = useI18n();
 
-  useGSAP(
-    () => {
-      // Na primeira carga entra logo; vindo de outra rota, espera os blocos revelarem.
-      const delay = firstLoad ? 0.15 : 0.55;
-      firstLoad = false;
-      const mm = gsap.matchMedia();
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap
-          .timeline({ delay, defaults: { ease: "power4.out" } })
-          .set("[data-intro]", { visibility: "visible" })
-          .from("[data-intro=label]", { opacity: 0, x: -12, duration: 0.6 })
-          .from("[data-intro=line]", { yPercent: 105, duration: 0.95, stagger: 0.09 }, "<0.05")
-          .from("[data-intro=fade]", { opacity: 0, y: 18, duration: 0.8, stagger: 0.07, ease: "power3.out" }, "-=0.55")
-          .from(
-            "[data-intro=figure]",
-            { clipPath: "inset(0% 0% 100% 0%)", duration: 1, ease: "expo.inOut" },
-            0.1,
-          );
-      });
-      mm.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.set("[data-intro]", { visibility: "visible" });
-      });
-    },
-    { scope: ref },
-  );
+  useIntro(ref);
 
   return (
     <section
