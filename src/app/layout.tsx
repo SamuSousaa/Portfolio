@@ -36,6 +36,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <I18nProvider initial={locale}>
           <ThemeProvider>
             <PageTransitionProvider>
+              {/* efeito de fundo do tema (brasa, radar...) */}
+              <div className="fx" aria-hidden="true" />
               <SmoothScroll />
               <Sidebar />
               <div className="flex min-h-dvh flex-col nav:pl-[260px]">

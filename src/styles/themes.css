@@ -4,23 +4,33 @@
  * Componentes nunca usam cor/fonte fixa: só estas variáveis (direto ou via
  * utilitários do Tailwind mapeados em globals.css).
  *
- * Para criar um tema novo: copie o bloco "terminal", troque os valores,
- * e registre o id em src/config/themes.ts.
+ * Para criar um tema novo: copie um bloco existente, troque os valores,
+ * e registre o id em src/config/themes.ts (e as fontes em src/lib/fonts.ts).
  *
  * Contrato de variáveis
  *   superfícies ..... --bg --surface --surface-2
  *   texto ........... --fg --muted --on-accent
  *   linhas .......... --line --line-strong --border-style --divider-style
  *   acento .......... --accent --status
- *   fontes .......... --ff-display --ff-body --ff-mono --display-weight --display-tracking
+ *   fontes .......... --ff-display --ff-body --ff-mono
+ *   títulos ......... --display-weight --display-tracking --display-leading
+ *                     --display-stretch --display-scale (iguala a altura das maiúsculas entre temas;
+ *                     a altura de linha é compensada, então trocar de tema não move o layout)
+ *   palavra de destaque (2ª linha do nome no hero)
+ *                     --name2-font --name2-style --name2-weight --name2-stretch
+ *                     --name2-color --name2-stroke --name2-stroke-color --name2-hover-shadow
+ *   botão principal . --btn-bg --btn-fg --btn-border --btn-hover-bg --btn-hover-fg --btn-hover-border
  *   forma ........... --radius --stroke-width
- *   textura ......... --bg-texture --bg-texture-size --grain-opacity
+ *   textura ......... --bg-texture --bg-texture-size --grain-opacity --watermark-opacity
+ *   efeito .......... --fx-bg --fx-anim --fx-opacity (camada fixa atrás do conteúdo)
+ *                     --fx-sweep --fx-sweep-size --fx-sweep-duration --fx-x --fx-y (disco girando)
  *   cursor .......... --cursor-size --cursor-radius --cursor-fill --cursor-border
  *                     --cursor-link-size --cursor-link-fill --cursor-link-border --cursor-cross
- *                     --cursor-on-fill (borda do cursor sobre elementos preenchidos com o acento)
+ *                     --cursor-on-fill (borda do cursor sobre elementos preenchidos)
  *   transição ....... --transition-bg --transition-fg
  */
 
+/* ───────────────────────── TERMINAL (padrão) ───────────────────────── */
 :root,
 [data-theme="terminal"] {
   color-scheme: dark;
@@ -46,6 +56,27 @@
   --ff-mono: var(--ff-jetbrains), ui-monospace, monospace;
   --display-weight: 400;
   --display-tracking: -0.02em;
+  --display-leading: 0.88;
+  --display-stretch: normal;
+  --display-scale: 1;
+
+  /* sobrenome vazado */
+  --name2-font: var(--ff-display);
+  --name2-style: normal;
+  --name2-weight: var(--display-weight);
+  --name2-stretch: var(--display-stretch);
+  --name2-color: transparent;
+  --name2-stroke: var(--stroke-width);
+  --name2-stroke-color: var(--fg);
+  --name2-hover-shadow: 0 0 18px color-mix(in srgb, var(--accent) 35%, transparent);
+
+  /* contorno que se preenche no acento */
+  --btn-bg: transparent;
+  --btn-fg: var(--fg);
+  --btn-border: var(--line-strong);
+  --btn-hover-bg: var(--accent);
+  --btn-hover-fg: var(--on-accent);
+  --btn-hover-border: var(--accent);
 
   --radius: 0px;
   --stroke-width: 1.5px;
@@ -55,6 +86,7 @@
     linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
   --bg-texture-size: 40px 40px;
   --grain-opacity: 0.035;
+  --watermark-opacity: 0;
 
   /* ponto que vira anel */
   --cursor-size: 12px;
@@ -69,8 +101,17 @@
 
   --transition-bg: var(--accent);
   --transition-fg: var(--on-accent);
+  --fx-bg: none;
+  --fx-anim: none;
+  --fx-opacity: 0;
+  --fx-sweep: none;
+  --fx-sweep-size: 0px;
+  --fx-sweep-duration: 0s;
+  --fx-x: 50%;
+  --fx-y: 50%;
 }
 
+/* ───────────────────────── BLUEPRINT ───────────────────────── */
 [data-theme="blueprint"] {
   color-scheme: light;
 
@@ -95,6 +136,25 @@
   --ff-mono: var(--ff-plex-mono), ui-monospace, monospace;
   --display-weight: 700;
   --display-tracking: -0.045em;
+  --display-leading: 0.88;
+  --display-stretch: normal;
+  --display-scale: 1;
+
+  --name2-font: var(--ff-display);
+  --name2-style: normal;
+  --name2-weight: var(--display-weight);
+  --name2-stretch: var(--display-stretch);
+  --name2-color: transparent;
+  --name2-stroke: var(--stroke-width);
+  --name2-stroke-color: var(--fg);
+  --name2-hover-shadow: 0 0 18px color-mix(in srgb, var(--accent) 35%, transparent);
+
+  --btn-bg: transparent;
+  --btn-fg: var(--fg);
+  --btn-border: var(--line-strong);
+  --btn-hover-bg: var(--accent);
+  --btn-hover-fg: var(--on-accent);
+  --btn-hover-border: var(--accent);
 
   --radius: 0px;
   --stroke-width: 1.5px;
@@ -107,6 +167,7 @@
     linear-gradient(90deg, rgba(12, 12, 12, 0.04) 1px, transparent 1px);
   --bg-texture-size: 40px 40px, 40px 40px, 8px 8px, 8px 8px;
   --grain-opacity: 0.045;
+  --watermark-opacity: 0;
 
   /* mira de prancheta que vira quadro de seleção */
   --cursor-size: 10px;
@@ -121,4 +182,410 @@
 
   --transition-bg: var(--fg);
   --transition-fg: var(--bg);
+  --fx-bg: none;
+  --fx-anim: none;
+  --fx-opacity: 0;
+  --fx-sweep: none;
+  --fx-sweep-size: 0px;
+  --fx-sweep-duration: 0s;
+  --fx-x: 50%;
+  --fx-y: 50%;
+}
+
+/* ───────────────────────── COBALTO ─────────────────────────
+   Cinza técnico e azul elétrico. Unbounded 800; papel pontilhado com malha azul. */
+[data-theme="cobalto"] {
+  color-scheme: light;
+
+  --bg: #eeeeec;
+  --surface: #f7f7f5;
+  --surface-2: #e6e6e3;
+
+  --fg: #0d0d0d;
+  --muted: #5e5e5e;
+  --on-accent: #f7f7f5;
+
+  --line: rgba(13, 13, 13, 0.12);
+  --line-strong: rgba(13, 13, 13, 0.3);
+  --border-style: solid;
+  --divider-style: solid;
+
+  --accent: #1747e6;
+  --status: #1747e6;
+
+  --ff-display: var(--ff-unbounded), "Arial Black", sans-serif;
+  --ff-body: var(--ff-inter), system-ui, sans-serif;
+  --ff-mono: var(--ff-jetbrains), ui-monospace, monospace;
+  --display-weight: 800;
+  --display-tracking: -0.03em;
+  --display-leading: 0.88;
+  --display-stretch: normal;
+  --display-scale: 0.89;
+
+  /* palavra vazada no acento */
+  --name2-font: var(--ff-display);
+  --name2-style: normal;
+  --name2-weight: var(--display-weight);
+  --name2-stretch: var(--display-stretch);
+  --name2-color: transparent;
+  --name2-stroke: var(--stroke-width);
+  --name2-stroke-color: var(--accent);
+  --name2-hover-shadow: none;
+
+  /* preenchido em quase-preto */
+  --btn-bg: #0d0d0d;
+  --btn-fg: #f7f7f5;
+  --btn-border: #0d0d0d;
+  --btn-hover-bg: var(--accent);
+  --btn-hover-fg: var(--on-accent);
+  --btn-hover-border: var(--accent);
+
+  --radius: 0px;
+  --stroke-width: 1.5px;
+
+  --bg-texture: 
+    radial-gradient(circle, rgba(13, 13, 13, 0.2) 1px, transparent 1.5px),
+    linear-gradient(rgba(23, 71, 230, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(23, 71, 230, 0.08) 1px, transparent 1px);
+  --bg-texture-size: 20px 20px, 120px 120px, 120px 120px;
+  --grain-opacity: 0.04;
+  --watermark-opacity: 0.05;
+
+  --cursor-size: 10px;
+  --cursor-radius: 50%;
+  --cursor-fill: var(--accent);
+  --cursor-border: var(--accent);
+  --cursor-link-size: 42px;
+  --cursor-link-fill: transparent;
+  --cursor-link-border: var(--accent);
+  --cursor-cross: 0;
+  --cursor-on-fill: var(--on-accent);
+
+  --transition-bg: var(--accent);
+  --transition-fg: var(--on-accent);
+  --fx-bg: none;
+  --fx-anim: none;
+  --fx-opacity: 0;
+  --fx-sweep: none;
+  --fx-sweep-size: 0px;
+  --fx-sweep-duration: 0s;
+  --fx-x: 50%;
+  --fx-y: 50%;
+}
+
+/* ───────────────────────── FORJA ─────────────────────────
+   Grafite e brasa. Oswald 600; chapa escovada e brasa respirando no rodapé. */
+[data-theme="forja"] {
+  color-scheme: dark;
+
+  --bg: #161616;
+  --surface: #1e1e1e;
+  --surface-2: #252525;
+
+  --fg: #ededed;
+  --muted: #8c8c8c;
+  --on-accent: #161616;
+
+  --line: rgba(255, 255, 255, 0.1);
+  --line-strong: rgba(255, 255, 255, 0.24);
+  --border-style: solid;
+  --divider-style: solid;
+
+  --accent: #ff4a1c;
+  --status: #ff4a1c;
+
+  --ff-display: var(--ff-oswald), "Impact", sans-serif;
+  --ff-body: var(--ff-inter), system-ui, sans-serif;
+  --ff-mono: var(--ff-jetbrains), ui-monospace, monospace;
+  --display-weight: 600;
+  --display-tracking: -0.005em;
+  --display-leading: 0.88;
+  --display-stretch: normal;
+  --display-scale: 0.86;
+
+  --name2-font: var(--ff-display);
+  --name2-style: normal;
+  --name2-weight: var(--display-weight);
+  --name2-stretch: var(--display-stretch);
+  --name2-color: transparent;
+  --name2-stroke: var(--stroke-width);
+  --name2-stroke-color: var(--accent);
+  --name2-hover-shadow: none;
+
+  /* invertido: fundo claro, texto escuro */
+  --btn-bg: #ffffff;
+  --btn-fg: #161616;
+  --btn-border: #ffffff;
+  --btn-hover-bg: var(--accent);
+  --btn-hover-fg: var(--on-accent);
+  --btn-hover-border: var(--accent);
+
+  --radius: 0px;
+  --stroke-width: 1.5px;
+
+  --bg-texture: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.022) 0 1px, transparent 1px 12px);
+  --bg-texture-size: auto;
+  --grain-opacity: 0.05;
+  --watermark-opacity: 0.045;
+
+  /* bloco quadrado que vira moldura */
+  --cursor-size: 10px;
+  --cursor-radius: 0px;
+  --cursor-fill: var(--accent);
+  --cursor-border: var(--accent);
+  --cursor-link-size: 40px;
+  --cursor-link-fill: transparent;
+  --cursor-link-border: var(--accent);
+  --cursor-cross: 0;
+  --cursor-on-fill: var(--on-accent);
+
+  --transition-bg: var(--accent);
+  --transition-fg: var(--on-accent);
+  --fx-bg: radial-gradient(ellipse 70% 50% at 72% 115%, rgba(255, 74, 28, 0.2), transparent 70%);
+  --fx-anim: fx-breathe 6s ease-in-out infinite alternate;
+  --fx-opacity: 1;
+  --fx-sweep: none;
+  --fx-sweep-size: 0px;
+  --fx-sweep-duration: 0s;
+  --fx-x: 50%;
+  --fx-y: 50%;
+}
+
+/* ───────────────────────── MANUSCRITO ─────────────────────────
+   Papel azul, tinta marinho. Outfit 800; pauta de caderno no fundo. */
+[data-theme="manuscrito"] {
+  color-scheme: light;
+
+  --bg: #dce6f2;
+  --surface: #e8eef6;
+  --surface-2: #d2ddeb;
+
+  --fg: #0b1b3a;
+  --muted: #4a5b78;
+  --on-accent: #f4f7fb;
+
+  --line: rgba(11, 27, 58, 0.13);
+  --line-strong: rgba(11, 27, 58, 0.32);
+  --border-style: solid;
+  --divider-style: solid;
+
+  --accent: #1f4fd8;
+  --status: #1f4fd8;
+
+  --ff-display: var(--ff-outfit), "Futura", sans-serif;
+  --ff-body: var(--ff-inter), system-ui, sans-serif;
+  --ff-mono: var(--ff-jetbrains), ui-monospace, monospace;
+  --display-weight: 800;
+  --display-tracking: -0.02em;
+  --display-leading: 0.88;
+  --display-stretch: normal;
+  --display-scale: 0.99;
+
+  /* palavra vazada no acento (as sobreposições internas da fonte aparecem) */
+  --name2-font: var(--ff-display);
+  --name2-style: normal;
+  --name2-weight: var(--display-weight);
+  --name2-stretch: normal;
+  --name2-color: transparent;
+  --name2-stroke: var(--stroke-width);
+  --name2-stroke-color: var(--accent);
+  --name2-hover-shadow: none;
+
+  --btn-bg: #0b1b3a;
+  --btn-fg: #f4f7fb;
+  --btn-border: #0b1b3a;
+  --btn-hover-bg: var(--accent);
+  --btn-hover-fg: var(--on-accent);
+  --btn-hover-border: var(--accent);
+
+  --radius: 0px;
+  --stroke-width: 1.5px;
+
+  --bg-texture: 
+    linear-gradient(rgba(31, 79, 216, 0.13) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(11, 27, 58, 0.05) 1px, transparent 1px);
+  --bg-texture-size: 100% 32px, 160px 100%;
+  --grain-opacity: 0.04;
+  --watermark-opacity: 0.06;
+
+  /* anel fino de tinta */
+  --cursor-size: 14px;
+  --cursor-radius: 50%;
+  --cursor-fill: transparent;
+  --cursor-border: var(--fg);
+  --cursor-link-size: 44px;
+  --cursor-link-fill: transparent;
+  --cursor-link-border: var(--accent);
+  --cursor-cross: 0;
+  --cursor-on-fill: var(--on-accent);
+
+  --transition-bg: var(--fg);
+  --transition-fg: var(--bg);
+  --fx-bg: none;
+  --fx-anim: none;
+  --fx-opacity: 0;
+  --fx-sweep: none;
+  --fx-sweep-size: 0px;
+  --fx-sweep-duration: 0s;
+  --fx-x: 50%;
+  --fx-y: 50%;
+}
+
+/* ───────────────────────── SONAR ─────────────────────────
+   Profundidade e sinal. Turret Road 800; grade fina, eixos em mira e varredura de radar. */
+[data-theme="sonar"] {
+  color-scheme: dark;
+
+  --bg: #0e1c2b;
+  --surface: #132536;
+  --surface-2: #182d41;
+
+  --fg: #e6eef5;
+  --muted: #8398ad;
+  --on-accent: #0e1c2b;
+
+  --line: rgba(230, 238, 245, 0.1);
+  --line-strong: rgba(230, 238, 245, 0.24);
+  --border-style: solid;
+  --divider-style: solid;
+
+  --accent: #2cc4d4;
+  --status: #2cc4d4;
+
+  --ff-display: var(--ff-turret), "Eurostile", sans-serif;
+  --ff-body: var(--ff-inter), system-ui, sans-serif;
+  --ff-mono: var(--ff-jetbrains), ui-monospace, monospace;
+  --display-weight: 800;
+  --display-tracking: 0.01em;
+  --display-leading: 0.88;
+  --display-stretch: normal;
+  --display-scale: 1;
+
+  --name2-font: var(--ff-display);
+  --name2-style: normal;
+  --name2-weight: var(--display-weight);
+  --name2-stretch: normal;
+  --name2-color: transparent;
+  --name2-stroke: var(--stroke-width);
+  --name2-stroke-color: var(--accent);
+  --name2-hover-shadow: 0 0 22px color-mix(in srgb, var(--accent) 40%, transparent);
+
+  /* só contorno no acento */
+  --btn-bg: transparent;
+  --btn-fg: var(--accent);
+  --btn-border: var(--accent);
+  --btn-hover-bg: var(--accent);
+  --btn-hover-fg: var(--on-accent);
+  --btn-hover-border: var(--accent);
+
+  --radius: 0px;
+  --stroke-width: 1.5px;
+
+  --bg-texture: 
+    linear-gradient(90deg, transparent calc(78% - 0.5px), rgba(44, 196, 212, 0.14) calc(78% - 0.5px) calc(78% + 0.5px), transparent calc(78% + 0.5px)),
+    linear-gradient(transparent calc(70% - 0.5px), rgba(44, 196, 212, 0.14) calc(70% - 0.5px) calc(70% + 0.5px), transparent calc(70% + 0.5px)),
+    linear-gradient(rgba(230, 238, 245, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(230, 238, 245, 0.03) 1px, transparent 1px);
+  --bg-texture-size: 100% 100%, 100% 100%, 30px 30px, 30px 30px;
+  --grain-opacity: 0.045;
+  --watermark-opacity: 0.05;
+
+  /* retícula de instrumento */
+  --cursor-size: 12px;
+  --cursor-radius: 50%;
+  --cursor-fill: transparent;
+  --cursor-border: var(--accent);
+  --cursor-link-size: 44px;
+  --cursor-link-fill: transparent;
+  --cursor-link-border: var(--accent);
+  --cursor-cross: 1;
+  --cursor-on-fill: var(--on-accent);
+
+  --transition-bg: var(--accent);
+  --transition-fg: var(--on-accent);
+  --fx-bg: none;
+  --fx-anim: none;
+  --fx-opacity: 1;
+  --fx-sweep: conic-gradient(from 0deg, rgba(44, 196, 212, 0.16), transparent 60deg);
+  --fx-sweep-size: 260vmax;
+  --fx-sweep-duration: 9s;
+  --fx-x: 78%;
+  --fx-y: 70%;
+}
+
+/* ───────────────────────── HERBÁRIO ─────────────────────────
+   Creme e verde-floresta. Archivo expandido 900; destaque em itálico vazado. */
+[data-theme="herbario"] {
+  color-scheme: light;
+
+  --bg: #efeee6;
+  --surface: #f6f5ef;
+  --surface-2: #e6e5db;
+
+  --fg: #111111;
+  --muted: #5c5c54;
+  --on-accent: #f6f5ef;
+
+  --line: rgba(17, 17, 17, 0.12);
+  --line-strong: rgba(17, 17, 17, 0.3);
+  --border-style: solid;
+  --divider-style: solid;
+
+  --accent: #1e5b3a;
+  --status: #1e5b3a;
+
+  --ff-display: var(--ff-archivo), "Arial Black", sans-serif;
+  --ff-body: var(--ff-inter), system-ui, sans-serif;
+  --ff-mono: var(--ff-jetbrains), ui-monospace, monospace;
+  --display-weight: 900;
+  --display-tracking: -0.02em;
+  --display-leading: 0.88;
+  --display-stretch: 125%;
+  --display-scale: 0.87;
+
+  /* mesma família em itálico, vazada no acento */
+  --name2-font: var(--ff-display);
+  --name2-style: italic;
+  --name2-weight: 700;
+  --name2-stretch: 125%;
+  --name2-color: transparent;
+  --name2-stroke: var(--stroke-width);
+  --name2-stroke-color: var(--accent);
+  --name2-hover-shadow: none;
+
+  --btn-bg: var(--accent);
+  --btn-fg: #f6f5ef;
+  --btn-border: var(--accent);
+  --btn-hover-bg: var(--fg);
+  --btn-hover-fg: var(--bg);
+  --btn-hover-border: var(--fg);
+
+  --radius: 0px;
+  --stroke-width: 1.5px;
+
+  --bg-texture: none;
+  --bg-texture-size: auto;
+  --grain-opacity: 0.05;
+  --watermark-opacity: 0.055;
+
+  --cursor-size: 10px;
+  --cursor-radius: 50%;
+  --cursor-fill: var(--accent);
+  --cursor-border: var(--accent);
+  --cursor-link-size: 42px;
+  --cursor-link-fill: transparent;
+  --cursor-link-border: var(--accent);
+  --cursor-cross: 0;
+  --cursor-on-fill: var(--on-accent);
+
+  --transition-bg: var(--accent);
+  --transition-fg: var(--on-accent);
+  --fx-bg: none;
+  --fx-anim: none;
+  --fx-opacity: 0;
+  --fx-sweep: none;
+  --fx-sweep-size: 0px;
+  --fx-sweep-duration: 0s;
+  --fx-x: 50%;
+  --fx-y: 50%;
 }

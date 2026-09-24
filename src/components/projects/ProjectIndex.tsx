@@ -5,6 +5,7 @@ import { PROJECTS } from "@/config/content";
 import { useIntro } from "@/lib/useIntro";
 import { TransitionLink } from "../PageTransition";
 import { useI18n } from "../I18nProvider";
+import { Swap } from "@/components/Swap";
 
 const pad = (n: number) => String(n).padStart(2, "0");
 const COLS = "nav:grid-cols-[3.5rem_minmax(0,1.1fr)_minmax(0,1.5fr)_minmax(0,1fr)_4.5rem_2rem]";
@@ -38,11 +39,11 @@ export function ProjectIndex() {
                 <span>{pad(i + 1)}</span>
                 <span className="nav:hidden">{project.year}</span>
               </span>
-              <span className="display text-[clamp(2.25rem,4vw,3.25rem)] transition-transform duration-300 group-hover:translate-x-1.5">
+              <span className="display [--fs:clamp(2.25rem,4vw,3.25rem)] transition-transform duration-300 group-hover:translate-x-1.5">
                 {project.name}
               </span>
               <span className="font-mono text-[13px] leading-relaxed text-muted group-hover:text-on-accent">
-                {pick(project.description)}
+                <Swap block v={project.description} />
               </span>
               <span className="flex flex-wrap gap-2">
                 {project.stack.map((s) => (

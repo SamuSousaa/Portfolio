@@ -84,11 +84,11 @@ export function Monogram() {
         <div className="relative">
           <span
             aria-hidden="true"
-            className="display vazado absolute left-0 top-0 block translate-x-[0.06em] translate-y-[0.06em] text-[clamp(5rem,12vw,10rem)] ![-webkit-text-stroke-color:var(--accent)] transition-transform duration-500 group-hover:translate-x-[0.1em] group-hover:translate-y-[0.1em]"
+            className="display vazado absolute left-0 top-0 block translate-x-[0.06em] translate-y-[0.06em] [--fs:clamp(5rem,12vw,10rem)] ![-webkit-text-stroke-color:var(--accent)] transition-transform duration-500 group-hover:translate-x-[0.1em] group-hover:translate-y-[0.1em]"
           >
             {PROFILE.initials}
           </span>
-          <span className="display relative block text-[clamp(5rem,12vw,10rem)] text-fg">{PROFILE.initials}</span>
+          <span className="display relative block [--fs:clamp(5rem,12vw,10rem)] text-fg">{PROFILE.initials}</span>
         </div>
       </div>
 

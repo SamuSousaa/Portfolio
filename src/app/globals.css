@@ -29,8 +29,12 @@
     border-style: var(--border-style);
   }
 
+  /* fundo e textura no <html>, para a camada .fx (z-index -1) ficar entre eles e o conteúdo */
   html {
-    background: var(--bg);
+    background-color: var(--bg);
+    background-image: var(--bg-texture);
+    background-size: var(--bg-texture-size);
+    background-attachment: fixed;
     color: var(--fg);
     font-family: var(--ff-body);
     -webkit-font-smoothing: antialiased;
@@ -38,10 +42,7 @@
 
   body {
     min-height: 100dvh;
-    background-color: var(--bg);
-    background-image: var(--bg-texture);
-    background-size: var(--bg-texture-size);
-    background-attachment: fixed;
+    background: transparent;
   }
 
   ::selection {
@@ -66,12 +67,62 @@
     color: var(--muted);
   }
 
+  /*
+   * Títulos. O tamanho-base vem de --fs (defina com [--fs:...] no elemento).
+   * A fonte é escalada por tema (--display-scale), mas a altura de linha usa
+   * o tamanho-base: trocar de tema não muda a altura de nada.
+   */
   .display {
     font-family: var(--ff-display);
     font-weight: var(--display-weight);
+    font-stretch: var(--display-stretch);
     letter-spacing: var(--display-tracking);
     text-transform: uppercase;
-    line-height: 0.88;
+    font-size: calc(var(--fs) * var(--display-scale));
+    line-height: calc(var(--fs) * var(--display-leading));
+  }
+
+  /* palavra de destaque do hero: vazada, sólida, itálica... conforme o tema */
+  .name-accent {
+    font-family: var(--name2-font);
+    font-style: var(--name2-style);
+    font-weight: var(--name2-weight);
+    font-stretch: var(--name2-stretch);
+    color: var(--name2-color);
+    -webkit-text-stroke: var(--name2-stroke) var(--name2-stroke-color);
+    transition:
+      -webkit-text-stroke-color 0.6s,
+      text-shadow 0.6s;
+  }
+  .name-accent:hover {
+    -webkit-text-stroke-color: var(--accent);
+    text-shadow: var(--name2-hover-shadow);
+  }
+
+  /* botão principal: contorno, preenchido ou invertido conforme o tema */
+  .btn-bracket.btn-primary {
+    background: var(--btn-bg);
+    color: var(--btn-fg);
+    border-color: var(--btn-border);
+  }
+  .btn-bracket.btn-primary:hover,
+  .btn-bracket.btn-primary:focus-visible {
+    background: var(--btn-hover-bg);
+    color: var(--btn-hover-fg);
+    border-color: var(--btn-hover-border);
+  }
+
+  /* marca d'água com o monograma */
+  .watermark {
+    position: absolute;
+    pointer-events: none;
+    user-select: none;
+    font-family: var(--ff-display);
+    font-weight: var(--display-weight);
+    font-stretch: var(--display-stretch);
+    line-height: 0.8;
+    color: var(--fg);
+    opacity: var(--watermark-opacity);
   }
 
   /* palavra vazada */
@@ -311,4 +362,87 @@
   transition:
     opacity 0.5s ease-out calc(0.45s + var(--i) * 0.08s),
     transform 0.5s ease-out calc(0.45s + var(--i) * 0.08s);
+}
+
+/* camada de efeito do tema (brasa, varredura de radar...) */
+.fx {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  background: var(--fx-bg);
+  opacity: var(--fx-opacity);
+  animation: var(--fx-anim);
+}
+.fx::before {
+  content: "";
+  position: absolute;
+  width: var(--fx-sweep-size);
+  height: var(--fx-sweep-size);
+  left: calc(var(--fx-x) - var(--fx-sweep-size) / 2);
+  top: calc(var(--fx-y) - var(--fx-sweep-size) / 2);
+  border-radius: 50%;
+  background: var(--fx-sweep);
+  animation: fx-spin var(--fx-sweep-duration) linear infinite;
+}
+@keyframes fx-spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+@keyframes fx-breathe {
+  from {
+    opacity: 0.55;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/*
+ * Trocas fluidas (View Transitions API).
+ * Tema: a versão nova sobe de baixo para cima, linear e rápida.
+ * Idioma: crossfade curto. O layout não muda em nenhum dos dois.
+ */
+::view-transition-old(root),
+::view-transition-new(root) {
+  mix-blend-mode: normal;
+}
+html.vt-theme::view-transition-old(root) {
+  animation: none;
+}
+html.vt-theme::view-transition-new(root) {
+  animation: vt-wipe-up 0.5s linear both;
+}
+@keyframes vt-wipe-up {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+html.vt-lang::view-transition-old(root) {
+  animation: vt-fade-out 0.28s ease-out both;
+}
+html.vt-lang::view-transition-new(root) {
+  animation: vt-fade-in 0.28s ease-out both;
+}
+@keyframes vt-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes vt-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* durante a troca, nada de transições CSS atrasando cores/bordas */
+html.no-transitions *,
+html.no-transitions *::before,
+html.no-transitions *::after {
+  transition: none !important;
 }

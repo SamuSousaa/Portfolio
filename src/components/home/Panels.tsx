@@ -6,6 +6,7 @@ import { useReveal } from "@/lib/useReveal";
 import { TransitionLink } from "../PageTransition";
 import { HudStatus } from "../Hud";
 import { useI18n } from "../I18nProvider";
+import { Swap } from "@/components/Swap";
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
@@ -65,9 +66,9 @@ export function Panels() {
                       <span>{pad(i + 1)}</span>
                       <span>{project.year}</span>
                     </span>
-                    <span className="display mt-auto pt-10 text-[2.5rem]">{project.name}</span>
+                    <span className="display mt-auto pt-10 [--fs:2.5rem]">{project.name}</span>
                     <span className="mt-3 font-mono text-[12px] leading-relaxed text-muted group-hover:text-on-accent">
-                      {pick(project.description)}
+                      <Swap block v={project.description} />
                     </span>
                     <span className="mt-4 flex flex-wrap gap-2">
                       {project.stack.map((s) => (

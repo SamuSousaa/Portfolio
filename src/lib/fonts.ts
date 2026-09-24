@@ -1,4 +1,15 @@
-import { Aldrich, Inter, JetBrains_Mono, Space_Grotesk, IBM_Plex_Mono } from "next/font/google";
+import {
+  Aldrich,
+  Inter,
+  JetBrains_Mono,
+  Space_Grotesk,
+  IBM_Plex_Mono,
+  Unbounded,
+  Oswald,
+  Outfit,
+  Turret_Road,
+  Archivo,
+} from "next/font/google";
 
 /*
  * Cada fonte vira uma variável CSS (--ff-*). Os temas em themes.css escolhem
@@ -26,4 +37,28 @@ export const plexMono = IBM_Plex_Mono({
   preload: false,
 });
 
-export const fontVariables = [aldrich, jetbrains, inter, spaceGrotesk, plexMono].map((f) => f.variable).join(" ");
+// COBALTO
+export const unbounded = Unbounded({ subsets: ["latin"], variable: "--ff-unbounded", display: "swap", preload: false });
+// FORJA
+export const oswald = Oswald({ subsets: ["latin"], variable: "--ff-oswald", display: "swap", preload: false });
+// MANUSCRITO — geométrica; vazada mostra as sobreposições internas
+export const outfit = Outfit({ subsets: ["latin"], variable: "--ff-outfit", display: "swap", preload: false });
+// SONAR — quadrada com terminais curvos, leitura de instrumento
+export const turretRoad = Turret_Road({
+  subsets: ["latin"],
+  weight: "800",
+  variable: "--ff-turret",
+  display: "swap",
+  preload: false,
+});
+// HERBÁRIO — eixo de largura (wdth) para a versão expandida
+export const archivo = Archivo({
+  subsets: ["latin"],
+  axes: ["wdth"],
+  style: ["normal", "italic"],
+  variable: "--ff-archivo",
+  display: "swap",
+  preload: false,
+});
+
+export const fontVariables = [aldrich, jetbrains, inter, spaceGrotesk, plexMono, unbounded, oswald, outfit, turretRoad, archivo].map((f) => f.variable).join(" ");

@@ -7,6 +7,7 @@ import { useIntro } from "@/lib/useIntro";
 import { useReveal } from "@/lib/useReveal";
 import { TransitionLink } from "../PageTransition";
 import { useI18n } from "../I18nProvider";
+import { Swap } from "@/components/Swap";
 import { ProjectCover } from "./ProjectCover";
 
 const Awaiting = ({ text }: { text: string }) => (
@@ -61,7 +62,7 @@ export function ProjectDetail({ project }: { project: Project }) {
             {String(index + 1).padStart(2, "0")} — {project.name.toUpperCase()}
           </span>
         </p>
-        <h1 className="display -ml-[0.04em] text-[clamp(3.5rem,13vw,12rem)]">
+        <h1 className="display -ml-[0.04em] [--fs:clamp(3.5rem,13vw,12rem)]">
           <span className="block overflow-hidden pb-[0.05em]">
             <span data-intro="line" className="block">
               {project.name}
@@ -69,7 +70,7 @@ export function ProjectDetail({ project }: { project: Project }) {
           </span>
         </h1>
         <p data-intro="fade" className="mt-6 max-w-[52ch] font-mono text-[14px] leading-relaxed text-muted">
-          <span className="text-accent">&gt;</span> {pick(project.description)}
+          <span className="text-accent">&gt;</span> <Swap v={project.description} />
         </p>
 
         {/* ficha técnica */}
@@ -135,7 +136,7 @@ export function ProjectDetail({ project }: { project: Project }) {
           >
             <span>
               <span className="label mb-3 block group-hover:!text-on-accent">{next ? p.next : t.index}</span>
-              <span className="display block text-[clamp(2.5rem,7vw,6rem)]">{next ? next.name : p.allProjects}</span>
+              <span className="display block [--fs:clamp(2.5rem,7vw,6rem)]">{next ? next.name : p.allProjects}</span>
             </span>
             <span aria-hidden="true" className="font-mono text-3xl transition-transform duration-300 group-hover:translate-x-2">
               →

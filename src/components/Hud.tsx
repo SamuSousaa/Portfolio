@@ -3,14 +3,14 @@
 import { useEffect, useState } from "react";
 import { PROFILE } from "@/config/content";
 import { useI18n } from "./I18nProvider";
+import { Swap } from "@/components/Swap";
 const pad = (n: number) => String(n).padStart(2, "0");
 
 export function HudStatus() {
-  const { pick } = useI18n();
   return (
     <span className="flex items-center gap-2">
       <span className="status-dot" aria-hidden="true" />
-      <span>{pick(PROFILE.status)}</span>
+      <Swap v={PROFILE.status} />
     </span>
   );
 }

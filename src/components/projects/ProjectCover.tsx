@@ -45,7 +45,7 @@ export function ProjectCover({ project, priority = false }: { project: Project; 
                 <line x1="1600" y1="0" x2="0" y2="1000" vectorEffect="non-scaling-stroke" />
               </g>
             </svg>
-            <span className="display vazado relative text-[clamp(8rem,26vw,22rem)] leading-none ![-webkit-text-stroke-color:var(--line-strong)] group-hover:![-webkit-text-stroke-color:var(--accent)]">
+            <span className="display vazado relative [--fs:clamp(8rem,26vw,22rem)] leading-none ![-webkit-text-stroke-color:var(--line-strong)] group-hover:![-webkit-text-stroke-color:var(--accent)]">
               {project.name.charAt(0)}
             </span>
           </div>

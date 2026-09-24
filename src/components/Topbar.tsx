@@ -3,16 +3,18 @@
 import { useCallback, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { pagePath } from "@/config/nav";
+import { LOCALES, type Localized } from "@/i18n/config";
 import { PROFILE } from "@/config/content";
 import { HudClock, HudCoords, HudStatus } from "./Hud";
 import { MobileMenu } from "./MobileMenu";
 import { Logo } from "./Logo";
 import { useI18n } from "./I18nProvider";
+import { Swap } from "@/components/Swap";
 
 export function Topbar() {
   const pathname = usePathname();
-  const { locale, t, pick } = useI18n();
-  const current = pagePath(pathname, locale).join(" / ");
+  const { t, tr } = useI18n();
+  const current = Object.fromEntries(LOCALES.map((l) => [l.id, pagePath(pathname, l.id).join(" / ")])) as Localized;
   const [open, setOpen] = useState(false);
   const close = useCallback(() => setOpen(false), []);
   const toggleRef = useRef<HTMLButtonElement>(null);
@@ -29,7 +31,7 @@ export function Topbar() {
           {/* desktop: papel à esquerda */}
           <p className="label hidden !text-fg nav:block">
             <span className="text-muted">SYS.01 — </span>
-            {pick(PROFILE.role)}
+            <Swap v={PROFILE.role} />
           </p>
 
           {/* HUD */}
@@ -43,7 +45,7 @@ export function Topbar() {
 
           {/* desktop: caminho */}
           <p className="label hidden !text-fg nav:block">
-            <span className="text-accent">/</span> {current}
+            <span className="text-accent">/</span> <Swap align="end" v={current} />
           </p>
 
           {/* celular: botão de menu à direita */}
@@ -56,7 +58,7 @@ export function Topbar() {
             data-fill
             className="flex h-9 items-center gap-3 border border-line-strong px-3 font-mono text-[11px] tracking-[0.14em] text-fg transition-colors hover:border-accent hover:bg-accent hover:text-on-accent nav:hidden"
           >
-            {t.menu}
+            <Swap align="end" v={tr((d) => d.menu)} />
             <span aria-hidden="true" className="flex flex-col gap-[3px]">
               <span className="block h-px w-4 bg-current" />
               <span className="block h-px w-4 bg-current" />

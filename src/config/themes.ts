@@ -5,6 +5,10 @@
  *  2. Adicione uma entrada aqui (id igual ao do CSS).
  *  3. Se o tema usar fontes novas, declare-as em src/lib/fonts.ts com
  *     `preload: false` e inclua a variável em `fontVariables`.
+ *  4. Ajuste --display-scale para a altura das maiúsculas bater com a do
+ *     TERMINAL (Aldrich = 70 a 100px): scale = 70 / cap da fonte nova.
+ *     `node scripts/capheight.mjs` mede (inclua a fonte na lista do script).
+ *     Fontes muito largas: limite a escala para o nome caber na coluna do hero.
  * Nada mais precisa mudar: seletor, script anti-piscada e componentes leem esta lista.
  */
 import type { Localized } from "@/i18n/config";
@@ -37,6 +41,56 @@ export const THEMES: Theme[] = [
       es: "Mesa de dibujo técnico: papel claro, tinta y cotas rojas.",
     },
     swatch: ["#F4F4F4", "#D92A1C"],
+  },
+  {
+    id: "cobalto",
+    name: "COBALTO",
+    description: {
+      en: "Technical grey and electric blue. Precision.",
+      pt: "Cinza técnico e azul elétrico. Precisão.",
+      es: "Gris técnico y azul eléctrico. Precisión.",
+    },
+    swatch: ["#EEEEEC", "#1747E6"],
+  },
+  {
+    id: "forja",
+    name: "FORJA",
+    description: {
+      en: "Graphite and embers. Straight to the point.",
+      pt: "Grafite e brasa. Direto ao ponto.",
+      es: "Grafito y brasa. Directo al grano.",
+    },
+    swatch: ["#161616", "#FF4A1C"],
+  },
+  {
+    id: "manuscrito",
+    name: "MANUSCRITO",
+    description: {
+      en: "Blue paper, navy ink. Editorial and calm.",
+      pt: "Papel azul, tinta marinho. Editorial e calmo.",
+      es: "Papel azul, tinta marina. Editorial y sereno.",
+    },
+    swatch: ["#DCE6F2", "#1F4FD8"],
+  },
+  {
+    id: "sonar",
+    name: "SONAR",
+    description: {
+      en: "Depth and signal. Instrument readout.",
+      pt: "Profundidade e sinal. Leitura de instrumento.",
+      es: "Profundidad y señal. Lectura de instrumento.",
+    },
+    swatch: ["#0E1C2B", "#2CC4D4"],
+  },
+  {
+    id: "herbario",
+    name: "HERBÁRIO",
+    description: {
+      en: "Cream and forest green. Field archive.",
+      pt: "Creme e verde-floresta. Arquivo de campo.",
+      es: "Crema y verde bosque. Archivo de campo.",
+    },
+    swatch: ["#EFEEE6", "#1E5B3A"],
   },
 ];
 

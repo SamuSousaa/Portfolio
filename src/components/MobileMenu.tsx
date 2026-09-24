@@ -3,18 +3,20 @@
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { NAV, findNav, navNumber } from "@/config/nav";
+import type { Localized } from "@/i18n/config";
 import { PROFILE } from "@/config/content";
 import { getLenis } from "@/lib/motion";
 import { usePageTransition } from "./PageTransition";
 import { Settings } from "./Settings";
 import { SocialText } from "./Social";
 import { useI18n } from "./I18nProvider";
+import { Swap } from "@/components/Swap";
 
 type Props = {
   open: boolean;
   onClose: () => void;
   returnFocusRef: React.RefObject<HTMLButtonElement | null>;
-  current: string;
+  current: Localized;
 };
 
 const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
@@ -28,7 +30,7 @@ export function MobileMenu({ open, onClose, returnFocusRef, current }: Props) {
   const rootRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const { navigate } = usePageTransition();
-  const { t, pick } = useI18n();
+  const { t, tr } = useI18n();
   const activeIndex = findNav(pathname)?.index ?? -1;
   const wasOpen = useRef(false);
 
@@ -107,7 +109,7 @@ export function MobileMenu({ open, onClose, returnFocusRef, current }: Props) {
     >
       <div className="flex h-14 shrink-0 items-center justify-between border-b border-line px-5">
         <p className="label !text-fg" data-menu-fade style={{ "--i": 0 } as React.CSSProperties}>
-          <span className="text-accent">/</span> {current}
+          <span className="text-accent">/</span> <Swap v={current} />
         </p>
         <button
           type="button"
@@ -115,7 +117,7 @@ export function MobileMenu({ open, onClose, returnFocusRef, current }: Props) {
           data-fill
           className="flex h-9 items-center gap-3 border border-line-strong px-3 font-mono text-[11px] tracking-[0.14em] text-fg transition-colors hover:border-accent hover:bg-accent hover:text-on-accent"
         >
-          {t.close}
+          <Swap align="end" v={tr((d) => d.close)} />
           <span aria-hidden="true" className="relative block size-3">
             <span className="absolute left-0 top-1/2 block h-px w-3 rotate-45 bg-current" />
             <span className="absolute left-0 top-1/2 block h-px w-3 -rotate-45 bg-current" />
@@ -145,7 +147,7 @@ export function MobileMenu({ open, onClose, returnFocusRef, current }: Props) {
                     }`}
                   >
                     <span className="mt-[0.5em] font-mono text-[12px] tracking-[0.12em] text-muted">{navNumber(i)}.</span>
-                    <span className="display text-[clamp(2.5rem,12vw,5rem)]">{pick(item.label)}</span>
+                    <Swap align="center" className="display [--fs:clamp(2.5rem,12vw,5rem)]" v={item.label} />
                   </a>
                 </div>
               </li>

@@ -5,6 +5,7 @@ import { findNav, navNumber } from "@/config/nav";
 import type { Localized } from "@/i18n/config";
 import { useIntro } from "@/lib/useIntro";
 import { useI18n } from "./I18nProvider";
+import { Swap } from "@/components/Swap";
 
 type Props = {
   href: string;
@@ -21,6 +22,7 @@ export function PageTitle({ href, title, note, meta, children }: Props) {
   const ref = useRef<HTMLElement>(null);
   const { pick } = useI18n();
   const nav = findNav(href);
+  const labels = nav?.item.label;
   const label = nav ? pick(nav.item.label) : "";
   useIntro(ref);
 
@@ -31,16 +33,16 @@ export function PageTitle({ href, title, note, meta, children }: Props) {
         {title ? ` / ${title.toUpperCase()}` : ""}
         {meta ? <span className="text-fg"> — {meta}</span> : null}
       </p>
-      <h1 className="display -ml-[0.04em] text-[clamp(3.25rem,11vw,10rem)]">
+      <h1 className="display -ml-[0.04em] [--fs:clamp(3.25rem,11vw,10rem)]">
         <span className="block overflow-hidden pb-[0.05em]">
           <span data-intro="line" className="block">
-            {title ?? label}
+            {title ?? (labels ? <Swap v={labels} /> : null)}
           </span>
         </span>
       </h1>
       {note ? (
         <p data-intro="fade" className="caret mt-8 max-w-[52ch] font-mono text-[13px] leading-relaxed text-muted">
-          {pick(note)}
+          <Swap v={note} />
         </p>
       ) : null}
       {children}

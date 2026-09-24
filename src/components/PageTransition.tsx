@@ -12,8 +12,8 @@ import { useI18n } from "./I18nProvider";
  * router.push → nova rota monta → blocos revelam.
  */
 
-type Ctx = { navigate: (href: string) => void; runCovered: (label: string, action: () => void) => void };
-const TransitionContext = createContext<Ctx>({ navigate: () => {}, runCovered: (_l, a) => a() });
+type Ctx = { navigate: (href: string) => void };
+const TransitionContext = createContext<Ctx>({ navigate: () => {} });
 export const usePageTransition = () => useContext(TransitionContext);
 
 const TILE_COUNT = 60; // 10×6 no desktop, 5×12 no celular
@@ -80,19 +80,6 @@ export function PageTransitionProvider({ children }: { children: React.ReactNode
     [pathname, router, cover, locale],
   );
 
-  /** Troca feita por baixo dos blocos (ex.: idioma), sem mudar de rota. */
-  const runCovered = useCallback(
-    (label: string, action: () => void) => {
-      if (busy.current) return;
-      if (prefersReducedMotion()) return action();
-      cover(label, () => {
-        action();
-        setTimeout(reveal, 280);
-      });
-    },
-    [cover, reveal],
-  );
-
   // Nova rota montou: volta ao topo por baixo dos blocos e revela.
   useEffect(() => {
     if (!covered.current) return;
@@ -110,7 +97,7 @@ export function PageTransitionProvider({ children }: { children: React.ReactNode
   }, [reveal]);
 
   return (
-    <TransitionContext.Provider value={{ navigate, runCovered }}>
+    <TransitionContext.Provider value={{ navigate }}>
       {children}
       <div
         aria-hidden="true"

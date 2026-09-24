@@ -19,7 +19,7 @@ export const PROFILE = {
     lat: -2.9055,
     lng: -41.7734,
   },
-  status: { en: "Accepting Proposals", pt: "Aceitando propostas", es: "Aceptando propuestas" } as Localized,
+  status: { en: "Accepting Proposals", pt: "Aceitando propostas", es: "Aceptando proyectos" } as Localized,
   version: "V.1.0",
 };
 
