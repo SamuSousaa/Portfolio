@@ -18,6 +18,8 @@ export const PROFILE = {
     city: "Parnaíba, PI",
     lat: -2.9055,
     lng: -41.7734,
+    timeZone: "America/Fortaleza",
+    utc: "UTC−03",
   },
   status: { en: "Accepting Proposals", pt: "Aceitando propostas", es: "Aceptando proyectos" } as Localized,
   version: "V.1.0",

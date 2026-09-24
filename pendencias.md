@@ -14,5 +14,4 @@ Tudo em `src/config/content.ts`. Campo vazio = a página mostra "aguardando dado
 
 ## Fases
 
-- [ ] Fase 4: Contato
 - [ ] Fase 5: acabamento (loader, SEO/OG, deploy na Vercel). O deploy precisa de um repositório no GitHub (o `gh` CLI não está instalado).
