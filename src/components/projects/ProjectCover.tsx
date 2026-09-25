@@ -51,7 +51,12 @@ export function ProjectCover({ project, priority = false }: { project: Project; 
           </div>
         )}
 
-        <figcaption className="label absolute left-4 top-3 z-10 !text-[10px]">{t.projects.cover}</figcaption>
+        {/* sobre a imagem, o rótulo ganha um fundo para não sumir */}
+        <figcaption
+          className={`label absolute left-4 top-3 z-10 !text-[10px] ${project.cover ? "bg-[color-mix(in_srgb,var(--c-bg)_80%,transparent)] px-1.5 py-0.5 !text-fg" : ""}`}
+        >
+          {t.projects.cover}
+        </figcaption>
         {!project.cover ? (
           <span className="label absolute bottom-3 right-4 z-10 !text-[10px]">{t.projects.noImage}</span>
         ) : null}

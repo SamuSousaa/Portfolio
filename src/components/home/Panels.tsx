@@ -23,11 +23,12 @@ function PanelHead({ index, title, meta }: { index: string; title: string; meta:
 
 export function Panels() {
   const ref = useRef<HTMLElement>(null);
-  const { t, pick } = useI18n();
+  const { t } = useI18n();
 
   useReveal(ref);
 
-  const slots = Array.from({ length: Math.max(FEATURED_SLOTS, PROJECTS.length) }, (_, i) => PROJECTS[i] ?? null);
+  // os primeiros FEATURED_SLOTS projetos; o que faltar vira slot vazio (o índice completo fica em /projects)
+  const slots = Array.from({ length: FEATURED_SLOTS }, (_, i) => PROJECTS[i] ?? null);
 
   const info = [
     { label: t.discipline, value: t.disciplineValue },
@@ -52,7 +53,7 @@ export function Panels() {
       <div className="mt-6 grid gap-6 min-[1100px]:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
         {/* projetos em destaque */}
         <div data-reveal className="border border-line bg-surface">
-          <PanelHead index="A" title={t.featured} meta={`${pad(PROJECTS.length)} / ${pad(slots.length)}`} />
+          <PanelHead index="A" title={t.featured} meta={`${pad(slots.filter(Boolean).length)} / ${pad(slots.length)}`} />
           <ul className="grid md:grid-cols-3">
             {slots.map((project, i) =>
               project ? (
@@ -60,13 +61,14 @@ export function Panels() {
                   <TransitionLink
                     href={`/projects/${project.slug}`}
                     data-fill
-                    className="group flex h-full min-h-64 flex-col p-5 transition-colors duration-200 hover:bg-accent hover:text-on-accent"
+                    className="@container group flex h-full min-h-64 flex-col p-5 transition-colors duration-200 hover:bg-accent hover:text-on-accent"
                   >
                     <span className="label flex justify-between group-hover:!text-on-accent">
                       <span>{pad(i + 1)}</span>
                       <span>{project.year}</span>
                     </span>
-                    <span className="display mt-auto pt-10 [--fs:2.5rem]">{project.name}</span>
+                    {/* o nome acompanha a largura do card: nomes longos (WELLNESSY) cabem em qualquer tema */}
+                    <span className="display mt-auto whitespace-nowrap pt-10 [--fs:min(2.5rem,11cqi)]">{project.name}</span>
                     <span className="mt-3 font-mono text-[12px] leading-relaxed text-muted group-hover:text-on-accent">
                       <Swap block v={project.description} />
                     </span>
@@ -101,9 +103,11 @@ export function Panels() {
           {EXPERIENCE.length ? (
             <ol>
               {EXPERIENCE.map((xp) => (
-                <li key={xp.period + xp.role} className="divider border-b border-line px-5 py-4 last:border-b-0">
+                <li key={xp.period + xp.org} className="divider border-b border-line px-5 py-4 last:border-b-0">
                   <p className="label">{xp.period}</p>
-                  <p className="mt-1 text-[15px] text-fg">{pick(xp.role)}</p>
+                  <p className="mt-1 text-[15px] text-fg">
+                    <Swap block v={xp.role} />
+                  </p>
                   <p className="font-mono text-[12px] text-muted">{xp.org}</p>
                 </li>
               ))}

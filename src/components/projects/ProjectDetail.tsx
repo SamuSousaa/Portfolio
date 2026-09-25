@@ -49,7 +49,7 @@ export function ProjectDetail({ project }: { project: Project }) {
 
   return (
     <>
-      <section ref={top} className="px-5 pt-10 nav:px-12 nav:pt-14">
+      <section ref={top} className="@container px-5 pt-10 nav:px-12 nav:pt-14">
         <div data-intro="label" className="mb-10">
           <TransitionLink href="/projects" className="font-mono text-[11px] tracking-[0.14em] text-muted transition-colors hover:text-accent">
             [ ← <Swap v={tr((d) => d.projects.allProjects)} /> ]
@@ -62,15 +62,20 @@ export function ProjectDetail({ project }: { project: Project }) {
             {String(index + 1).padStart(2, "0")} — {project.name.toUpperCase()}
           </span>
         </p>
-        <h1 className="vt-display-title display -ml-[0.04em] [--fs:clamp(3.5rem,13vw,12rem)]">
+        {/* o título cabe na largura: nomes curtos ficam em 13vw, longos encolhem (125cqi ÷ letras, folga para os temas de fonte larga) */}
+        <h1
+          className="vt-display-title display -ml-[0.04em] whitespace-nowrap"
+          style={{ "--fs": `min(12rem, 13vw, calc(125cqi / ${project.name.length}))` } as React.CSSProperties}
+        >
           <span className="block overflow-hidden pb-[calc(var(--fs)*0.05)]">
             <span data-intro="line" className="block">
               {project.name}
             </span>
           </span>
         </h1>
-        <p data-intro="fade" className="mt-6 max-w-[52ch] font-mono text-[14px] leading-relaxed text-muted">
-          <span className="text-accent">&gt;</span> <Swap v={project.description} />
+        <p data-intro="fade" className="mt-6 flex max-w-[52ch] gap-[1ch] font-mono text-[14px] leading-relaxed text-muted">
+          <span className="text-accent">&gt;</span>
+          <Swap block v={project.description} />
         </p>
 
         {/* ficha técnica */}
@@ -84,6 +89,20 @@ export function ProjectDetail({ project }: { project: Project }) {
             </div>
           ))}
         </dl>
+
+        {project.partners?.length ? (
+          <p data-intro="fade" className="label mt-6">
+            <Swap v={tr((d) => d.projects.partners)} />{" "}
+            {project.partners.map((pt, i) => (
+              <span key={pt.url}>
+                {i ? ", " : null}
+                <a href={pt.url} target="_blank" rel="noreferrer" className="text-fg underline decoration-line-strong underline-offset-4 transition-colors hover:text-accent hover:decoration-accent">
+                  {pt.name} ↗
+                </a>
+              </span>
+            ))}
+          </p>
+        ) : null}
 
         {links.length ? (
           <div data-intro="fade" className="mt-6 flex flex-wrap gap-3">
