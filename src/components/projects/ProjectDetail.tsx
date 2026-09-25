@@ -124,7 +124,7 @@ export function ProjectDetail({ project }: { project: Project }) {
 
       <div ref={body} className="px-5 pb-20 pt-16 nav:px-12 nav:pt-24">
         {/* visão geral */}
-        <section data-reveal className="divider grid gap-6 border-t border-line pt-8 nav:grid-cols-[14rem_minmax(0,1fr)] nav:gap-12">
+        <section data-reveal className="divider grid gap-6 border-t border-line pt-8 min-[1100px]:grid-cols-[14rem_minmax(0,1fr)] min-[1100px]:gap-12">
           <h2 className="label !text-fg">
             <span className="text-accent">A</span> — {p.overview}
           </h2>
@@ -139,7 +139,7 @@ export function ProjectDetail({ project }: { project: Project }) {
           <section
             key={i}
             data-reveal
-            className="divider mt-12 grid gap-6 border-t border-line pt-8 nav:grid-cols-[14rem_minmax(0,1fr)] nav:gap-12"
+            className="divider mt-12 grid gap-6 border-t border-line pt-8 min-[1100px]:grid-cols-[14rem_minmax(0,1fr)] min-[1100px]:gap-12"
           >
             <h2 className="label !text-fg">
               <span className="text-accent">{String.fromCharCode(66 + i)}</span> — {pick(s.title).toUpperCase()}

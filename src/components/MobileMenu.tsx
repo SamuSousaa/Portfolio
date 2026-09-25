@@ -163,7 +163,7 @@ export function MobileMenu({ open, onClose, returnFocusRef, current }: Props) {
         </div>
         <div data-menu-fade style={{ "--i": 2 } as React.CSSProperties} className="space-y-3 text-center">
           <SocialText />
-          <p className="label !text-[10px]">
+          <p className="label !text-[11px]">
             © {new Date().getFullYear()} {PROFILE.firstName} {PROFILE.lastName}
           </p>
         </div>

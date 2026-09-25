@@ -126,7 +126,7 @@ export function ProjectViewer({ project }: { project: Project }) {
         ) : null}
 
         {/* legenda da tela atual + contador; avisos do projeto no canto oposto */}
-        <figcaption className="label absolute left-4 top-3 z-10 bg-[color-mix(in_srgb,var(--c-bg)_80%,transparent)] px-1.5 py-0.5 !text-[10px] !text-fg">
+        <figcaption className="label absolute left-4 top-3 z-10 bg-[color-mix(in_srgb,var(--c-bg)_80%,transparent)] px-1.5 py-0.5 !text-[11px] !text-fg">
           <span className="tabular-nums text-accent">
             {pad(index + 1)}/{pad(slides.length)}
           </span>{" "}
@@ -135,12 +135,12 @@ export function ProjectViewer({ project }: { project: Project }) {
         {/* no celular os avisos descem para o rodapé do quadro, para não cobrir a legenda */}
         <div className="absolute bottom-3 left-4 z-10 flex gap-2 nav:bottom-auto nav:left-auto nav:right-4 nav:top-3">
           {mobile ? (
-            <span className="label bg-[color-mix(in_srgb,var(--c-bg)_80%,transparent)] px-1.5 py-0.5 !text-[10px] text-accent">
+            <span className="label bg-[color-mix(in_srgb,var(--c-bg)_80%,transparent)] px-1.5 py-0.5 !text-[11px] text-accent">
               <Swap v={tr((d) => d.projects.mobileFirst)} />
             </span>
           ) : null}
           {project.demoData ? (
-            <span className="label bg-[color-mix(in_srgb,var(--c-bg)_80%,transparent)] px-1.5 py-0.5 !text-[10px]">
+            <span className="label bg-[color-mix(in_srgb,var(--c-bg)_80%,transparent)] px-1.5 py-0.5 !text-[11px]">
               <Swap v={tr((d) => d.projects.demoData)} />
             </span>
           ) : null}

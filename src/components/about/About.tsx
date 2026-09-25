@@ -90,11 +90,11 @@ function Portrait() {
 
         {/* sobre a foto, o rótulo ganha um fundo para não sumir em áreas claras */}
         <figcaption
-          className={`label absolute left-4 top-3 z-10 !text-[10px] ${photo ? "bg-[color-mix(in_srgb,var(--c-bg)_80%,transparent)] px-1.5 py-0.5 !text-fg" : ""}`}
+          className={`label absolute left-4 top-3 z-10 !text-[11px] ${photo ? "bg-[color-mix(in_srgb,var(--c-bg)_80%,transparent)] px-1.5 py-0.5 !text-fg" : ""}`}
         >
           {t.about.portrait}
         </figcaption>
-        {!photo ? <span className="label absolute bottom-3 right-4 z-10 !text-[10px]">{t.about.noImage}</span> : null}
+        {!photo ? <span className="label absolute bottom-3 right-4 z-10 !text-[11px]">{t.about.noImage}</span> : null}
       </div>
     </figure>
   );
@@ -159,7 +159,7 @@ export function About() {
           <p data-intro="label" className="label mb-4">
             <span className="text-accent">&gt;</span> whoami
           </p>
-          <p data-intro="fade" data-probe="lead" className="text-[clamp(18px,1.75vw,26px)] leading-[1.3] tracking-[-0.01em] text-fg min-[1100px]:mb-8">
+          <p data-intro="fade" data-probe="lead" className="text-[clamp(18px,1.75vw,26px)] leading-[1.35] tracking-[-0.01em] text-fg min-[1100px]:mb-8">
             <Swap block v={PROFILE.bio} />
           </p>
 
@@ -176,7 +176,7 @@ export function About() {
 
       <div ref={body} className="px-5 pb-20 pt-4 nav:px-12 nav:pt-8">
         {/* A — perfil (texto longo) */}
-        <section data-reveal data-probe="about-text" className="divider grid gap-6 border-t border-line pt-8 nav:grid-cols-[14rem_minmax(0,1fr)] nav:gap-12">
+        <section data-reveal data-probe="about-text" className="divider grid gap-6 border-t border-line pt-8 min-[1100px]:grid-cols-[14rem_minmax(0,1fr)] min-[1100px]:gap-12">
           <SectionHead letter="A" title={a.profile} />
           {PROFILE.about.length ? (
             // Cada idioma é um bloco inteiro com vãos fixos; o espaço reservado é o do
@@ -204,10 +204,11 @@ export function About() {
         </section>
 
         {/* B — stack */}
-        <section data-reveal data-probe="stack" className="divider mt-16 grid gap-6 border-t border-line pt-8 nav:grid-cols-[14rem_minmax(0,1fr)] nav:gap-12">
+        <section data-reveal data-probe="stack" className="divider mt-16 grid gap-6 border-t border-line pt-8 min-[1100px]:grid-cols-[14rem_minmax(0,1fr)] min-[1100px]:gap-12">
           <SectionHead letter="B" title={a.stack} meta={pad(SKILLS.reduce((n, g) => n + g.items.length, 0))} />
           {SKILLS.length ? (
-            <div>
+            // as linhas seguem a largura da COLUNA (container), não da tela: com a sidebar aberta, 900 px de tela dão ~500 de coluna
+            <div className="@container">
             {/* legenda dos principais */}
             <p className="label mb-4 flex items-center gap-2">
               <span aria-hidden="true" className="size-2.5 bg-accent" />
@@ -217,9 +218,9 @@ export function About() {
               {SKILLS.map((g, i) => (
                 <div
                   key={g.group.en}
-                  className="grid gap-3 border-b border-line py-5 sm:grid-cols-[3rem_12rem_minmax(0,1fr)] sm:items-baseline sm:gap-6"
+                  className="grid gap-3 border-b border-line py-5 @[36rem]:grid-cols-[3rem_12rem_minmax(0,1fr)] @[36rem]:items-baseline @[36rem]:gap-6"
                 >
-                  <span className="label hidden sm:block">{pad(i + 1)}</span>
+                  <span className="label hidden @[36rem]:block">{pad(i + 1)}</span>
                   <dt className="label !text-fg">
                     <Swap v={g.group} />
                   </dt>
@@ -250,7 +251,7 @@ export function About() {
         </section>
 
         {/* C — trajetória */}
-        <section data-reveal data-probe="trajectory" className="divider mt-16 grid gap-6 border-t border-line pt-8 nav:grid-cols-[14rem_minmax(0,1fr)] nav:gap-12">
+        <section data-reveal data-probe="trajectory" className="divider mt-16 grid gap-6 border-t border-line pt-8 min-[1100px]:grid-cols-[14rem_minmax(0,1fr)] min-[1100px]:gap-12">
           <SectionHead letter="C" title={a.trajectory} meta={pad(EXPERIENCE.length)} />
           {EXPERIENCE.length ? (
             <ol className="border-l border-line-strong">

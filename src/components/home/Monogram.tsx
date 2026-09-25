@@ -81,8 +81,8 @@ export function Monogram() {
       <Corner className="-bottom-px -left-px z-10 border-b-2 border-l-2" />
       <Corner className="-bottom-px -right-px z-10 border-b-2 border-r-2" />
 
-      <figcaption className={`label absolute left-4 top-3 z-10 !text-[10px] ${photo ? CHIP : ""}`}>{photo ? t.portraitFig : t.monogram}</figcaption>
-      <span className={`label absolute right-4 top-3 z-10 !text-[10px] ${photo ? CHIP : ""}`} aria-hidden="true">
+      <figcaption className={`label absolute left-4 top-3 z-10 !text-[11px] ${photo ? CHIP : ""}`}>{photo ? t.portraitFig : t.monogram}</figcaption>
+      <span className={`label absolute right-4 top-3 z-10 !text-[11px] ${photo ? CHIP : ""}`} aria-hidden="true">
         {t.scale}
       </span>
 
@@ -137,7 +137,7 @@ export function Monogram() {
       <div className="absolute inset-x-4 bottom-3 z-10 flex items-center gap-3" aria-hidden="true">
         <span className="h-2 w-px bg-muted" />
         <span className="h-px flex-1 bg-line-strong" />
-        <span className={`label !text-[10px] ${photo ? CHIP : ""}`}>Ø 300</span>
+        <span className={`label !text-[11px] ${photo ? CHIP : ""}`}>Ø 300</span>
         <span className="h-px flex-1 bg-line-strong" />
         <span className="h-2 w-px bg-muted" />
       </div>

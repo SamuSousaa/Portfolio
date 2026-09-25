@@ -170,10 +170,10 @@ export function Sidebar() {
             <Settings />
           </div>
           <div className="mt-6 space-y-1.5 whitespace-nowrap border-t border-line pt-5">
-            <p className="label !text-[10px]">
+            <p className="label !text-[11px]">
               {PROFILE.version} // {year}
             </p>
-            <p className="label !text-[10px]">
+            <p className="label !text-[11px]">
               © {year} {PROFILE.firstName} {PROFILE.lastName}
             </p>
           </div>

@@ -72,16 +72,24 @@ export function Topbar() {
         </div>
 
         {/* celular: HUD compacto + caminho */}
-        <div className="label flex h-8 items-center justify-between gap-3 border-t border-line px-5 !text-[10px] nav:hidden min-[1300px]:hidden">
+        <div className="label flex h-8 items-center justify-between gap-3 whitespace-nowrap border-t border-line px-5 !text-[11px] nav:hidden min-[1300px]:hidden">
           <HudStatus />
           <HudClock dateless />
-          <HudCoords short />
+          {/* em 11 px as três só cabem numa linha a partir de 430 px */}
+          <span className="hidden min-[430px]:inline">
+            <HudCoords short />
+          </span>
         </div>
-        {/* faixa intermediária (900–1300): HUD abaixo do topo */}
-        <div className="label hidden h-8 items-center gap-6 border-t border-line px-8 !text-[10px] nav:flex min-[1300px]:hidden">
+        {/* faixa intermediária (900–1300): HUD abaixo do topo; coordenadas curtas até 1100 */}
+        <div className="label hidden h-8 items-center gap-6 whitespace-nowrap border-t border-line px-8 !text-[11px] nav:flex min-[1300px]:hidden">
           <HudStatus />
           <HudClock />
-          <HudCoords />
+          <span className="min-[1100px]:hidden">
+            <HudCoords short />
+          </span>
+          <span className="hidden min-[1100px]:inline">
+            <HudCoords />
+          </span>
         </div>
       </header>
 

@@ -107,7 +107,7 @@ export function ProjectIndex() {
               </span>
               <span className="flex flex-wrap gap-2">
                 {project.stack.map((s) => (
-                  <span key={s} className="border border-line-strong px-2 py-1 font-mono text-[10px] uppercase tracking-[0.1em] group-hover:border-current">
+                  <span key={s} className="border border-line-strong px-2 py-1 font-mono text-[11px] uppercase tracking-[0.1em] group-hover:border-current">
                     {s}
                   </span>
                 ))}
