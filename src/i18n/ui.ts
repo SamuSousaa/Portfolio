@@ -23,6 +23,7 @@ const en = {
   emptySlot: "EMPTY SLOT",
   awaiting: "awaiting data",
   monogram: "FIG.01 — MONOGRAM",
+  portraitFig: "FIG.01 — PORTRAIT",
   scale: "SCALE 1:1",
   months: ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"],
   projects: {
@@ -125,6 +126,7 @@ const pt: Dict = {
   emptySlot: "SLOT VAZIO",
   awaiting: "aguardando dados",
   monogram: "FIG.01 — MONOGRAMA",
+  portraitFig: "FIG.01 — RETRATO",
   scale: "ESC 1:1",
   months: ["JAN", "FEV", "MAR", "ABR", "MAI", "JUN", "JUL", "AGO", "SET", "OUT", "NOV", "DEZ"],
   projects: {
@@ -224,6 +226,7 @@ const es: Dict = {
   emptySlot: "ESPACIO VACÍO",
   awaiting: "esperando datos",
   monogram: "FIG.01 — MONOGRAMA",
+  portraitFig: "FIG.01 — RETRATO",
   scale: "ESC 1:1",
   months: ["ENE", "FEB", "MAR", "ABR", "MAY", "JUN", "JUL", "AGO", "SEP", "OCT", "NOV", "DIC"],
   projects: {

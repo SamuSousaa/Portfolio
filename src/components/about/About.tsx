@@ -63,7 +63,8 @@ function Portrait() {
             alt={pick(photo.alt)}
             fill
             priority
-            sizes="(min-width: 900px) 34vw, 100vw"
+            sizes="(min-width: 900px) 480px, 100vw"
+            style={{ objectPosition: photo.position }}
             className="object-cover grayscale contrast-[1.05] transition-[filter,transform] duration-700 ease-out group-hover:scale-[1.02] group-hover:grayscale-[.15]"
           />
         ) : (
@@ -82,7 +83,12 @@ function Portrait() {
           </div>
         )}
 
-        <figcaption className="label absolute left-4 top-3 z-10 !text-[10px]">{t.about.portrait}</figcaption>
+        {/* sobre a foto, o rótulo ganha um fundo para não sumir em áreas claras */}
+        <figcaption
+          className={`label absolute left-4 top-3 z-10 !text-[10px] ${photo ? "bg-[color-mix(in_srgb,var(--c-bg)_80%,transparent)] px-1.5 py-0.5 !text-fg" : ""}`}
+        >
+          {t.about.portrait}
+        </figcaption>
         {!photo ? <span className="label absolute bottom-3 right-4 z-10 !text-[10px]">{t.about.noImage}</span> : null}
       </div>
     </figure>

@@ -4,6 +4,8 @@
  */
 import type { Localized } from "@/i18n/config";
 
+export type Photo = { src: string; alt: Localized; position?: string };
+
 export const PROFILE = {
   firstName: "SAMUEL",
   lastName: "SOUSA",
@@ -23,8 +25,20 @@ export const PROFILE = {
   },
   status: { en: "Accepting Proposals", pt: "Aceitando propostas", es: "Aceptando proyectos" } as Localized,
   version: "V.1.0",
-  /** Foto em /public (ex.: "/about/portrait.jpg"), idealmente 4:5. Sem ela, o retrato vira prancha técnica. */
-  portrait: undefined as { src: string; alt: Localized } | undefined,
+  /**
+   * Foto em /public, idealmente 4:5 (sem ela, o retrato vira prancha técnica).
+   * `position` = object-position do recorte (ex.: "50% 20%" puxa o corte para cima).
+   */
+  portrait: {
+    src: "/about/portrait.jpg",
+    alt: { en: "Portrait of Samuel Sousa", pt: "Retrato de Samuel Sousa", es: "Retrato de Samuel Sousa" },
+    position: "50% 20%",
+  } as Photo | undefined,
+  /** Foto do quadro do hero da home (FIG.01), quadrada. Sem ela, o quadro mostra o monograma. */
+  heroPhoto: {
+    src: "/about/hero.jpg",
+    alt: { en: "Samuel Sousa", pt: "Samuel Sousa", es: "Samuel Sousa" },
+  } as Photo | undefined,
   /** TODO: preencher. Parágrafos da página Sobre; vazio = "aguardando dados". */
   about: [] as Localized[],
 };
