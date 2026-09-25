@@ -1,0 +1,2 @@
+# lançador de shell do impeccable: sempre LF (com CRLF o sh não roda)
+.claude/skills/impeccable/scripts/impeccable text eol=lf
