@@ -7,6 +7,7 @@ import { TransitionLink } from "../PageTransition";
 import { HudStatus } from "../Hud";
 import { useI18n } from "../I18nProvider";
 import { Swap } from "@/components/Swap";
+import { ProjectThumb } from "../projects/ProjectThumb";
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
@@ -55,29 +56,30 @@ export function Panels() {
         <div data-reveal className="border border-line bg-surface">
           <PanelHead index="A" title={t.featured} meta={`${pad(slots.filter(Boolean).length)} / ${pad(slots.length)}`} />
           {/*
-            subgrid: cada card ocupa 5 linhas (cabeçalho, nome, descrição, stack, abrir)
+            subgrid: cada card ocupa 6 linhas (cabeçalho, miniatura, nome, descrição, stack, abrir)
             compartilhadas pelos três, então nomes e stacks ficam alinhados na horizontal
             mesmo com descrições e stacks de tamanhos diferentes.
           */}
-          <ul className="grid md:grid-cols-3 md:grid-rows-[auto_auto_auto_1fr_auto]">
+          <ul className="grid md:grid-cols-3 md:grid-rows-[auto_auto_auto_auto_1fr_auto]">
             {slots.map((project, i) =>
               project ? (
                 <li key={project.slug} className="border-b border-line md:contents">
                   <TransitionLink
                     href={`/projects/${project.slug}`}
                     data-fill
-                    className={`group flex h-full flex-col p-5 transition-colors duration-200 hover:bg-accent hover:text-on-accent md:row-span-5 md:grid md:grid-rows-subgrid md:gap-0 ${i < slots.length - 1 ? "md:border-r md:border-line" : ""}`}
+                    className={`group flex h-full flex-col p-5 transition-colors duration-200 hover:bg-accent hover:text-on-accent md:row-span-6 md:grid md:grid-rows-subgrid md:gap-0 ${i < slots.length - 1 ? "md:border-r md:border-line" : ""}`}
                   >
                     <span className="label flex justify-between group-hover:!text-on-accent">
                       <span>{pad(i + 1)}</span>
                       <span>{project.year}</span>
                     </span>
+                    <ProjectThumb project={project} sizes="(min-width: 1100px) 22vw, (min-width: 768px) 30vw, 100vw" className="mt-4 group-hover:border-current" />
                     {/*
                       o nome acompanha a largura do card (nomes longos cabem em qualquer tema).
                       O container fica neste invólucro, não no link: contenção de layout
                       desligaria o subgrid do card.
                     */}
-                    <span className="@container block pt-10">
+                    <span className="@container block pt-6">
                       <span className="display block whitespace-nowrap [--fs:min(2.5rem,11cqi)]">{project.name}</span>
                     </span>
                     <span className="mt-3 font-mono text-[12px] leading-relaxed text-muted group-hover:text-on-accent">
@@ -96,7 +98,7 @@ export function Panels() {
               ) : (
                 <li
                   key={`slot-${i}`}
-                  className="divider flex flex-col border-b border-line p-5 md:row-span-5 md:border-b-0 md:border-r md:last:border-r-0"
+                  className="divider flex flex-col border-b border-line p-5 md:row-span-6 md:border-b-0 md:border-r md:last:border-r-0"
                 >
                   <span className="label">{pad(i + 1)}</span>
                   <span className="mt-4 grid h-16 place-items-center md:mt-auto md:h-auto md:aspect-[4/3] border border-dashed border-line-strong">

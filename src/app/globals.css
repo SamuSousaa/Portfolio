@@ -400,6 +400,19 @@ html.sb-collapsed .sidebar .sb-tip {
   display: block;
 }
 
+/*
+ * Índice de projetos: com mouse (≥900 px) a capa flutua junto ao cursor;
+ * abaixo de 900 px, ela aparece como miniatura dentro da linha.
+ */
+.index-preview {
+  display: none;
+}
+@media (hover: hover) and (pointer: fine) and (min-width: 900px) {
+  .index-preview {
+    display: block;
+  }
+}
+
 /* loader de boot: só existe na tela enquanto html.loader-on (ver Loader.tsx) */
 .loader {
   display: none;
