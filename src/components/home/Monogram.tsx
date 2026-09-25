@@ -14,10 +14,10 @@ const Corner = ({ className }: { className: string }) => (
 );
 
 /**
- * FIG.01 — visor do hero. Com PROFILE.heroPhoto: a foto preenche o quadro
- * (P&B, ganha cor no hover) e a mira, os círculos de cota e as marcas ficam
- * por cima, como num visor de câmera. Sem foto: monograma técnico (iniciais
- * sólidas + cópia vazada deslocada). Parallax leve com o mouse nos dois casos.
+ * FIG.01 — quadro do hero. Com PROFILE.heroPhoto: a foto preenche o quadro
+ * (P&B, ganha cor no hover), só com cantos, rótulos e cota por cima. Sem foto:
+ * monograma técnico (iniciais sólidas + cópia vazada deslocada, mira, círculos
+ * de cota e marcas de grau). Parallax leve com o mouse nos dois casos.
  */
 export function Monogram() {
   const ref = useRef<HTMLDivElement>(null);
@@ -92,13 +92,15 @@ export function Monogram() {
         </span>
       ) : null}
 
+      {/* mira, círculos de cota e marcas de grau: só no monograma (com foto, o quadro fica limpo) */}
+      {!photo ? (
       <svg viewBox="0 0 400 400" className="absolute inset-0 size-full" aria-hidden="true" data-depth="-8">
-        {/* mira: com foto, só as pontas nas bordas, para não cortar o rosto */}
+        {/* mira */}
         <g stroke="var(--accent)" strokeWidth="1">
-          <line x1="200" y1="28" x2="200" y2={photo ? 64 : 140} />
-          <line x1="200" y1={photo ? 336 : 260} x2="200" y2="372" />
-          <line x1="28" y1="200" x2={photo ? 64 : 140} y2="200" />
-          <line x1={photo ? 336 : 260} y1="200" x2="372" y2="200" />
+          <line x1="200" y1="28" x2="200" y2="140" />
+          <line x1="200" y1="260" x2="200" y2="372" />
+          <line x1="28" y1="200" x2="140" y2="200" />
+          <line x1="260" y1="200" x2="372" y2="200" />
         </g>
         {/* círculos de cota */}
         <circle cx="200" cy="200" r="150" fill="none" stroke="var(--line-strong)" strokeDasharray="2 6" className="origin-center animate-[spin_90s_linear_infinite]" />
@@ -110,6 +112,7 @@ export function Monogram() {
           ))}
         </g>
       </svg>
+      ) : null}
 
       {!photo ? (
       /*

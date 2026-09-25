@@ -39,8 +39,24 @@ export const PROFILE = {
     src: "/about/hero.jpg",
     alt: { en: "Samuel Sousa", pt: "Samuel Sousa", es: "Samuel Sousa" },
   } as Photo | undefined,
-  /** TODO: preencher. Parágrafos da página Sobre; vazio = "aguardando dados". */
-  about: [] as Localized[],
+  /** Parágrafos da página Sobre (um item por parágrafo); vazio = "aguardando dados". */
+  about: [
+    {
+      en: "I'm a software engineer based in Parnaíba, Brazil, working where code and language models meet. I like building agentic systems — software that doesn't just answer, but plans, uses tools and gets tasks done — and the tools that make that work faster for other developers.",
+      pt: "Sou engenheiro de software em Parnaíba, no Piauí, e trabalho onde código e modelos de linguagem se encontram. Gosto de construir sistemas agênticos — software que não só responde, mas planeja, usa ferramentas e conclui tarefas — e as ferramentas que tornam esse trabalho mais rápido para outros desenvolvedores.",
+      es: "Soy ingeniero de software en Parnaíba, Brasil, y trabajo donde el código y los modelos de lenguaje se encuentran. Me gusta construir sistemas agénticos — software que no solo responde, sino que planifica, usa herramientas y completa tareas — y las herramientas que hacen ese trabajo más rápido para otros desarrolladores.",
+    },
+    {
+      en: "I treat the interface with the same rigor as the architecture. In Hedge, a financial management app, that means clear numbers and frictionless flows; in this portfolio, themes that switch without moving a pixel and animations that respect people who prefer less motion. Detail isn't decoration: it's what makes a product feel trustworthy.",
+      pt: "Trato a interface com o mesmo rigor da arquitetura. No Hedge, um app de gestão financeira, isso significa números claros e fluxos sem atrito; neste portfólio, temas que trocam sem mover um pixel e animações que respeitam quem prefere menos movimento. Detalhe não é enfeite: é o que faz um produto parecer confiável.",
+      es: "Trato la interfaz con el mismo rigor que la arquitectura. En Hedge, una app de gestión financiera, eso significa números claros y flujos sin fricción; en este portafolio, temas que cambian sin mover un píxel y animaciones que respetan a quien prefiere menos movimiento. El detalle no es adorno: es lo que hace que un producto inspire confianza.",
+    },
+    {
+      en: "I'm currently open to proposals — applied AI, internal tools, or products that need to move from prototype to real use. If you have a problem like that, the contact tab is one click away.",
+      pt: "Hoje estou aberto a propostas — IA aplicada, ferramentas internas ou produtos que precisam sair do protótipo e chegar ao uso real. Se você tem um problema assim, a aba de contato está a um clique.",
+      es: "Hoy estoy abierto a propuestas — IA aplicada, herramientas internas o productos que necesitan pasar del prototipo al uso real. Si tienes un problema así, la pestaña de contacto está a un clic.",
+    },
+  ] as Localized[],
 };
 
 /** "Samuel Sousa": nome em caixa normal, para títulos de aba, metadados e buscadores. */

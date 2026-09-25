@@ -103,6 +103,7 @@ export function About() {
   useReveal(body);
 
   const a = t.about;
+  const self = findNav("/about");
   const contact = findNav("/contact");
 
   const spec = [
@@ -122,49 +123,72 @@ export function About() {
 
   return (
     <>
-      {/* perfil */}
-      <section ref={top} className="grid gap-10 px-5 nav:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] nav:gap-12 nav:px-12">
-        <div className="nav:max-w-[30rem]">
+      {/*
+        primeira dobra: título, foto, bio e ficha cabem juntos na tela (≥1100 px).
+        A foto é limitada pela ALTURA da janela (4:5 → largura = altura × 0,8);
+        a altura da foto define a da seção, e a ficha fica colada na base dela.
+        Abaixo de 1100 px vira uma coluna só: título, foto, bio, ficha.
+      */}
+      <section
+        ref={top}
+        className="grid gap-10 px-5 pb-16 pt-14 nav:px-12 min-[1100px]:grid-cols-[auto_minmax(0,1fr)] min-[1100px]:grid-rows-[auto_1fr] min-[1100px]:gap-x-12 min-[1100px]:gap-y-6 min-[1100px]:py-12 min-[1100px]:[grid-template-areas:'photo_head'_'photo_info']"
+      >
+        <header className="min-[1100px]:[grid-area:head]">
+          <p data-intro="label" className="label mb-5">
+            <span className="text-accent">{self ? navNumber(self.index) : "--"}.</span> / {self ? pick(self.item.label) : ""}
+          </p>
+          <h1 className="vt-display-title display -ml-[0.04em] [--fs:clamp(3.25rem,min(6.5vw,10svh),6.5rem)]">
+            <span className="block overflow-hidden pb-[calc(var(--fs)*0.05)]">
+              <span data-intro="line" className="block">
+                {self ? <Swap v={self.item.label} /> : null}
+              </span>
+            </span>
+          </h1>
+        </header>
+
+        <div className="w-full max-w-[30rem] min-[1100px]:w-[min(34vw,calc((100svh-var(--topbar-h)-6rem)*0.8))] min-[1100px]:max-w-none min-[1100px]:[grid-area:photo]">
           <Portrait />
         </div>
 
-        <div className="flex flex-col">
-          <p data-intro="label" className="label mb-6">
+        <div className="flex flex-col min-[1100px]:[grid-area:info]">
+          <p data-intro="label" className="label mb-4">
             <span className="text-accent">&gt;</span> whoami
           </p>
-          <p data-intro="fade" data-probe="lead" className="text-[clamp(22px,2.3vw,34px)] leading-[1.3] tracking-[-0.01em] text-fg">
+          <p data-intro="fade" data-probe="lead" className="text-[clamp(18px,1.75vw,26px)] leading-[1.3] tracking-[-0.01em] text-fg min-[1100px]:mb-8">
             <Swap block v={PROFILE.bio} />
           </p>
 
-          <dl data-intro="fade" data-probe="spec" className="mt-10 grid grid-cols-2 border-l border-t border-line">
+          <dl data-intro="fade" data-probe="spec" className="mt-10 grid grid-cols-2 border-l border-t border-line min-[1100px]:mt-auto">
             {spec.map((s) => (
-              <div key={s.label} className="border-b border-r border-line bg-surface px-5 py-5">
-                <dt className="label mb-3">{s.label}</dt>
+              <div key={s.label} className="border-b border-r border-line bg-surface px-5 py-5 min-[1100px]:py-4">
+                <dt className="label mb-3 min-[1100px]:mb-2">{s.label}</dt>
                 <dd className="font-mono text-[13px] uppercase tracking-[0.08em] text-fg">{s.value}</dd>
               </div>
             ))}
           </dl>
-
-          <div data-intro="fade" data-probe="about-text" className="mt-10 nav:mt-auto nav:pt-10">
-            {PROFILE.about.length ? (
-              <div className="flex max-w-[62ch] flex-col gap-5 text-[clamp(15px,1.1vw,17px)] leading-relaxed text-fg">
-                {PROFILE.about.map((para, i) => (
-                  <p key={i}>
-                    <Swap block v={para} />
-                  </p>
-                ))}
-              </div>
-            ) : (
-              <Awaiting cmd={a.fetchAbout} text={t.awaiting} />
-            )}
-          </div>
         </div>
       </section>
 
-      <div ref={body} className="px-5 pb-20 pt-16 nav:px-12 nav:pt-24">
-        {/* A — stack */}
-        <section data-reveal data-probe="stack" className="divider grid gap-6 border-t border-line pt-8 nav:grid-cols-[14rem_minmax(0,1fr)] nav:gap-12">
-          <SectionHead letter="A" title={a.stack} meta={pad(SKILLS.reduce((n, g) => n + g.items.length, 0))} />
+      <div ref={body} className="px-5 pb-20 pt-4 nav:px-12 nav:pt-8">
+        {/* A — perfil (texto longo) */}
+        <section data-reveal data-probe="about-text" className="divider grid gap-6 border-t border-line pt-8 nav:grid-cols-[14rem_minmax(0,1fr)] nav:gap-12">
+          <SectionHead letter="A" title={a.profile} />
+          {PROFILE.about.length ? (
+            <div className="flex max-w-[62ch] flex-col gap-5 text-[clamp(15px,1.1vw,17px)] leading-relaxed text-fg">
+              {PROFILE.about.map((para, i) => (
+                <p key={i}>
+                  <Swap block v={para} />
+                </p>
+              ))}
+            </div>
+          ) : (
+            <Awaiting cmd={a.fetchAbout} text={t.awaiting} />
+          )}
+        </section>
+
+        {/* B — stack */}
+        <section data-reveal data-probe="stack" className="divider mt-16 grid gap-6 border-t border-line pt-8 nav:grid-cols-[14rem_minmax(0,1fr)] nav:gap-12">
+          <SectionHead letter="B" title={a.stack} meta={pad(SKILLS.reduce((n, g) => n + g.items.length, 0))} />
           {SKILLS.length ? (
             <dl>
               {SKILLS.map((g, i) => (
@@ -194,9 +218,9 @@ export function About() {
           )}
         </section>
 
-        {/* B — trajetória */}
+        {/* C — trajetória */}
         <section data-reveal data-probe="trajectory" className="divider mt-16 grid gap-6 border-t border-line pt-8 nav:grid-cols-[14rem_minmax(0,1fr)] nav:gap-12">
-          <SectionHead letter="B" title={a.trajectory} meta={pad(EXPERIENCE.length)} />
+          <SectionHead letter="C" title={a.trajectory} meta={pad(EXPERIENCE.length)} />
           {EXPERIENCE.length ? (
             <ol className="border-l border-line-strong">
               {EXPERIENCE.map((xp) => (

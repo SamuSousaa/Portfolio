@@ -8,7 +8,7 @@ import { useI18n } from "./I18nProvider";
 import { Swap } from "./Swap";
 
 /**
- * Bolinhas de tema, numa linha só. Um balão único acima da linha mostra
+ * Quadradinhos de tema, numa linha só. Um balão único acima da linha mostra
  * nome e frase do tema sob o mouse/foco.
  */
 export function ThemeSwitcher({ align = "start" }: { align?: "start" | "center" }) {
@@ -60,8 +60,8 @@ export function ThemeSwitcher({ align = "start" }: { align?: "start" | "center" 
                 preload(th.id);
               }}
               onBlur={() => setHovered(null)}
-              /* miniatura do tema: fundo do tema + borda no acento; a ativa ganha anel na cor do texto atual */
-              className={`size-6 shrink-0 rounded-full border transition-transform duration-200 hover:scale-[1.15] focus-visible:scale-[1.15] ${
+              /* miniatura do tema (quadrada): fundo do tema + borda no acento; a ativa ganha anel na cor do texto atual */
+              className={`size-[18px] shrink-0 border transition-transform duration-200 hover:scale-[1.15] focus-visible:scale-[1.15] ${
                 active ? "shadow-[0_0_0_2px_var(--ring-gap,var(--c-bg)),0_0_0_3px_var(--fg)]" : ""
               }`}
               style={{ background: th.swatch[0], borderColor: th.swatch[1] }}
