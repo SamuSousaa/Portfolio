@@ -11,8 +11,6 @@ Tudo em `src/config/content.ts`. Campo vazio = a página mostra "aguardando dado
 
 ## Ajustes guardados
 
-- [ ] **Home — cards de destaque desalinhados**: os nomes (WELLNESSY / ÁPICE / HEDGE) ficam em alturas diferentes porque a stack de cada card tem tamanho diferente. Alinhar nome, descrição e stack pelo topo; "[ ABRIR ]" fixo na base.
-- [ ] **Home — painel Experiência com espaço vazio embaixo**: distribuir a altura igualmente entre as entradas (o painel estica até a altura dos destaques).
 
 ## Fases
 
