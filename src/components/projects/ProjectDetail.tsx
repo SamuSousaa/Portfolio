@@ -28,11 +28,13 @@ export function ProjectDetail({ project }: { project: Project }) {
   const index = PROJECTS.findIndex((x) => x.slug === project.slug);
   const next = PROJECTS.length > 1 ? PROJECTS[(index + 1) % PROJECTS.length] : null;
 
+  // no celular: ANO | STATUS na primeira linha, PAPEL e STACK na largura toda
   const meta = [
-    { label: p.year, value: project.year },
-    { label: p.role, value: project.role ? pick(project.role) : null },
-    { label: p.colStack, value: project.stack.join(" · ") },
+    { label: p.year, value: project.year, cls: "order-1" },
+    { label: p.role, value: project.role ? pick(project.role) : null, cls: "order-3 col-span-2" },
+    { label: p.colStack, value: project.stack.join(" · "), cls: "order-4 col-span-2" },
     {
+      cls: "order-2",
       label: p.status,
       value: project.status ? (
         <span className="flex items-center gap-2">
@@ -79,11 +81,11 @@ export function ProjectDetail({ project }: { project: Project }) {
         </p>
 
         {/* ficha técnica */}
-        <dl data-intro="fade" className="mt-12 grid grid-cols-2 border-l border-t border-line nav:grid-cols-4">
+        <dl data-intro="fade" className="mt-8 grid grid-cols-2 border-l border-t border-line nav:mt-12 nav:grid-cols-4">
           {meta.map((m) => (
-            <div key={m.label} className="border-b border-r border-line bg-surface px-5 py-5">
-              <dt className="label mb-3">{m.label}</dt>
-              <dd className={`font-mono text-[13px] uppercase tracking-[0.08em] ${m.value ? "text-fg" : "text-muted"}`}>
+            <div key={m.label} className={`${m.cls} border-b border-r border-line bg-surface px-4 py-3 nav:order-none nav:col-span-1 nav:px-5 nav:py-5`}>
+              <dt className="label mb-1.5 nav:mb-3">{m.label}</dt>
+              <dd className={`font-mono text-[12px] uppercase leading-relaxed tracking-[0.08em] nav:text-[13px] nav:leading-normal ${m.value ? "text-fg" : "text-muted"}`}>
                 {m.value ?? "—"}
               </dd>
             </div>
@@ -115,7 +117,7 @@ export function ProjectDetail({ project }: { project: Project }) {
           </div>
         ) : null}
 
-        <div className="mt-12">
+        <div className="mt-8 nav:mt-12">
           <ProjectViewer project={project} />
         </div>
       </section>

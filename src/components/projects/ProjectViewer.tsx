@@ -23,7 +23,7 @@ function Arrow({ dir, label, onClick }: { dir: "prev" | "next"; label: string; o
       type="button"
       onClick={onClick}
       aria-label={label}
-      className={`absolute top-1/2 z-10 grid size-10 -translate-y-1/2 place-items-center border border-line-strong bg-[color-mix(in_srgb,var(--c-bg)_70%,transparent)] font-mono text-fg opacity-60 backdrop-blur-sm transition-[opacity,background-color,border-color,color] duration-200 hover:border-accent hover:bg-accent hover:text-on-accent hover:opacity-100 focus-visible:opacity-100 ${
+      className={`absolute top-1/2 z-10 grid size-9 -translate-y-1/2 nav:size-10 place-items-center border border-line-strong bg-[color-mix(in_srgb,var(--c-bg)_70%,transparent)] font-mono text-fg opacity-60 backdrop-blur-sm transition-[opacity,background-color,border-color,color] duration-200 hover:border-accent hover:bg-accent hover:text-on-accent hover:opacity-100 focus-visible:opacity-100 ${
         dir === "prev" ? "left-3" : "right-3"
       }`}
     >
@@ -70,7 +70,10 @@ export function ProjectViewer({ project }: { project: Project }) {
       <div
         // largura toda do conteúdo; altura 16:10, mas nunca mais que a janela (menos o topo e uma folga).
         // Quando a altura limita, a tela preenche a largura e corta embaixo (o topo dos apps é o que importa).
-        className="relative h-[min(calc(100svh-var(--topbar-h)-5rem),calc((100vw-2.5rem)*0.625))] overflow-hidden border border-line-strong bg-surface nav:h-[min(calc(100svh-var(--topbar-h)-5rem),calc((100vw-var(--sidebar-w)-6rem)*0.625))]"
+        // No celular, projeto mobile-first ganha quadro 4:5 (as telas em pé ficam legíveis) e a capa preenche o quadro pelo centro.
+        className={`relative overflow-hidden ${
+          mobile ? "h-[min(calc(100svh-var(--topbar-h)-5rem),calc((100vw-2.5rem)*1.25))]" : "h-[min(calc(100svh-var(--topbar-h)-5rem),calc((100vw-2.5rem)*0.625))]"
+        } border border-line-strong bg-surface nav:h-[min(calc(100svh-var(--topbar-h)-5rem),calc((100vw-var(--sidebar-w)-6rem)*0.625))]`}
         onPointerDown={(e) => (touch.current = e.clientX)}
         onPointerUp={(e) => {
           if (touch.current === null) return;
@@ -100,7 +103,15 @@ export function ProjectViewer({ project }: { project: Project }) {
                 </div>
               </div>
             ) : (
-              <Image src={s.src} alt={pick(s.alt)} fill priority={i === 0} sizes="(min-width: 900px) calc(100vw - 340px), 100vw" quality={90} className="object-cover object-top" />
+              <Image
+                src={s.src}
+                alt={pick(s.alt)}
+                fill
+                priority={i === 0}
+                sizes="(min-width: 900px) calc(100vw - 340px), 100vw"
+                quality={90}
+                className={`object-cover ${mobile ? "object-center nav:object-top" : "object-top"}`}
+              />
             )}
           </div>
         ))}
@@ -119,7 +130,8 @@ export function ProjectViewer({ project }: { project: Project }) {
           </span>{" "}
           — <Swap v={slides[index].caption} />
         </figcaption>
-        <div className="absolute right-4 top-3 z-10 flex gap-2">
+        {/* no celular os avisos descem para o rodapé do quadro, para não cobrir a legenda */}
+        <div className="absolute bottom-3 left-4 z-10 flex gap-2 nav:bottom-auto nav:left-auto nav:right-4 nav:top-3">
           {mobile ? (
             <span className="label bg-[color-mix(in_srgb,var(--c-bg)_80%,transparent)] px-1.5 py-0.5 !text-[10px] text-accent">
               <Swap v={tr((d) => d.projects.mobileFirst)} />

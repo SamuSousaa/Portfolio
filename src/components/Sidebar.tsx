@@ -122,7 +122,7 @@ export function Sidebar() {
         </svg>
       </button>
 
-      <div className="flex h-14 shrink-0 items-center px-6">
+      <div className="flex h-14 shrink-0 items-center px-[22px]">
         <Logo />
       </div>
 

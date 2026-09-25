@@ -648,15 +648,13 @@ html.vt-theme::view-transition-new(grain),
 html.vt-theme::view-transition-new(cursor) {
   animation: none;
 }
-/* 1. fundos da sidebar, do topo e do menu: instantâneos */
+/* 1. fundos da sidebar e do topo: instantâneos */
 html.vt-theme::view-transition-old(sidebar-bg),
-html.vt-theme::view-transition-old(topbar-bg),
-html.vt-theme::view-transition-old(menu-bg) {
+html.vt-theme::view-transition-old(topbar-bg) {
   display: none;
 }
 html.vt-theme::view-transition-new(sidebar-bg),
-html.vt-theme::view-transition-new(topbar-bg),
-html.vt-theme::view-transition-new(menu-bg) {
+html.vt-theme::view-transition-new(topbar-bg) {
   animation: none;
 }
 /* 2. conteúdo: 400 ms, ease */
@@ -672,6 +670,23 @@ html.vt-theme::view-transition-old(crt),
 html.vt-theme::view-transition-new(crt) {
   animation-duration: 0.4s;
   animation-timing-function: ease;
+}
+/*
+ * Menu mobile (só existe < 900 px): ocupa a tela toda, então fundo e conteúdo
+ * viram UMA foto só (o fundo perde o nome próprio) e trocam juntos no crossfade
+ * de 400 ms do menu. Com o fundo instantâneo, o texto do tema antigo aparecia por
+ * um instante sobre o fundo do novo (um "terceiro tema").
+ */
+html.vt-theme .vt-menu-bg {
+  view-transition-name: none;
+}
+/* foto opaca: a nova surge por cima da antiga (a soma plus-lighter estouraria o claro) */
+html.vt-theme::view-transition-old(menu) {
+  animation: none;
+}
+html.vt-theme::view-transition-new(menu) {
+  animation: vt-fade-in 0.4s ease both;
+  mix-blend-mode: normal;
 }
 /*
  * Títulos, monograma, marca d'água, capa e grid mudam de FORMA entre temas (outra
@@ -738,6 +753,21 @@ html.vt-lang::view-transition-old(*) {
 }
 html.vt-lang::view-transition-new(*) {
   animation: vt-fade-in 0.28s ease-out both;
+}
+/*
+ * Menu mobile: o fundo não muda com o idioma, então fica parado (sem fade, a
+ * página de trás não aparece), e o texto troca em plus-lighter: as duas versões
+ * somam opacidade 1 e nada esmaece.
+ */
+html.vt-lang::view-transition-old(menu-bg) {
+  display: none;
+}
+html.vt-lang::view-transition-new(menu-bg) {
+  animation: none;
+}
+html.vt-lang::view-transition-old(menu),
+html.vt-lang::view-transition-new(menu) {
+  mix-blend-mode: plus-lighter;
 }
 html.vt-lang::view-transition-old(marquee) {
   animation:

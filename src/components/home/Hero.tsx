@@ -79,7 +79,7 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="w-full max-w-[340px] justify-self-start nav:max-w-[460px] min-[1100px]:justify-self-end">
+      <div className="w-full max-w-[340px] justify-self-center nav:max-w-[460px] nav:justify-self-start min-[1100px]:justify-self-end">
         <Monogram />
       </div>
     </section>
