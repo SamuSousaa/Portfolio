@@ -8,7 +8,13 @@ import { useI18n } from "../I18nProvider";
 import { Swap } from "@/components/Swap";
 
 /* última coluna fixa: cabe [ COPIAR ] + [ ENVIAR ] e mantém os endereços alinhados entre as linhas */
-const COLS = "nav:grid-cols-[3.5rem_minmax(0,1fr)_minmax(0,1.6fr)_20rem]";
+// 4 colunas só a partir de 1300 px: com a sidebar de 300, abaixo disso a coluna do nome fica estreita demais
+const COLS = "min-[1300px]:grid-cols-[3.5rem_minmax(0,1.1fr)_minmax(0,1fr)_20rem]";
+/*
+ * Nome do canal: cresce com a tela, mas nunca passa da própria coluna. A palavra
+ * mais larga ("LINKEDIN" no Herbário, fonte expandida) mede ~6,3 em, daí o 100cqi / 6.4.
+ */
+const CHANNEL = "display [--fs:min(clamp(2.25rem,4vw,3.25rem),calc(100cqi/6.4))]";
 
 /** URL sem protocolo nem barra final, separada em [caminho, usuário]: "github.com/", "Fulano" */
 const splitUrl = (url: string) => {
@@ -92,9 +98,11 @@ function EmailChannel() {
 
   return (
     <li data-intro="fade" className="border-b border-line">
-      <div className={`grid gap-3 px-2 py-6 nav:items-center nav:gap-6 nav:py-7 ${COLS}`}>
+      <div className={`grid gap-3 px-2 py-6 min-[1300px]:items-center min-[1300px]:gap-6 min-[1300px]:py-7 ${COLS}`}>
         <span className="label">01</span>
-        <span className="display [--fs:clamp(2.25rem,4vw,3.25rem)]">E-MAIL</span>
+        <span className="@container min-w-0">
+          <span className={`${CHANNEL} block`}>E-MAIL</span>
+        </span>
 
         <div className="flex min-h-[2.75rem] flex-col justify-center font-mono text-[13px]" aria-live="polite">
           {stage === "hidden" ? (
@@ -134,13 +142,16 @@ function EmailChannel() {
           ) : null}
 
           {email ? (
-            <a href={`mailto:${email}`} className="break-all text-[clamp(14px,1.3vw,18px)] text-fg underline decoration-line-strong underline-offset-4 transition-colors hover:text-accent hover:decoration-accent">
-              {email}
+            <a href={`mailto:${email}`} className="break-words text-[clamp(14px,1.3vw,18px)] text-fg underline decoration-line-strong underline-offset-4 transition-colors hover:text-accent hover:decoration-accent">
+              {/* se não couber, quebra antes do @ (usuário e domínio ficam inteiros) */}
+              <span className="whitespace-nowrap">{CONTACT.email.user}</span>
+              <wbr />
+              <span className="whitespace-nowrap">@{CONTACT.email.domain}</span>
             </a>
           ) : null}
         </div>
 
-        <div className="flex flex-wrap gap-3 nav:justify-end">
+        <div className="flex flex-wrap gap-3 min-[1300px]:justify-end">
           {stage === "hidden" ? (
             <button type="button" onClick={start} className="btn-bracket btn-primary">
               <Swap v={tr((d) => d.contact.reveal)} />
@@ -199,14 +210,14 @@ export function Contact() {
         ))}
       </dl>
 
-      <div data-intro="fade" className={`label mt-16 hidden border-b border-line-strong pb-3 nav:grid ${COLS} nav:gap-6`}>
+      <div data-intro="fade" className={`label mt-16 hidden border-b border-line-strong pb-3 min-[1300px]:grid ${COLS} min-[1300px]:gap-6`}>
         <span>#</span>
         <span>{c.colChannel}</span>
         <span>{c.colAddress}</span>
         <span />
       </div>
 
-      <ol data-probe="channels" className="mt-10 border-t border-line-strong nav:mt-0 nav:border-t-0">
+      <ol data-probe="channels" className="mt-10 border-t border-line-strong min-[1300px]:mt-0 min-[1300px]:border-t-0">
         <EmailChannel />
         {profiles.map((p, i) => (
           <li key={p.name} data-intro="fade" className="border-b border-line">
@@ -215,17 +226,19 @@ export function Contact() {
               target="_blank"
               rel="noreferrer"
               data-fill
-              className={`group grid gap-3 px-2 py-6 transition-colors duration-200 hover:bg-accent hover:text-on-accent nav:items-center nav:gap-6 nav:py-7 ${COLS}`}
+              className={`group grid gap-3 px-2 py-6 transition-colors duration-200 hover:bg-accent hover:text-on-accent min-[1300px]:items-center min-[1300px]:gap-6 min-[1300px]:py-7 ${COLS}`}
             >
               <span className="label group-hover:!text-on-accent">{String(i + 2).padStart(2, "0")}</span>
-              <span className="display [--fs:clamp(2.25rem,4vw,3.25rem)] transition-transform duration-300 group-hover:translate-x-1.5">
-                {p.name}
+              <span className="@container min-w-0">
+                <span className={`${CHANNEL} block transition-transform duration-300 group-hover:translate-x-1.5`}>{p.name}</span>
               </span>
-              <span className="break-all font-mono text-[13px] text-muted group-hover:text-on-accent">
+              {/* se não couber, quebra depois do domínio (o usuário fica inteiro na 2ª linha) */}
+              <span className="break-words font-mono text-[13px] text-muted group-hover:text-on-accent">
                 {splitUrl(p.href)[0]}
-                <span className="text-fg group-hover:text-on-accent">{splitUrl(p.href)[1]}</span>
+                <wbr />
+                <span className="whitespace-nowrap text-fg group-hover:text-on-accent">{splitUrl(p.href)[1]}</span>
               </span>
-              <span className="flex items-center gap-3 font-mono text-[11px] tracking-[0.14em] nav:justify-end">
+              <span className="flex items-center gap-3 font-mono text-[11px] tracking-[0.14em] min-[1300px]:justify-end">
                 <Swap v={tr((d) => d.open)} />
                 <span aria-hidden="true" className="text-lg transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
                   ↗

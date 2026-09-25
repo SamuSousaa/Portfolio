@@ -48,8 +48,18 @@
   }
 
   :focus-visible {
-    outline: 1px solid var(--accent);
+    outline: 2px solid var(--accent);
     outline-offset: 3px;
+  }
+
+  /* superfícies do navegador no tom do tema */
+  html {
+    scrollbar-color: var(--line-strong) var(--bg);
+    scrollbar-width: thin;
+  }
+  input,
+  textarea {
+    caret-color: var(--accent);
   }
 }
 
