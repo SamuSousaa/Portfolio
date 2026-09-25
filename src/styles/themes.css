@@ -295,8 +295,8 @@
   --border-style: solid;
   --divider-style: dashed;
 
-  --accent: #d92a1c;
-  --status: #d92a1c;
+  --accent: #d01d10; /* #d92a1c escurecido 0,025 em OKLCH: 4,9:1 no fundo e 4,6:1 na sidebar (AA) */
+  --status: #d01d10;
 
   --ff-display: var(--ff-space-grotesk), "Arial Narrow", sans-serif;
   --ff-body: var(--ff-space-grotesk), system-ui, sans-serif;

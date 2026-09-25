@@ -31,22 +31,24 @@ export function Topbar() {
           </div>
 
           {/* desktop: papel à esquerda */}
-          <p className="label hidden !text-fg nav:block">
+          <p className="label hidden whitespace-nowrap !text-fg nav:block">
             <span className="text-muted">SYS.01 — </span>
             <Swap v={PROFILE.role} />
           </p>
 
-          {/* HUD */}
-          <div className="label hidden items-center gap-6 min-[1180px]:flex">
+          {/* HUD numa linha (≥1300 px, com a sidebar de 300); coordenadas só ≥1600, onde cabem até na rota mais longa */}
+          <div className="label hidden items-center gap-6 whitespace-nowrap min-[1300px]:flex">
             <HudStatus />
             <span className="h-3 w-px bg-line-strong" aria-hidden="true" />
             <HudClock />
-            <span className="h-3 w-px bg-line-strong" aria-hidden="true" />
-            <HudCoords />
+            <span className="hidden h-3 w-px bg-line-strong min-[1600px]:block" aria-hidden="true" />
+            <span className="hidden min-[1600px]:inline">
+              <HudCoords />
+            </span>
           </div>
 
           {/* desktop: caminho */}
-          <p className="label hidden !text-fg nav:block">
+          <p className="label hidden whitespace-nowrap !text-fg nav:block">
             <span className="text-accent">/</span> <Swap align="end" v={current} />
           </p>
 
@@ -70,13 +72,13 @@ export function Topbar() {
         </div>
 
         {/* celular: HUD compacto + caminho */}
-        <div className="label flex h-8 items-center justify-between gap-3 border-t border-line px-5 !text-[10px] nav:hidden min-[1180px]:hidden">
+        <div className="label flex h-8 items-center justify-between gap-3 border-t border-line px-5 !text-[10px] nav:hidden min-[1300px]:hidden">
           <HudStatus />
           <HudClock dateless />
           <HudCoords short />
         </div>
-        {/* faixa intermediária (900–1180): HUD abaixo do topo */}
-        <div className="label hidden h-8 items-center gap-6 border-t border-line px-8 !text-[10px] nav:flex min-[1180px]:hidden">
+        {/* faixa intermediária (900–1300): HUD abaixo do topo */}
+        <div className="label hidden h-8 items-center gap-6 border-t border-line px-8 !text-[10px] nav:flex min-[1300px]:hidden">
           <HudStatus />
           <HudClock />
           <HudCoords />

@@ -474,11 +474,11 @@ html.loader-on {
   --marquee-speed: 40;
 }
 
-/* altura da barra superior (1 linha ≥1180 px; 2 linhas abaixo, com o HUD) */
+/* altura da barra superior (1 linha ≥1300 px; 2 linhas abaixo, com o HUD) */
 :root {
   --topbar-h: 89px;
 }
-@media (min-width: 1180px) {
+@media (min-width: 1300px) {
   :root {
     --topbar-h: 57px;
   }

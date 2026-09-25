@@ -40,7 +40,7 @@ export const THEMES: Theme[] = [
       pt: "Prancheta técnica: papel claro, nanquim e cota vermelha.",
       es: "Mesa de dibujo técnico: papel claro, tinta y cotas rojas.",
     },
-    swatch: ["#F4F4F4", "#D92A1C"],
+    swatch: ["#F4F4F4", "#D01D10"],
   },
   {
     id: "cobalto",
