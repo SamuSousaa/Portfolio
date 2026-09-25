@@ -11,13 +11,17 @@ export type NavItem = {
   label: Localized;
   /** Rota do App Router */
   href: string;
+  /** Ícone da sidebar encolhida (ver NavIcon em Sidebar.tsx) */
+  icon: NavIconName;
 };
 
+export type NavIconName = "home" | "user" | "layers" | "mail";
+
 export const NAV: NavItem[] = [
-  { label: { en: "HOME", pt: "HOME", es: "INICIO" }, href: "/" },
-  { label: { en: "ABOUT", pt: "SOBRE", es: "SOBRE MÍ" }, href: "/about" },
-  { label: { en: "PROJECTS", pt: "PROJETOS", es: "PROYECTOS" }, href: "/projects" },
-  { label: { en: "CONTACT", pt: "CONTATO", es: "CONTACTO" }, href: "/contact" },
+  { label: { en: "HOME", pt: "HOME", es: "INICIO" }, href: "/", icon: "home" },
+  { label: { en: "ABOUT", pt: "SOBRE", es: "SOBRE MÍ" }, href: "/about", icon: "user" },
+  { label: { en: "PROJECTS", pt: "PROJETOS", es: "PROYECTOS" }, href: "/projects", icon: "layers" },
+  { label: { en: "CONTACT", pt: "CONTATO", es: "CONTACTO" }, href: "/contact", icon: "mail" },
 ];
 
 /** Numeração derivada da ordem: 01, 02, 03... */

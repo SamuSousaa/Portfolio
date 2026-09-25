@@ -338,6 +338,68 @@
   }
 }
 
+/*
+ * Sidebar: 260 px aberta, 84 px encolhida. 84 = 24 + 36 + 24: logo, ícones e
+ * botões (36 px) ficam no mesmo lugar nas duas larguras; só os textos esmaecem.
+ */
+:root {
+  --sidebar-w: 260px;
+  --sidebar-ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+html.sb-collapsed {
+  --sidebar-w: 84px;
+}
+.sidebar {
+  width: var(--sidebar-w);
+  transition: width 0.4s var(--sidebar-ease);
+}
+@media (min-width: 900px) {
+  .sidebar-offset {
+    padding-left: var(--sidebar-w);
+    transition: padding-left 0.4s var(--sidebar-ease);
+  }
+}
+.sb-chevron {
+  transition: rotate 0.4s var(--sidebar-ease);
+}
+html.sb-collapsed .sb-chevron {
+  rotate: 180deg;
+}
+/* aberta: textos voltam depois que a largura abriu; ícones somem rápido */
+.sidebar .sb-full {
+  transition:
+    opacity 0.2s ease 0.18s,
+    visibility 0s linear 0s;
+}
+.sidebar .sb-mini {
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.15s ease,
+    visibility 0s linear 0.15s;
+}
+.sidebar .sb-tip {
+  display: none;
+}
+/* encolhida: textos somem antes de a largura fechar; ícones entram no fim */
+html.sb-collapsed .sidebar .sb-full {
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.15s ease,
+    visibility 0s linear 0.15s;
+}
+html.sb-collapsed .sidebar .sb-mini {
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity 0.2s ease 0.2s,
+    visibility 0s linear 0s;
+}
+html.sb-collapsed .sidebar .sb-tip {
+  display: block;
+}
+
 /* loader de boot: só existe na tela enquanto html.loader-on (ver Loader.tsx) */
 .loader {
   display: none;

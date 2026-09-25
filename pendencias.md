@@ -14,5 +14,6 @@ Tudo em `src/config/content.ts`. Campo vazio = a página mostra "aguardando dado
 
 ## Fases
 
-- [ ] Deploy na Vercel: precisa de um repositório no GitHub e/ou login na Vercel (o `gh` CLI não está instalado).
-- [ ] Domínio próprio (opcional): quando tiver, defina `NEXT_PUBLIC_SITE_URL` na Vercel para os links de OG/sitemap usarem ele.
+Site no ar: https://portfolio-three-blue-ax48x0ukqa.vercel.app (cada push na `main` publica).
+
+- [ ] Domínio próprio (opcional, você avisa quando tiver): defina `NEXT_PUBLIC_SITE_URL` na Vercel para os links de OG/sitemap usarem ele.

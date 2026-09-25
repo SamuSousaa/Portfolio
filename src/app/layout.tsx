@@ -16,6 +16,7 @@ import { Cursor } from "@/components/Cursor";
 import { headers } from "next/headers";
 import { Loader } from "@/components/Loader";
 import { isHardReload, loaderInitScript } from "@/lib/loader";
+import { sidebarInitScript } from "@/lib/sidebar";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
@@ -73,6 +74,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         {/* liga o loader só na primeira visita da sessão, também antes da pintura */}
         <script dangerouslySetInnerHTML={{ __html: loaderInitScript }} />
+        {/* sidebar encolhida ou não, também antes da pintura */}
+        <script dangerouslySetInnerHTML={{ __html: sidebarInitScript }} />
       </head>
       <body>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }} />
@@ -85,7 +88,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               <div className="fx vt-fx" aria-hidden="true" />
               <SmoothScroll />
               <Sidebar />
-              <div className="vt-content flex min-h-dvh flex-col nav:pl-[260px]">
+              <div className="vt-content flex min-h-dvh flex-col sidebar-offset">
                 <Topbar />
                 <main id="conteudo" className="flex-1">
                   {children}

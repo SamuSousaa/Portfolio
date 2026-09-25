@@ -11,7 +11,8 @@ export function Logo() {
       <span className="grid size-9 place-items-center border border-line-strong font-display text-[15px] text-fg transition-colors duration-200 group-hover:border-accent group-hover:bg-accent group-hover:text-on-accent">
         {PROFILE.initials}
       </span>
-      <span className="font-mono text-[11px] leading-tight tracking-[0.12em] text-muted">
+      {/* sb-full: some com a sidebar encolhida (só dentro da sidebar; no topo do celular fica) */}
+      <span className="sb-full whitespace-nowrap font-mono text-[11px] leading-tight tracking-[0.12em] text-muted">
         <span className="block text-fg">{PROFILE.firstName}</span>
         {PROFILE.version}
       </span>
