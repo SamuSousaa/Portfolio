@@ -339,11 +339,16 @@
 }
 
 /*
- * Sidebar: 260 px aberta, 84 px encolhida. 84 = 24 + 36 + 24: logo, ícones e
- * botões (36 px) ficam no mesmo lugar nas duas larguras; só os textos esmaecem.
+ * Sidebar: 300 px aberta (referência: Hans, 320), 84 px encolhida. 84 = 24 + 36 + 24:
+ * ícones e botões (36 px) ficam no mesmo lugar nas duas larguras; só os textos
+ * esmaecem. A marca (42 px de largura) recua 3 px ao encolher, para ficar centrada.
  */
 :root {
-  --sidebar-w: 260px;
+  --sidebar-w: 300px;
+  /* respiros verticais: cheios a partir de 900 px de altura, encolhem até caber em 600 px */
+  --sb-head-pt: clamp(12px, calc(10vh - 50px), 40px);
+  --sb-nav-pt: clamp(12px, calc(24vh - 120px), 96px);
+  --sb-gap: clamp(0px, calc(2.4vh - 13.6px), 8px);
   --sidebar-ease: cubic-bezier(0.4, 0, 0.2, 1);
 }
 html.sb-collapsed {
@@ -364,6 +369,9 @@ html.sb-collapsed {
 }
 html.sb-collapsed .sb-chevron {
   rotate: 180deg;
+}
+html.sb-collapsed .sidebar .sb-logo-mark {
+  translate: -3px 0;
 }
 /* aberta: textos voltam depois que a largura abriu; ícones somem rápido */
 .sidebar .sb-full {

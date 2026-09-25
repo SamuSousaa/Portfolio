@@ -104,7 +104,7 @@ export function Sidebar() {
         onClick={() => toggle()}
         aria-expanded={!collapsed}
         aria-label={collapsed ? t.a11y.expandSidebar : t.a11y.collapseSidebar}
-        className="absolute -right-3.5 top-3.5 z-10 grid size-7 place-items-center rounded-full border border-line-strong bg-[var(--c-surface)] text-muted transition-colors duration-200 hover:border-accent hover:text-accent"
+        className="absolute -right-3.5 top-[calc(var(--sb-head-pt)+10px)] z-10 grid size-7 place-items-center rounded-full border border-line-strong bg-[var(--c-surface)] text-muted transition-colors duration-200 hover:border-accent hover:text-accent"
       >
         <svg
           viewBox="0 0 24 24"
@@ -122,13 +122,13 @@ export function Sidebar() {
         </svg>
       </button>
 
-      <div className="flex h-14 shrink-0 items-center px-[22px]">
-        <Logo />
+      <div className="flex shrink-0 items-center px-6 pt-[var(--sb-head-pt)]">
+        <Logo size="lg" />
       </div>
 
-      <nav aria-label={t.a11y.mainNav} className="px-6 pt-10">
-        <p className="sb-full label mb-5 whitespace-nowrap">{t.index}</p>
-        <ul className="space-y-1">
+      <nav aria-label={t.a11y.mainNav} className="px-6 pt-[var(--sb-nav-pt)]">
+        <p className="sb-full label mb-6 whitespace-nowrap">{t.index}</p>
+        <ul className="flex flex-col gap-[var(--sb-gap)]">
           {NAV.map((item, i) => {
             const active = i === activeIndex;
             return (
@@ -136,7 +136,7 @@ export function Sidebar() {
                 <TransitionLink
                   href={item.href}
                   aria-current={active ? "page" : undefined}
-                  className={`group relative flex h-9 items-center font-mono text-[13px] tracking-[0.12em] transition-colors duration-200 ${
+                  className={`group relative flex h-10 items-center font-mono text-[14px] tracking-[0.12em] transition-colors duration-200 ${
                     active ? "text-accent" : "text-muted hover:text-fg"
                   }`}
                 >
@@ -148,7 +148,7 @@ export function Sidebar() {
                     <span>{navNumber(i)}.</span>
                     <span>{pick(item.label)}</span>
                   </span>
-                  <span className="sb-mini absolute left-0 top-0 grid size-9 place-items-center" aria-hidden="true">
+                  <span className="sb-mini absolute left-0 top-0.5 grid size-9 place-items-center" aria-hidden="true">
                     <Icon name={item.icon} />
                   </span>
                   <Tip>
