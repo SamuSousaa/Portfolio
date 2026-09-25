@@ -31,7 +31,7 @@ export function fakeSession({ id = "00000000-0000-4000-8000-000000000001", email
  * Abre o navegador com a sessão falsa no localStorage e o Supabase interceptado.
  * tables: { nome_da_tabela: [linhas] }; rpc: { nome: resultado }.
  */
-export async function openMocked({ supabaseUrl, storageKey, tables = {}, rpc = {}, session, viewport = { width: 1600, height: 1000 }, dpr = 1.25, init }) {
+export async function openMocked({ supabaseUrl, storageKey, tables = {}, rpc = {}, session, viewport = { width: 1600, height: 1000 }, dpr = 2, init }) {
   const ref = new URL(supabaseUrl).hostname.split(".")[0];
   const browser = await chromium.launch({ executablePath: CHROME });
   const ctx = await browser.newContext({ viewport, deviceScaleFactor: dpr, locale: "pt-BR", timezoneId: "America/Fortaleza" });
@@ -92,5 +92,5 @@ export async function shot(page, file, { wait = 1800, hideSelectors = [] } = {})
   await page.mouse.move(2, 2);
   await page.waitForTimeout(300);
   fs.mkdirSync(file.split("/").slice(0, -1).join("/"), { recursive: true });
-  await page.screenshot({ path: file, type: "jpeg", quality: 85 });
+  await page.screenshot({ path: file, type: "jpeg", quality: 92 });
 }

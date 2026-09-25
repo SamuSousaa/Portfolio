@@ -6,11 +6,7 @@ Lista viva do que ainda falta. Quando algo for concluído, sai daqui.
 
 Tudo em `src/config/content.ts`. Campo vazio = a página mostra "aguardando dados".
 
-- [ ] **Wellnessy — capa e galeria**: conta demo com dados fictícios em localhost:3001 (em andamento).
 - [ ] **Formação**: você avisa quando quiser incluir (faculdade, cursos).
-
-## Ajustes guardados
-
 
 ## Fases
 

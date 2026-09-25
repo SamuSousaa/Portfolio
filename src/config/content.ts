@@ -90,6 +90,8 @@ export type Project = {
   partners?: { name: string; url: string }[];
   /** Imagem em /public (ex.: "/projects/hedge/cover.jpg"), idealmente 16:10 */
   cover?: { src: string; alt: Localized };
+  /** Feito para celular: a galeria mostra as telas em pé, com moldura de aparelho */
+  device?: "mobile";
   /** As telas usam dados de demonstração (a galeria mostra o aviso "dados fictícios") */
   demoData?: boolean;
   /** Telas do projeto (16:10, em /public/projects/<slug>/): legenda curta + texto alternativo */
@@ -112,6 +114,60 @@ export const PROJECTS: Project[] = [
     stack: ["Next.js", "TypeScript", "Supabase", "Prisma", "TanStack Query", "Web Push", "Tesseract.js"],
     year: "2026",
     role: { en: "Full-stack · Freelance", pt: "Full-stack · Freelance", es: "Full-stack · Freelance" },
+    status: "wip",
+    cover: {
+      src: "/projects/wellnessy/cover.jpg",
+      alt: { en: "Three Wellnessy screens on phones (demo data)", pt: "Três telas do Wellnessy em celulares (dados fictícios)", es: "Tres pantallas de Wellnessy en móviles (datos ficticios)" },
+    },
+    device: "mobile",
+    demoData: true,
+    gallery: [
+      {
+        src: "/projects/wellnessy/inicio.jpg",
+        caption: { en: "Today's doses", pt: "Doses de hoje", es: "Dosis de hoy" },
+        alt: { en: "Wellnessy — Today's doses (demo data)", pt: "Wellnessy — Doses de hoje (dados fictícios)", es: "Wellnessy — Dosis de hoy (datos ficticios)" },
+      },
+      {
+        src: "/projects/wellnessy/medicamentos.jpg",
+        caption: { en: "Medicines", pt: "Remédios", es: "Medicamentos" },
+        alt: { en: "Wellnessy — Medicines (demo data)", pt: "Wellnessy — Remédios (dados fictícios)", es: "Wellnessy — Medicamentos (datos ficticios)" },
+      },
+      {
+        src: "/projects/wellnessy/historico.jpg",
+        caption: { en: "Dose history", pt: "Histórico de doses", es: "Historial de dosis" },
+        alt: { en: "Wellnessy — Dose history (demo data)", pt: "Wellnessy — Histórico de doses (dados fictícios)", es: "Wellnessy — Historial de dosis (datos ficticios)" },
+      },
+      {
+        src: "/projects/wellnessy/consultas.jpg",
+        caption: { en: "Appointments", pt: "Consultas", es: "Citas" },
+        alt: { en: "Wellnessy — Appointments (demo data)", pt: "Wellnessy — Consultas (dados fictícios)", es: "Wellnessy — Citas (datos ficticios)" },
+      },
+      {
+        src: "/projects/wellnessy/monitores.jpg",
+        caption: { en: "Health monitors", pt: "Monitores de saúde", es: "Monitores de salud" },
+        alt: { en: "Wellnessy — Health monitors (demo data)", pt: "Wellnessy — Monitores de saúde (dados fictícios)", es: "Wellnessy — Monitores de salud (datos ficticios)" },
+      },
+      {
+        src: "/projects/wellnessy/perfis.jpg",
+        caption: { en: "Caregiver profiles", pt: "Perfis de quem você cuida", es: "Perfiles bajo cuidado" },
+        alt: { en: "Wellnessy — Caregiver profiles (demo data)", pt: "Wellnessy — Perfis de quem você cuida (dados fictícios)", es: "Wellnessy — Perfiles bajo cuidado (datos ficticios)" },
+      },
+      {
+        src: "/projects/wellnessy/gastos.jpg",
+        caption: { en: "Expenses", pt: "Gastos", es: "Gastos" },
+        alt: { en: "Wellnessy — Expenses (demo data)", pt: "Wellnessy — Gastos (dados fictícios)", es: "Wellnessy — Gastos (datos ficticios)" },
+      },
+      {
+        src: "/projects/wellnessy/contatos.jpg",
+        caption: { en: "Health contacts", pt: "Contatos de saúde", es: "Contactos de salud" },
+        alt: { en: "Wellnessy — Health contacts (demo data)", pt: "Wellnessy — Contatos de saúde (dados fictícios)", es: "Wellnessy — Contactos de salud (datos ficticios)" },
+      },
+      {
+        src: "/projects/wellnessy/diario.jpg",
+        caption: { en: "Journal", pt: "Diário", es: "Diario" },
+        alt: { en: "Wellnessy — Journal (demo data)", pt: "Wellnessy — Diário (dados fictícios)", es: "Wellnessy — Diario (datos ficticios)" },
+      },
+    ],
     overview: {
       en: "A web app for managing medication — for yourself or for someone you care for. It tracks medicines and schedules, sends automatic reminders, reads prescriptions from a photo and brings together the rest of a health routine: appointments, vital signs, expenses, a journal and health contacts.",
       pt: "Um app web para gerenciar medicamentos — os seus ou os de quem você cuida. Ele registra remédios e horários, envia lembretes automáticos, lê receitas a partir de uma foto e reúne o resto da rotina de saúde: consultas, sinais vitais, gastos, diário e contatos de saúde.",

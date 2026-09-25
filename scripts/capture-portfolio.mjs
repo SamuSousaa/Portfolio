@@ -18,7 +18,7 @@ const SHOTS = [
 ];
 
 for (const s of SHOTS) {
-  const ctx = await browser.newContext({ viewport: { width: 1600, height: 1000 }, deviceScaleFactor: 1.25 });
+  const ctx = await browser.newContext({ viewport: { width: 1600, height: 1000 }, deviceScaleFactor: 2 });
   await ctx.addInitScript(({ theme, loader }) => {
     localStorage.setItem("tema", theme);
     if (loader) Object.defineProperty(navigator, "webdriver", { get: () => false });
@@ -44,7 +44,7 @@ for (const s of SHOTS) {
   }
   await p.mouse.move(1000, 4); // tira o mouse de cima de links (sem hover preenchido na foto)
   await p.waitForTimeout(400);
-  await p.screenshot({ path: `${OUT}/${s.file}.jpg`, type: "jpeg", quality: 85 });
+  await p.screenshot({ path: `${OUT}/${s.file}.jpg`, type: "jpeg", quality: 92 });
   console.log("ok", s.file);
   await ctx.close();
 }

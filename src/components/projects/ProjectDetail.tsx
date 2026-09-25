@@ -8,8 +8,7 @@ import { useReveal } from "@/lib/useReveal";
 import { TransitionLink } from "../PageTransition";
 import { useI18n } from "../I18nProvider";
 import { Swap } from "@/components/Swap";
-import { ProjectCover } from "./ProjectCover";
-import { ProjectGallery } from "./ProjectGallery";
+import { ProjectViewer } from "./ProjectViewer";
 
 const Awaiting = ({ text }: { text: string }) => (
   <p className="font-mono text-[12px] text-muted">
@@ -117,7 +116,7 @@ export function ProjectDetail({ project }: { project: Project }) {
         ) : null}
 
         <div className="mt-12">
-          <ProjectCover project={project} priority />
+          <ProjectViewer project={project} />
         </div>
       </section>
 
@@ -146,8 +145,6 @@ export function ProjectDetail({ project }: { project: Project }) {
             <p className="max-w-[62ch] text-[clamp(15px,1.1vw,17px)] leading-relaxed text-fg">{pick(s.body)}</p>
           </section>
         ))}
-
-        <ProjectGallery project={project} />
 
         {/* próximo projeto (ou volta ao índice quando só há um) */}
         <div data-reveal className="mt-20 border-t border-line-strong">
