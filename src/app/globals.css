@@ -327,13 +327,20 @@
   }
 }
 
+/*
+ * Movimento reduzido: nada se desloca (animações contínuas param; transform,
+ * clip-path, largura etc. trocam na hora), mas cor e opacidade seguem com o fade
+ * curto, porque é feedback sem movimento (hover, foco, estado ativo).
+ * GSAP, Lenis, transição de página e troca de tema já têm caminho próprio.
+ */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke,
+      opacity !important;
     transition-delay: 0s !important;
   }
 }
