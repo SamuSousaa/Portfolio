@@ -382,7 +382,7 @@ export const PROJECTS: Project[] = [
     year: "2026",
     role: { en: "Design · Full-stack", pt: "Design · Full-stack", es: "Diseño · Full-stack" },
     status: "live",
-    links: { live: "https://portfolio-three-blue-ax48x0ukqa.vercel.app", repo: "https://github.com/SamuSousaa/Portfolio" },
+    links: { live: "https://samuelsousadev.com.br", repo: "https://github.com/SamuSousaa/Portfolio" },
     cover: {
       src: "/projects/portfolio/cover.jpg",
       alt: {
