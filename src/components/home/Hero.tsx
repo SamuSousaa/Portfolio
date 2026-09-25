@@ -52,12 +52,12 @@ export function Hero() {
         </p>
 
         <h1 className="vt-display-title display -ml-[0.05em] [--fs:min(18cqi,11.25rem)] tracking-[calc(var(--display-tracking)_-_0.03em)]">
-          <span className="block overflow-hidden pb-[0.04em]">
+          <span className="block overflow-hidden pb-[calc(var(--fs)*0.04)]">
             <span data-intro="line" className="block">
               {PROFILE.firstName}
             </span>
           </span>
-          <span className="block overflow-hidden pb-[0.06em]">
+          <span className="block overflow-hidden pb-[calc(var(--fs)*0.06)]">
             <span data-intro="line" className="name-accent block">
               {PROFILE.lastName.split(/(A)/).map((part, i) => (part === "A" ? <GlyphA key={i} /> : part))}
             </span>

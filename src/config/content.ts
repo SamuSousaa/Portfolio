@@ -12,9 +12,9 @@ export const PROFILE = {
   initials: "SS",
   role: { en: "Software Developer", pt: "Desenvolvedor de Software", es: "Desarrollador de Software" } as Localized,
   bio: {
-    en: "AI-focused software engineer building agentic systems, developer tools, and thoughtful products.",
-    pt: "Engenheiro de software focado em IA, construindo sistemas agênticos, ferramentas para desenvolvedores e produtos bem pensados.",
-    es: "Ingeniero de software enfocado en IA, construyendo sistemas agénticos, herramientas para desarrolladores y productos bien pensados.",
+    en: "I build software where AI does real work — agentic systems, developer tools and precise, well-crafted interfaces.",
+    pt: "Construo software em que a IA trabalha de verdade — sistemas agênticos, ferramentas para desenvolvedores e interfaces precisas e bem-acabadas.",
+    es: "Construyo software en el que la IA trabaja de verdad — sistemas agénticos, herramientas para desarrolladores e interfaces precisas y bien acabadas.",
   } as Localized,
   location: {
     city: "Parnaíba, PI",

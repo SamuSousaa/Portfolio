@@ -34,7 +34,7 @@ export function PageTitle({ href, title, note, meta, children }: Props) {
         {meta ? <span className="text-fg"> — {meta}</span> : null}
       </p>
       <h1 className="vt-display-title display -ml-[0.04em] [--fs:clamp(3.25rem,11vw,10rem)]">
-        <span className="block overflow-hidden pb-[0.05em]">
+        <span className="block overflow-hidden pb-[calc(var(--fs)*0.05)]">
           <span data-intro="line" className="block">
             {title ?? (labels ? <Swap v={labels} /> : null)}
           </span>

@@ -19,7 +19,7 @@ const Awaiting = ({ text }: { text: string }) => (
 export function ProjectDetail({ project }: { project: Project }) {
   const top = useRef<HTMLElement>(null);
   const body = useRef<HTMLDivElement>(null);
-  const { t, pick } = useI18n();
+  const { t, pick, tr } = useI18n();
   useIntro(top);
   useReveal(body);
 
@@ -52,7 +52,7 @@ export function ProjectDetail({ project }: { project: Project }) {
       <section ref={top} className="px-5 pt-10 nav:px-12 nav:pt-14">
         <div data-intro="label" className="mb-10">
           <TransitionLink href="/projects" className="font-mono text-[11px] tracking-[0.14em] text-muted transition-colors hover:text-accent">
-            [ ← {p.allProjects} ]
+            [ ← <Swap v={tr((d) => d.projects.allProjects)} /> ]
           </TransitionLink>
         </div>
 
@@ -63,7 +63,7 @@ export function ProjectDetail({ project }: { project: Project }) {
           </span>
         </p>
         <h1 className="vt-display-title display -ml-[0.04em] [--fs:clamp(3.5rem,13vw,12rem)]">
-          <span className="block overflow-hidden pb-[0.05em]">
+          <span className="block overflow-hidden pb-[calc(var(--fs)*0.05)]">
             <span data-intro="line" className="block">
               {project.name}
             </span>
@@ -136,7 +136,7 @@ export function ProjectDetail({ project }: { project: Project }) {
           >
             <span>
               <span className="label mb-3 block group-hover:!text-on-accent">{next ? p.next : t.index}</span>
-              <span className="display block [--fs:clamp(2.5rem,7vw,6rem)]">{next ? next.name : p.allProjects}</span>
+              <span className="display block [--fs:clamp(2.5rem,7vw,6rem)]">{next ? next.name : <Swap v={tr((d) => d.projects.allProjects)} />}</span>
             </span>
             <span aria-hidden="true" className="font-mono text-3xl transition-transform duration-300 group-hover:translate-x-2">
               →
