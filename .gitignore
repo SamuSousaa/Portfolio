@@ -5,3 +5,7 @@ next-env.d.ts
 *.tsbuildinfo
 screenshots
 screenshots-2
+
+# Claude Code: trava de sessão e binário do impeccable (baixado na 1ª execução)
+.claude/scheduled_tasks.lock
+.claude/skills/impeccable/scripts/bin/
