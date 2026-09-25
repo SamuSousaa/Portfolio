@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import { PROFILE, fullName } from "@/config/content";
+import { LOGO_H, LOGO_PATH, LOGO_W } from "@/components/LogoMark";
 
 /*
  * Imagem de compartilhamento (1200×630), gerada no build com a cara do tema
@@ -32,7 +33,7 @@ export default async function Image() {
   const status = PROFILE.status.en.toUpperCase();
   const place = PROFILE.location.city.toUpperCase();
   const mono = [top, bottom, status, place, PROFILE.version].join("");
-  const display = PROFILE.firstName + PROFILE.lastName + PROFILE.initials;
+  const display = PROFILE.firstName + PROFILE.lastName;
 
   const [aldrich, jetbrains] = await Promise.all([googleFont("Aldrich", display), googleFont("JetBrains+Mono", mono)]);
   const fonts = [
@@ -63,22 +64,9 @@ export default async function Image() {
             <span style={{ color: ACCENT }}>SYS.01</span>
             <span>{` ${top.slice(7)}`}</span>
           </span>
-          <span
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: 64,
-              height: 64,
-              border: `1px solid ${FG}`,
-              fontFamily: "Aldrich",
-              fontSize: 30,
-              letterSpacing: "0",
-              color: FG,
-            }}
-          >
-            {PROFILE.initials}
-          </span>
+<svg width={Math.round((58 * LOGO_W) / LOGO_H)} height={58} viewBox={`0 0 ${LOGO_W} ${LOGO_H}`}>
+            <path d={LOGO_PATH} fill={FG} fillRule="evenodd" />
+          </svg>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", fontFamily: "Aldrich", fontSize: 168, lineHeight: 0.9, marginLeft: -8 }}>

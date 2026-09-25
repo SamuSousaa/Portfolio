@@ -9,7 +9,9 @@ import { useReveal } from "@/lib/useReveal";
 import { HudStatus } from "../Hud";
 import { TransitionLink } from "../PageTransition";
 import { useI18n } from "../I18nProvider";
+import { LOCALES } from "@/i18n/config";
 import { Swap } from "@/components/Swap";
+import { LogoMark } from "@/components/LogoMark";
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
@@ -77,9 +79,12 @@ function Portrait() {
                 <circle cx="200" cy="250" r="150" vectorEffect="non-scaling-stroke" />
               </g>
             </svg>
-            <span className="vt-display-cover display vazado relative [--fs:clamp(6rem,14vw,11rem)] leading-none ![-webkit-text-stroke-color:var(--line-strong)] group-hover:![-webkit-text-stroke-color:var(--accent)]">
-              {PROFILE.initials}
-            </span>
+            <LogoMark
+              fill="none"
+              strokeWidth={1.5}
+              vectorEffect="non-scaling-stroke"
+              className="vt-display-cover relative h-[clamp(6rem,14vw,11rem)] w-auto stroke-line-strong transition-[stroke] duration-200 group-hover:stroke-accent"
+            />
           </div>
         )}
 
@@ -98,7 +103,7 @@ function Portrait() {
 export function About() {
   const top = useRef<HTMLElement>(null);
   const body = useRef<HTMLDivElement>(null);
-  const { t, pick } = useI18n();
+  const { t, pick, locale } = useI18n();
   useIntro(top);
   useReveal(body);
 
@@ -174,12 +179,24 @@ export function About() {
         <section data-reveal data-probe="about-text" className="divider grid gap-6 border-t border-line pt-8 nav:grid-cols-[14rem_minmax(0,1fr)] nav:gap-12">
           <SectionHead letter="A" title={a.profile} />
           {PROFILE.about.length ? (
-            <div className="flex max-w-[62ch] flex-col gap-5 text-[clamp(15px,1.1vw,17px)] leading-relaxed text-fg">
-              {PROFILE.about.map((para, i) => (
-                <p key={i}>
-                  <Swap block v={para} />
-                </p>
-              ))}
+            // Cada idioma é um bloco inteiro com vãos fixos; o espaço reservado é o do
+            // idioma mais longo e o ativo fica centrado nele (vãos iguais, sem deslocamento).
+            <div className="grid max-w-[62ch] text-[clamp(15px,1.1vw,17px)] leading-relaxed text-fg">
+              {LOCALES.map((l) => {
+                const active = l.id === locale;
+                return (
+                  <div
+                    key={l.id}
+                    lang={l.htmlLang}
+                    aria-hidden={active ? undefined : true}
+                    className={`flex flex-col gap-5 self-center [grid-area:1/1] ${active ? "" : "invisible"}`}
+                  >
+                    {PROFILE.about.map((para, i) => (
+                      <p key={i}>{para[l.id]}</p>
+                    ))}
+                  </div>
+                );
+              })}
             </div>
           ) : (
             <Awaiting cmd={a.fetchAbout} text={t.awaiting} />

@@ -7,6 +7,7 @@ import { LOCALES } from "@/i18n/config";
 import { LOADER_DONE, LOADER_KEY } from "@/lib/loader";
 import { gsap, getLenis } from "@/lib/motion";
 import { useI18n } from "./I18nProvider";
+import { LogoMark } from "@/components/LogoMark";
 
 /* Quando aparece: ver src/lib/loader.ts. */
 const COUNT = 1.2; // segundos do contador
@@ -76,7 +77,7 @@ export function Loader() {
     >
       <div className="label flex justify-between !text-fg">
         <span>
-          <span className="text-accent">{PROFILE.initials}</span> — {PROFILE.firstName} {PROFILE.lastName}
+          <LogoMark className="mr-1 inline-block h-[1.3em] w-auto -translate-y-[0.1em] align-middle text-accent" /> — {PROFILE.firstName} {PROFILE.lastName}
         </span>
         <span>{PROFILE.version}</span>
       </div>

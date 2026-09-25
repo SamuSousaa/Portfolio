@@ -5,6 +5,7 @@ import { useRef } from "react";
 import { PROFILE } from "@/config/content";
 import { gsap, useGSAP } from "@/lib/motion";
 import { useI18n } from "../I18nProvider";
+import { LogoMark } from "@/components/LogoMark";
 
 /** Fundo discreto para rótulos sobre a foto */
 const CHIP = "bg-[color-mix(in_srgb,var(--c-bg)_80%,transparent)] px-1.5 py-0.5 !text-fg";
@@ -116,22 +117,18 @@ export function Monogram() {
 
       {!photo ? (
       /*
-        iniciais: a caixa de cada letra é aparada na altura das maiúsculas
-        (text-box-trim), então o centro da caixa é o centro visual do "SS" em
-        qualquer fonte. A cópia vazada fica 0,03 em para baixo/direita e a
-        sólida 0,03 em para cima/esquerda: o PAR fica centrado na mira.
+        marca: cópia vazada (acento) 3% para baixo/direita e sólida 3% para
+        cima/esquerda, então o PAR fica centrado na mira.
       */
       <div className="absolute inset-0 grid place-items-center" data-depth="14">
         <div className="vt-display-mono relative">
-          <span
-            aria-hidden="true"
-            className="display vazado absolute inset-0 block translate-x-[0.03em] translate-y-[0.03em] whitespace-nowrap [--fs:clamp(5rem,12vw,10rem)] [text-box:trim-both_cap_alphabetic] ![-webkit-text-stroke-color:var(--accent)] transition-transform duration-500 group-hover:translate-x-[0.07em] group-hover:translate-y-[0.07em]"
-          >
-            {PROFILE.initials}
-          </span>
-          <span className="display relative block -translate-x-[0.03em] -translate-y-[0.03em] whitespace-nowrap text-fg [--fs:clamp(5rem,12vw,10rem)] [text-box:trim-both_cap_alphabetic]">
-            {PROFILE.initials}
-          </span>
+          <LogoMark
+            fill="none"
+            strokeWidth={1.5}
+            vectorEffect="non-scaling-stroke"
+            className="absolute inset-0 size-full translate-x-[3%] translate-y-[3%] stroke-accent transition-transform duration-500 group-hover:translate-x-[7%] group-hover:translate-y-[7%]"
+          />
+          <LogoMark className="relative block h-[clamp(5rem,12vw,10rem)] w-auto -translate-x-[3%] -translate-y-[3%] text-fg" />
         </div>
       </div>
       ) : null}

@@ -7,6 +7,7 @@ import { TransitionLink } from "../PageTransition";
 import { Monogram } from "./Monogram";
 import { useI18n } from "../I18nProvider";
 import { Swap } from "@/components/Swap";
+import { LogoMark } from "@/components/LogoMark";
 
 /*
  * "A" montado em segmentos independentes que se sobrepõem (pernas cruzadas no
@@ -42,9 +43,7 @@ export function Hero() {
       className="relative isolate grid flex-1 content-center overflow-hidden gap-12 px-5 pb-14 pt-10 nav:px-12 nav:py-16 min-[1100px]:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] min-[1100px]:items-center min-[1100px]:gap-14"
     >
       {/* marca d'água: invisível em TERMINAL/BLUEPRINT (--watermark-opacity: 0) */}
-      <span aria-hidden="true" className="vt-display-watermark watermark -bottom-[0.12em] right-[2%] -z-10 text-[calc(clamp(14rem,34vw,34rem)*var(--display-scale))]">
-        {PROFILE.initials}
-      </span>
+      <LogoMark className="vt-display-watermark watermark -bottom-[6%] right-[2%] -z-10 h-[clamp(12rem,30vw,30rem)] w-auto" />
 
       <div className="@container min-w-0">
         <p data-intro="label" className="label mb-8">
