@@ -53,7 +53,7 @@ export function ProjectDetail({ project }: { project: Project }) {
     <>
       <section ref={top} className="@container px-5 pt-10 nav:px-12 nav:pt-14">
         <div data-intro="label" className="mb-10">
-          <TransitionLink href="/projects" className="font-mono text-[11px] tracking-[0.14em] text-muted transition-colors hover:text-accent">
+          <TransitionLink href="/projects" className="hit font-mono text-[11px] tracking-[0.14em] text-muted transition-colors [--hit-y:15px] hover:text-accent">
             [ ← <Swap v={tr((d) => d.projects.allProjects)} /> ]
           </TransitionLink>
         </div>
@@ -98,7 +98,7 @@ export function ProjectDetail({ project }: { project: Project }) {
             {project.partners.map((pt, i) => (
               <span key={pt.url}>
                 {i ? ", " : null}
-                <a href={pt.url} target="_blank" rel="noreferrer" className="text-fg underline decoration-line-strong underline-offset-4 transition-colors hover:text-accent hover:decoration-accent">
+                <a href={pt.url} target="_blank" rel="noreferrer" className="hit text-fg underline decoration-line-strong underline-offset-4 transition-colors [--hit-y:15px] hover:text-accent hover:decoration-accent">
                   {pt.name} ↗
                 </a>
               </span>

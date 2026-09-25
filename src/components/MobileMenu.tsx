@@ -116,7 +116,7 @@ export function MobileMenu({ open, onClose, returnFocusRef, current }: Props) {
           type="button"
           onClick={onClose}
           data-fill
-          className="flex h-9 items-center gap-3 border border-line-strong px-3 font-mono text-[11px] tracking-[0.14em] text-fg transition-colors hover:border-accent hover:bg-accent hover:text-on-accent"
+          className="hit flex h-9 items-center gap-3 border border-line-strong px-3 font-mono text-[11px] tracking-[0.14em] text-fg transition-colors [--hit-y:4px] hover:border-accent hover:bg-accent hover:text-on-accent"
         >
           <Swap align="end" v={tr((d) => d.close)} />
           <span aria-hidden="true" className="relative block size-3">

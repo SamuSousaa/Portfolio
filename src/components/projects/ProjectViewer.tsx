@@ -23,7 +23,7 @@ function Arrow({ dir, label, onClick }: { dir: "prev" | "next"; label: string; o
       type="button"
       onClick={onClick}
       aria-label={label}
-      className={`absolute top-1/2 z-10 grid size-9 -translate-y-1/2 nav:size-10 place-items-center border border-line-strong bg-[color-mix(in_srgb,var(--c-bg)_70%,transparent)] font-mono text-fg opacity-60 backdrop-blur-sm transition-[opacity,background-color,border-color,color] duration-200 hover:border-accent hover:bg-accent hover:text-on-accent hover:opacity-100 focus-visible:opacity-100 ${
+      className={`absolute top-1/2 z-10 grid size-11 -translate-y-1/2 nav:size-10 place-items-center border border-line-strong bg-[color-mix(in_srgb,var(--c-bg)_70%,transparent)] font-mono text-fg opacity-60 backdrop-blur-sm transition-[opacity,background-color,border-color,color] duration-200 hover:border-accent hover:bg-accent hover:text-on-accent hover:opacity-100 focus-visible:opacity-100 ${
         dir === "prev" ? "left-3" : "right-3"
       }`}
     >

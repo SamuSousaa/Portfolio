@@ -61,7 +61,7 @@ export function SocialText({ className = "" }: { className?: string }) {
     <ul className={`flex justify-center gap-6 font-mono text-[12px] tracking-[0.14em] ${className}`}>
       {links.map((l) => (
         <li key={l.label}>
-          <a href={l.href} target={l.label === "MAIL" ? undefined : "_blank"} rel="noreferrer" aria-label={l.title} className="text-muted transition-colors hover:text-accent">
+          <a href={l.href} target={l.label === "MAIL" ? undefined : "_blank"} rel="noreferrer" aria-label={l.title} className="hit text-muted transition-colors [--hit-y:14px] hover:text-accent">
             [ {l.label} ]
           </a>
         </li>

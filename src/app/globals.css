@@ -454,6 +454,21 @@ html.loader-on {
   }
 }
 
+/*
+ * Área de toque (< 900 px): o ::after estende o alvo até 44 px sem mudar o
+ * desenho. --hit-y / --hit-x = quanto cresce para cada lado.
+ */
+@media (max-width: 899px) {
+  .hit {
+    position: relative;
+  }
+  .hit::after {
+    content: "";
+    position: absolute;
+    inset: calc(-1 * var(--hit-y, 0px)) calc(-1 * var(--hit-x, 0px));
+  }
+}
+
 /* velocidade do marquee, em px por segundo (também usada na troca de tema, abaixo) */
 :root {
   --marquee-speed: 40;

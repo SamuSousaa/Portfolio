@@ -39,7 +39,7 @@ export function ThemeSwitcher({ align = "start" }: { align?: "start" | "center" 
       <div
         role="group"
         aria-label={t.a11y.themeGroup}
-        className={`flex items-center ${align === "center" ? "justify-center gap-2.5" : "justify-between"}`}
+        className={`flex items-center ${align === "center" ? "justify-center" : "justify-between"}`}
         onMouseLeave={() => setHovered(null)}
       >
         {THEMES.map((th) => {
@@ -60,12 +60,18 @@ export function ThemeSwitcher({ align = "start" }: { align?: "start" | "center" 
                 preload(th.id);
               }}
               onBlur={() => setHovered(null)}
-              /* miniatura do tema (quadrada): fundo do tema + borda no acento; a ativa ganha anel na cor do texto atual */
-              className={`size-[18px] shrink-0 border transition-transform duration-200 hover:scale-[1.15] focus-visible:scale-[1.15] ${
-                active ? "shadow-[0_0_0_2px_var(--ring-gap,var(--c-bg)),0_0_0_3px_var(--fg)]" : ""
-              }`}
-              style={{ background: th.swatch[0], borderColor: th.swatch[1] }}
-            />
+              // no menu do celular o botão tem 44 px (área de toque); o quadradinho de 18 px fica no centro
+              className={`group/sw grid shrink-0 place-items-center ${align === "center" ? "size-11 outline-offset-0" : ""}`}
+            >
+              {/* miniatura do tema (quadrada): fundo do tema + borda no acento; a ativa ganha anel na cor do texto atual */}
+              <span
+                aria-hidden="true"
+                className={`block size-[18px] border transition-transform duration-200 group-hover/sw:scale-[1.15] group-focus-visible/sw:scale-[1.15] ${
+                  active ? "shadow-[0_0_0_2px_var(--ring-gap,var(--c-bg)),0_0_0_3px_var(--fg)]" : ""
+                }`}
+                style={{ background: th.swatch[0], borderColor: th.swatch[1] }}
+              />
+            </button>
           );
         })}
       </div>
@@ -74,7 +80,7 @@ export function ThemeSwitcher({ align = "start" }: { align?: "start" | "center" 
 }
 
 /** Botões segmentados EN / PT / ES. A troca é um crossfade (View Transition), sem mexer no layout. */
-export function LanguageSwitcher() {
+export function LanguageSwitcher({ touch = false }: { touch?: boolean }) {
   const { locale, setLocale, t } = useI18n();
   return (
     <div role="radiogroup" aria-label={t.a11y.languageGroup} className="flex gap-1.5">
@@ -90,7 +96,7 @@ export function LanguageSwitcher() {
             lang={l.htmlLang}
             data-fill={active ? undefined : ""}
             onClick={() => !active && setLocale(l.id)}
-            className={`h-7 min-w-9 border px-2 font-mono text-[11px] tracking-[0.1em] transition-colors duration-200 ${
+            className={`h-7 border px-2 font-mono ${touch ? "hit min-w-11 [--hit-y:8px]" : "min-w-9"} text-[11px] tracking-[0.1em] transition-colors duration-200 ${
               active
                 ? "border-fg bg-fg text-bg"
                 : "border-line-strong text-muted hover:border-accent hover:bg-accent hover:text-on-accent"
@@ -122,7 +128,7 @@ export function Settings({ variant = "sidebar" }: { variant?: "sidebar" | "cente
         </div>
         <div className="flex items-center gap-4">
           <span className="label">{t.language}</span>
-          <LanguageSwitcher />
+          <LanguageSwitcher touch />
         </div>
       </div>
     );

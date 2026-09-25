@@ -58,7 +58,7 @@ export function Topbar() {
             aria-expanded={open}
             aria-controls="menu-mobile"
             data-fill
-            className="flex h-9 items-center gap-3 border border-line-strong px-3 font-mono text-[11px] tracking-[0.14em] text-fg transition-colors hover:border-accent hover:bg-accent hover:text-on-accent nav:hidden"
+            className="hit flex h-9 items-center gap-3 border border-line-strong px-3 font-mono text-[11px] tracking-[0.14em] text-fg transition-colors [--hit-y:4px] hover:border-accent hover:bg-accent hover:text-on-accent nav:hidden"
           >
             <Swap align="end" v={tr((d) => d.menu)} />
             <span aria-hidden="true" className="flex flex-col gap-[3px]">
