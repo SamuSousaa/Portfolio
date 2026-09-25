@@ -68,12 +68,14 @@ export function ProjectViewer({ project }: { project: Project }) {
       className="group relative w-full outline-none"
     >
       <div
-        // largura toda do conteúdo; altura 16:10, mas nunca mais que a janela (menos o topo e uma folga).
-        // Quando a altura limita, a tela preenche a largura e corta embaixo (o topo dos apps é o que importa).
-        // No celular, projeto mobile-first ganha quadro 4:5 (as telas em pé ficam legíveis) e a capa preenche o quadro pelo centro.
-        className={`relative overflow-hidden ${
-          mobile ? "h-[min(calc(100svh-var(--topbar-h)-5rem),calc((100vw-2.5rem)*1.25))]" : "h-[min(calc(100svh-var(--topbar-h)-5rem),calc((100vw-2.5rem)*0.625))]"
-        } border border-line-strong bg-surface nav:h-[min(calc(100svh-var(--topbar-h)-5rem),calc((100vw-var(--sidebar-w)-6rem)*0.625))]`}
+        // sempre 16:10 (as imagens são 16:10: nada é cortado). Largura toda do conteúdo, mas nunca
+        // mais alto que a janela (menos o topo e uma folga): aí o quadro estreita e fica centrado.
+        // No celular, projeto mobile-first ganha quadro 4:5 (as telas em pé ficam legíveis).
+        className={`relative mx-auto overflow-hidden border border-line-strong bg-surface ${
+          mobile
+            ? "h-[min(calc(100svh-var(--topbar-h)-5rem),calc((100vw-2.5rem)*1.25))] nav:aspect-[16/10] nav:h-auto nav:w-[min(100%,calc((100svh-var(--topbar-h)-5rem)*1.6))]"
+            : "aspect-[16/10] w-[min(100%,calc((100svh-var(--topbar-h)-5rem)*1.6))]"
+        }`}
         onPointerDown={(e) => (touch.current = e.clientX)}
         onPointerUp={(e) => {
           if (touch.current === null) return;

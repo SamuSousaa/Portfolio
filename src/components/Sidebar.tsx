@@ -123,11 +123,13 @@ export function Sidebar() {
       </button>
 
       <div className="flex shrink-0 items-center px-6 pt-[var(--sb-head-pt)]">
-        <Logo size="lg" />
+        <div className="sb-logo">
+          <Logo size="lg" />
+        </div>
       </div>
 
       <nav aria-label={t.a11y.mainNav} className="px-6 pt-[var(--sb-nav-pt)]">
-        <p className="sb-full label mb-6 whitespace-nowrap">{t.index}</p>
+        <p className="sb-full sb-indent label mb-6 whitespace-nowrap">{t.index}</p>
         <ul className="flex flex-col gap-[var(--sb-gap)]">
           {NAV.map((item, i) => {
             const active = i === activeIndex;
@@ -140,7 +142,7 @@ export function Sidebar() {
                     active ? "text-accent" : "text-muted hover:text-fg"
                   }`}
                 >
-                  <span className="sb-full flex items-center gap-3 whitespace-nowrap">
+                  <span className="sb-full sb-indent flex items-center gap-3 whitespace-nowrap">
                     <span
                       aria-hidden="true"
                       className={`h-px bg-accent transition-[width] duration-300 ${active ? "w-4" : "w-0 group-hover:w-2"}`}

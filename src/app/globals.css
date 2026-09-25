@@ -344,7 +344,8 @@
  * esmaecem. A marca (42 px de largura) recua 3 px ao encolher, para ficar centrada.
  */
 :root {
-  --sidebar-w: 300px;
+  --sb-open-w: 300px;
+  --sidebar-w: var(--sb-open-w);
   /* respiros verticais: cheios a partir de 900 px de altura, encolhem até caber em 600 px */
   --sb-head-pt: clamp(12px, calc(10vh - 50px), 40px);
   --sb-nav-pt: clamp(12px, calc(24vh - 120px), 96px);
@@ -370,8 +371,22 @@ html.sb-collapsed {
 html.sb-collapsed .sb-chevron {
   rotate: 180deg;
 }
-html.sb-collapsed .sidebar .sb-logo-mark {
+/*
+ * TESTE: logo e abas centradas na sidebar aberta (referência: Hans).
+ * Logo + nome = 121 px; abas = 161 px no idioma mais largo (ES, com o traço da
+ * ativa), então o recuo é fixo e a troca de idioma não move nada. Contas sobre a
+ * largura ABERTA: ao encolher, os textos só esmaecem, e a marca desliza até o
+ * centro dos 84 px (42 px de largura → recua 3 px da coluna de 24 px).
+ */
+.sidebar .sb-logo {
+  translate: calc((var(--sb-open-w) - 48px - 121px) / 2) 0;
+  transition: translate 0.4s var(--sidebar-ease);
+}
+html.sb-collapsed .sidebar .sb-logo {
   translate: -3px 0;
+}
+.sidebar .sb-indent {
+  padding-left: calc((var(--sb-open-w) - 48px - 161px) / 2);
 }
 /* aberta: textos voltam depois que a largura abriu; ícones somem rápido */
 .sidebar .sb-full {
