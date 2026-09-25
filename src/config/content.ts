@@ -90,6 +90,10 @@ export type Project = {
   partners?: { name: string; url: string }[];
   /** Imagem em /public (ex.: "/projects/hedge/cover.jpg"), idealmente 16:10 */
   cover?: { src: string; alt: Localized };
+  /** As telas usam dados de demonstração (a galeria mostra o aviso "dados fictícios") */
+  demoData?: boolean;
+  /** Telas do projeto (16:10, em /public/projects/<slug>/): legenda curta + texto alternativo */
+  gallery?: { src: string; caption: Localized; alt: Localized }[];
   /** Parágrafo de apresentação da página do projeto */
   overview?: Localized;
   /** Blocos livres: problema, solução, resultado... */
@@ -151,6 +155,45 @@ export const PROJECTS: Project[] = [
     stack: ["React", "TypeScript", "Supabase", "Claude API", "Zustand", "PWA", "GitHub Actions"],
     year: "2026",
     role: { en: "Full-stack · AI · Freelance", pt: "Full-stack · IA · Freelance", es: "Full-stack · IA · Freelance" },
+    status: "live",
+    links: { live: "https://apice-ten.vercel.app" },
+    cover: {
+      src: "/projects/apice/cover.jpg",
+      alt: { en: "Ápice — Today page (demo data)", pt: "Ápice — página Hoje (dados fictícios)", es: "Ápice — página Hoy (datos ficticios)" },
+    },
+    demoData: true,
+    gallery: [
+      {
+        src: "/projects/apice/plano.jpg",
+        caption: { en: "56-week plan", pt: "Plano de 56 semanas", es: "Plan de 56 semanas" },
+        alt: { en: "Ápice — 56-week plan (demo data)", pt: "Ápice — Plano de 56 semanas (dados fictícios)", es: "Ápice — Plan de 56 semanas (datos ficticios)" },
+      },
+      {
+        src: "/projects/apice/progresso.jpg",
+        caption: { en: "Progress", pt: "Progresso", es: "Progreso" },
+        alt: { en: "Ápice — Progress (demo data)", pt: "Ápice — Progresso (dados fictícios)", es: "Ápice — Progreso (datos ficticios)" },
+      },
+      {
+        src: "/projects/apice/semana.jpg",
+        caption: { en: "Weekly review", pt: "Balanço da semana", es: "Balance de la semana" },
+        alt: { en: "Ápice — Weekly review (demo data)", pt: "Ápice — Balanço da semana (dados fictícios)", es: "Ápice — Balance de la semana (datos ficticios)" },
+      },
+      {
+        src: "/projects/apice/questoes.jpg",
+        caption: { en: "Cards and doubts", pt: "Cartas e dúvidas", es: "Tarjetas y dudas" },
+        alt: { en: "Ápice — Cards and doubts (demo data)", pt: "Ápice — Cartas e dúvidas (dados fictícios)", es: "Ápice — Tarjetas y dudas (datos ficticios)" },
+      },
+      {
+        src: "/projects/apice/simulados.jpg",
+        caption: { en: "Mock exams", pt: "Simulados", es: "Simulacros" },
+        alt: { en: "Ápice — Mock exams (demo data)", pt: "Ápice — Simulados (dados fictícios)", es: "Ápice — Simulacros (datos ficticios)" },
+      },
+      {
+        src: "/projects/apice/bloco.jpg",
+        caption: { en: "Study block", pt: "Bloco de estudo", es: "Bloque de estudio" },
+        alt: { en: "Ápice — Study block (demo data)", pt: "Ápice — Bloco de estudo (dados fictícios)", es: "Ápice — Bloque de estudio (datos ficticios)" },
+      },
+    ],
     overview: {
       en: "A study platform that simulates a full prep course for ENARE 2027 in Dentistry. It turns a 56-week plan into daily goals, collects questions from past exams, runs mock tests and keeps a notebook of review cards — with AI answering doubts right where they come up.",
       pt: "Uma plataforma de estudos que simula um cursinho completo para o ENARE 2027 em Odontologia. Ela transforma um plano de 56 semanas em metas diárias, reúne questões de provas anteriores, aplica simulados e mantém um caderno de cartas de revisão — com IA respondendo dúvidas no lugar onde elas surgem.",
@@ -194,7 +237,50 @@ export const PROJECTS: Project[] = [
     stack: ["React", "TypeScript", "Supabase", "Tailwind CSS", "Recharts", "Playwright"],
     year: "2025 — 2026",
     role: { en: "Full-stack · Freelance", pt: "Full-stack · Freelance", es: "Full-stack · Freelance" },
-    links: { repo: "https://github.com/georgepxto/gestaofinanceira" },
+    status: "live",
+    links: { live: "https://gethedge.vercel.app", repo: "https://github.com/georgepxto/gestaofinanceira" },
+    cover: {
+      src: "/projects/hedge/cover.jpg",
+      alt: { en: "Hedge dashboard (demo data)", pt: "Dashboard do Hedge (dados fictícios)", es: "Dashboard de Hedge (datos ficticios)" },
+    },
+    demoData: true,
+    gallery: [
+      {
+        src: "/projects/hedge/lancamentos.jpg",
+        caption: { en: "Expenses", pt: "Lançamentos", es: "Gastos" },
+        alt: { en: "Hedge — Expenses (demo data)", pt: "Hedge — Lançamentos (dados fictícios)", es: "Hedge — Gastos (datos ficticios)" },
+      },
+      {
+        src: "/projects/hedge/metas.jpg",
+        caption: { en: "Spending goals", pt: "Metas de gasto", es: "Metas de gasto" },
+        alt: { en: "Hedge — Spending goals (demo data)", pt: "Hedge — Metas de gasto (dados fictícios)", es: "Hedge — Metas de gasto (datos ficticios)" },
+      },
+      {
+        src: "/projects/hedge/a-receber.jpg",
+        caption: { en: "Owed this month", pt: "A receber no mês", es: "Por cobrar del mes" },
+        alt: { en: "Hedge — Owed this month (demo data)", pt: "Hedge — A receber no mês (dados fictícios)", es: "Hedge — Por cobrar del mes (datos ficticios)" },
+      },
+      {
+        src: "/projects/hedge/pessoas.jpg",
+        caption: { en: "Debtors", pt: "Devedores", es: "Deudores" },
+        alt: { en: "Hedge — Debtors (demo data)", pt: "Hedge — Devedores (dados fictícios)", es: "Hedge — Deudores (datos ficticios)" },
+      },
+      {
+        src: "/projects/hedge/em-aberto.jpg",
+        caption: { en: "Open debts", pt: "Dívidas em aberto", es: "Deudas pendientes" },
+        alt: { en: "Hedge — Open debts (demo data)", pt: "Hedge — Dívidas em aberto (dados fictícios)", es: "Hedge — Deudas pendientes (datos ficticios)" },
+      },
+      {
+        src: "/projects/hedge/contas.jpg",
+        caption: { en: "Bank accounts", pt: "Contas bancárias", es: "Cuentas bancarias" },
+        alt: { en: "Hedge — Bank accounts (demo data)", pt: "Hedge — Contas bancárias (dados fictícios)", es: "Hedge — Cuentas bancarias (datos ficticios)" },
+      },
+      {
+        src: "/projects/hedge/cartoes.jpg",
+        caption: { en: "Credit cards", pt: "Cartões de crédito", es: "Tarjetas de crédito" },
+        alt: { en: "Hedge — Credit cards (demo data)", pt: "Hedge — Cartões de crédito (dados fictícios)", es: "Hedge — Tarjetas de crédito (datos ficticios)" },
+      },
+    ],
     partners: [{ name: "George Peixoto", url: "https://github.com/georgepxto" }],
     overview: {
       en: "A personal and collaborative finance tracker: it records expenses, splits bills between friends while tracking who paid, manages credit cards, bank accounts and spending goals, and delivers dashboards and PDF reports. Built together with developer George Peixoto.",
@@ -249,6 +335,38 @@ export const PROJECTS: Project[] = [
         es: "Página de inicio del portafolio en el tema TERMINAL",
       },
     },
+    gallery: [
+      {
+        src: "/projects/portfolio/about.jpg",
+        caption: { en: "About · BLUEPRINT", pt: "Sobre · BLUEPRINT", es: "Sobre mí · BLUEPRINT" },
+        alt: { en: "About page in the BLUEPRINT theme", pt: "Página Sobre no tema BLUEPRINT", es: "Página Sobre mí en el tema BLUEPRINT" },
+      },
+      {
+        src: "/projects/portfolio/projects.jpg",
+        caption: { en: "Projects · COBALTO", pt: "Projetos · COBALTO", es: "Proyectos · COBALTO" },
+        alt: { en: "Project index in the COBALTO theme", pt: "Índice de projetos no tema COBALTO", es: "Índice de proyectos en el tema COBALTO" },
+      },
+      {
+        src: "/projects/portfolio/project.jpg",
+        caption: { en: "Project page · FORJA", pt: "Página de projeto · FORJA", es: "Página de proyecto · FORJA" },
+        alt: { en: "Project page in the FORJA theme", pt: "Página de projeto no tema FORJA", es: "Página de proyecto en el tema FORJA" },
+      },
+      {
+        src: "/projects/portfolio/contact.jpg",
+        caption: { en: "Contact · SONAR", pt: "Contato · SONAR", es: "Contacto · SONAR" },
+        alt: { en: "Contact page with the e-mail revealed, SONAR theme", pt: "Página de contato com o e-mail revelado, tema SONAR", es: "Página de contacto con el correo revelado, tema SONAR" },
+      },
+      {
+        src: "/projects/portfolio/home-herbario.jpg",
+        caption: { en: "Home · HERBÁRIO", pt: "Home · HERBÁRIO", es: "Inicio · HERBÁRIO" },
+        alt: { en: "Home page in the HERBÁRIO theme", pt: "Página inicial no tema HERBÁRIO", es: "Página de inicio en el tema HERBÁRIO" },
+      },
+      {
+        src: "/projects/portfolio/loader.jpg",
+        caption: { en: "Boot loader", pt: "Loader de boot", es: "Loader de arranque" },
+        alt: { en: "Boot loader counting to 100%", pt: "Loader de boot contando até 100%", es: "Loader de arranque contando hasta 100%" },
+      },
+    ],
     overview: {
       en: "My own portfolio, designed and built as a project in its own right. A terminal-brutalist identity with six complete themes — each with its own typography, texture and cursor — in English, Portuguese and Spanish, where changing theme or language feels like a transformation, not a jump.",
       pt: "Meu próprio portfólio, desenhado e construído como um projeto de verdade. Uma identidade terminal-brutalista com seis temas completos — cada um com tipografia, textura e cursor próprios — em inglês, português e espanhol, onde trocar de tema ou de idioma parece uma transformação, não um salto.",

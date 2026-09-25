@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { findNav, navNumber } from "@/config/nav";
-import type { Localized } from "@/i18n/config";
+import { LOCALES, type Localized } from "@/i18n/config";
 import { useIntro } from "@/lib/useIntro";
 import { useI18n } from "./I18nProvider";
 import { Swap } from "@/components/Swap";
@@ -41,8 +41,9 @@ export function PageTitle({ href, title, note, meta, children }: Props) {
         </span>
       </h1>
       {note ? (
-        <p data-intro="fade" className="caret mt-8 max-w-[52ch] font-mono text-[13px] leading-relaxed text-muted">
-          <Swap v={note} />
+        <p data-intro="fade" className="mt-8 max-w-[52ch] font-mono text-[13px] leading-relaxed text-muted">
+          {/* o cursor piscando vai dentro de cada tradução, colado na última palavra (e não numa linha própria) */}
+          <Swap v={Object.fromEntries(LOCALES.map((l) => [l.id, <>{note[l.id]}<span className="caret" aria-hidden="true" /></>])) as Localized<React.ReactNode>} />
         </p>
       ) : null}
       {children}

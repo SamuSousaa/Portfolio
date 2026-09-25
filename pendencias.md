@@ -6,9 +6,13 @@ Lista viva do que ainda falta. Quando algo for concluído, sai daqui.
 
 Tudo em `src/config/content.ts`. Campo vazio = a página mostra "aguardando dados".
 
-- [ ] **Projetos — capas**: nenhum projeto tem imagem ainda. Mande uma captura de cada (16:10, ideal 2400 × 1500) de Wellnessy, Ápice e Hedge.
-- [ ] **Projetos — links e status**: Wellnessy, Ápice e Hedge estão no ar? Se sim, mande as URLs (os repositórios do Ápice e do Wellnessy são privados, então ficam sem link de código).
+- [ ] **Wellnessy — capa e galeria**: conta demo com dados fictícios em localhost:3001 (em andamento).
 - [ ] **Formação**: você avisa quando quiser incluir (faculdade, cursos).
+
+## Ajustes guardados
+
+- [ ] **Home — cards de destaque desalinhados**: os nomes (WELLNESSY / ÁPICE / HEDGE) ficam em alturas diferentes porque a stack de cada card tem tamanho diferente. Alinhar nome, descrição e stack pelo topo; "[ ABRIR ]" fixo na base.
+- [ ] **Home — painel Experiência com espaço vazio embaixo**: distribuir a altura igualmente entre as entradas (o painel estica até a altura dos destaques).
 
 ## Fases
 

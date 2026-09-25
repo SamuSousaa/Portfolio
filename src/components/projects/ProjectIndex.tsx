@@ -39,8 +39,14 @@ export function ProjectIndex() {
                 <span>{pad(i + 1)}</span>
                 <span className="nav:hidden">{project.year}</span>
               </span>
-              <span className="display [--fs:clamp(2.25rem,4vw,3.25rem)] transition-transform duration-300 group-hover:translate-x-1.5">
-                {project.name}
+              {/* a coluna do nome é um container: nomes longos (WELLNESSY) encolhem para caber em qualquer tema */}
+              <span className="@container block min-w-0">
+                <span
+                  className="display block whitespace-nowrap transition-transform duration-300 group-hover:translate-x-1.5"
+                  style={{ "--fs": `min(clamp(2.25rem,4vw,3.25rem), calc(125cqi / ${project.name.length}))` } as React.CSSProperties}
+                >
+                  {project.name}
+                </span>
               </span>
               <span className="font-mono text-[13px] leading-relaxed text-muted group-hover:text-on-accent">
                 <Swap block v={project.description} />
