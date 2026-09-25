@@ -29,6 +29,10 @@ export const PROFILE = {
   about: [] as Localized[],
 };
 
+/** "Samuel Sousa": nome em caixa normal, para títulos de aba, metadados e buscadores. */
+const cap = (w: string) => w.charAt(0) + w.slice(1).toLowerCase();
+export const fullName = `${cap(PROFILE.firstName)} ${cap(PROFILE.lastName)}`;
+
 export const CONTACT = {
   email: { user: "samusousaaicloud", domain: "gmail.com" }, // montado só no cliente
   github: "https://github.com/SamuSousaa",

@@ -14,4 +14,5 @@ Tudo em `src/config/content.ts`. Campo vazio = a página mostra "aguardando dado
 
 ## Fases
 
-- [ ] Fase 5: acabamento (loader, SEO/OG, deploy na Vercel). O deploy precisa de um repositório no GitHub (o `gh` CLI não está instalado).
+- [ ] Deploy na Vercel: precisa de um repositório no GitHub e/ou login na Vercel (o `gh` CLI não está instalado).
+- [ ] Domínio próprio (opcional): quando tiver, defina `NEXT_PUBLIC_SITE_URL` na Vercel para os links de OG/sitemap usarem ele.

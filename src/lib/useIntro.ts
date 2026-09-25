@@ -2,6 +2,7 @@
 
 import type { RefObject } from "react";
 import { gsap, useGSAP } from "./motion";
+import { LOADER_DONE, loaderActive } from "./loader";
 
 let firstLoad = true;
 
@@ -11,7 +12,8 @@ let firstLoad = true;
  *   data-intro="line"   → sobe de dentro de uma máscara (pai com overflow-hidden)
  *   data-intro="fade"   → aparece subindo
  *   data-intro="figure" → revela de cima para baixo
- * Na primeira carga entra logo; vindo de outra rota, espera os blocos revelarem.
+ * Na primeira carga entra logo (ou quando o loader sai); vindo de outra rota,
+ * espera os blocos revelarem.
  * Os elementos começam escondidos pelo CSS (html.js [data-intro]).
  */
 export function useIntro(scope: RefObject<HTMLElement | null>) {
@@ -26,7 +28,9 @@ export function useIntro(scope: RefObject<HTMLElement | null>) {
 
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        const tl = gsap.timeline({ delay, defaults: { ease: "power4.out" } }).set(all, { visibility: "visible" });
+        const waiting = loaderActive();
+        const tl = gsap.timeline({ delay: waiting ? 0 : delay, paused: waiting, defaults: { ease: "power4.out" } }).set(all, { visibility: "visible" });
+        if (waiting) window.addEventListener(LOADER_DONE, () => tl.play(), { once: true });
         const labels = q("label"), lines = q("line"), fades = q("fade"), figures = q("figure");
         if (labels.length) tl.from(labels, { opacity: 0, x: -12, duration: 0.6, stagger: 0.05 });
         if (lines.length) tl.from(lines, { yPercent: 105, duration: 0.95, stagger: 0.09 }, "<0.05");

@@ -338,6 +338,17 @@
   }
 }
 
+/* loader de boot: só existe na tela enquanto html.loader-on (ver Loader.tsx) */
+.loader {
+  display: none;
+}
+html.loader-on .loader {
+  display: flex;
+}
+html.loader-on {
+  overflow: hidden;
+}
+
 /* entrada do hero: escondido até o GSAP assumir (só com JS e sem reduced motion) */
 @media (prefers-reduced-motion: no-preference) {
   html.js [data-intro] {
