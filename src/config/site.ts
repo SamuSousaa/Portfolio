@@ -3,9 +3,12 @@
  * Defina SITE_URL na Vercel quando tiver domínio próprio (sem o prefixo
  * NEXT_PUBLIC_: o valor não precisa ir para o navegador). Sem ela, na Vercel
  * vale o domínio de produção do projeto (VERCEL_PROJECT_PRODUCTION_URL).
+ * Aceita o valor com ou sem "https://" e com ou sem barra no fim.
  */
-export const SITE_URL = (
+const raw =
   process.env.SITE_URL ??
   process.env.NEXT_PUBLIC_SITE_URL ??
-  (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : "http://localhost:3000")
-).replace(/\/+$/, "");
+  process.env.VERCEL_PROJECT_PRODUCTION_URL ??
+  "http://localhost:3000";
+
+export const SITE_URL = (/^https?:\/\//.test(raw.trim()) ? raw.trim() : `https://${raw.trim()}`).replace(/\/+$/, "");
