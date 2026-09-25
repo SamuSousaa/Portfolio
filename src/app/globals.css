@@ -372,7 +372,7 @@ html.sb-collapsed .sb-chevron {
   rotate: 180deg;
 }
 /*
- * TESTE: logo e abas centradas na sidebar aberta (referência: Hans).
+ * Logo e abas centradas na sidebar aberta (referência: Hans).
  * Logo + nome = 121 px; abas = 161 px no idioma mais largo (ES, com o traço da
  * ativa), então o recuo é fixo e a troca de idioma não move nada. Contas sobre a
  * largura ABERTA: ao encolher, os textos só esmaecem, e a marca desliza até o

@@ -9,6 +9,7 @@ fs.mkdirSync(OUT, { recursive: true });
 const browser = await chromium.launch({ executablePath: "C:/Program Files/Google/Chrome/Application/chrome.exe" });
 
 const SHOTS = [
+  { file: "cover", path: "/", theme: "terminal" },
   { file: "about", path: "/about", theme: "blueprint" },
   { file: "projects", path: "/projects", theme: "cobalto" },
   { file: "project", path: "/projects/hedge", theme: "forja" },
