@@ -30,6 +30,8 @@ export function Swap({
             key={l.id}
             lang={l.htmlLang}
             aria-hidden={active ? undefined : true}
+            // fora dos trechos da busca: o Google lê as 3 versões, mas só mostra a ativa
+            data-nosnippet={active ? undefined : ""}
             className={`[grid-area:1/1] ${active ? "" : "invisible"}`}
           >
             {v[l.id]}

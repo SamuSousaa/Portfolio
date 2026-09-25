@@ -189,6 +189,7 @@ export function About() {
                     key={l.id}
                     lang={l.htmlLang}
                     aria-hidden={active ? undefined : true}
+                    data-nosnippet={active ? undefined : ""}
                     className={`flex flex-col gap-5 self-center [grid-area:1/1] ${active ? "" : "invisible"}`}
                   >
                     {PROFILE.about.map((para, i) => (

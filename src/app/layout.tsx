@@ -17,6 +17,7 @@ import { headers } from "next/headers";
 import { Loader } from "@/components/Loader";
 import { isHardReload, loaderInitScript } from "@/lib/loader";
 import { sidebarInitScript } from "@/lib/sidebar";
+import { SkipLink } from "@/components/SkipLink";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
@@ -81,6 +82,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }} />
         <I18nProvider initial={locale}>
           <ThemeProvider>
+            <SkipLink />
             <PageTransitionProvider>
               {/* camadas do tema: textura (grid/pontos/pauta), efeito (brasa) e CRT */}
               <div className="page-bg vt-page-bg" aria-hidden="true" />
@@ -90,7 +92,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               <Sidebar />
               <div className="vt-content flex min-h-dvh flex-col sidebar-offset">
                 <Topbar />
-                <main id="conteudo" className="flex-1">
+                <main id="conteudo" tabIndex={-1} className="flex-1 outline-none">
                   {children}
                 </main>
               </div>

@@ -106,6 +106,7 @@ const en = {
     expandSidebar: "Expand sidebar",
     languageGroup: "Language",
     home: "home",
+    skip: "Skip to content",
     dashboard: "Dashboard",
   },
 };
@@ -216,6 +217,7 @@ const pt: Dict = {
     expandSidebar: "Expandir barra lateral",
     languageGroup: "Idioma",
     home: "início",
+    skip: "Pular para o conteúdo",
     dashboard: "Painel",
   },
 };
@@ -324,6 +326,7 @@ const es: Dict = {
     expandSidebar: "Expandir barra lateral",
     languageGroup: "Idioma",
     home: "inicio",
+    skip: "Saltar al contenido",
     dashboard: "Panel",
   },
 };
