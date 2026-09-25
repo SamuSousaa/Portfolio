@@ -116,17 +116,47 @@ export type Experience = { period: string; role: Localized; org: string };
 /** TODO: preencher. Vazio = o painel mostra o estado "aguardando dados". */
 export const EXPERIENCE: Experience[] = [];
 
-export type SkillGroup = { group: Localized; items: string[] };
+/** Item da stack: nome de tecnologia (igual nos 3 idiomas) ou conceito traduzido. */
+export type Skill = string | Localized;
+export type SkillGroup = { group: Localized; items: Skill[] };
 
-/** Stack da página Sobre, por grupo. TODO: completar (por ora, só o que já aparece no site). */
+/** Stack da página Sobre, por grupo. Levantada dos projetos (Hedge, Ápice, Radar de Editais, Tally, TeethSync, este site). */
 export const SKILLS: SkillGroup[] = [
-  { group: { en: "LANGUAGES", pt: "LINGUAGENS", es: "LENGUAJES" }, items: ["TypeScript"] },
-  { group: { en: "FRAMEWORKS", pt: "FRAMEWORKS", es: "FRAMEWORKS" }, items: ["Next.js"] },
   {
-    group: { en: "AI", pt: "IA", es: "IA" },
-    items: ["LLM integration", "Agentic systems"],
+    group: { en: "LANGUAGES", pt: "LINGUAGENS", es: "LENGUAJES" },
+    items: ["TypeScript", "JavaScript", "SQL", "HTML/CSS"],
+  },
+  {
+    group: { en: "FRONT-END", pt: "FRONT-END", es: "FRONT-END" },
+    items: ["React", "Next.js", "Vite", "Tailwind CSS", "shadcn/ui", "TanStack Query", "Zustand", "GSAP"],
+  },
+  {
+    group: { en: "BACK-END & DATA", pt: "BACK-END & DADOS", es: "BACK-END Y DATOS" },
+    items: ["Supabase", "PostgreSQL", "Prisma", "Firebase", "Zod", "Web Push"],
+  },
+  {
+    group: { en: "AI & LLM", pt: "IA & LLM", es: "IA Y LLM" },
+    items: [
+      "Claude API",
+      "Claude Code",
+      { en: "Agentic systems", pt: "Sistemas agênticos", es: "Sistemas agénticos" },
+      { en: "LLM integration", pt: "Integração com LLM", es: "Integración con LLM" },
+      { en: "Prompt engineering", pt: "Engenharia de prompt", es: "Ingeniería de prompts" },
+      "OCR (Tesseract.js)",
+    ],
+  },
+  {
+    group: { en: "INFRA & DEPLOY", pt: "INFRA & DEPLOY", es: "INFRA Y DEPLOY" },
+    items: ["Vercel", "GitHub Actions", "PWA", "Sentry", "PostHog"],
+  },
+  {
+    group: { en: "QUALITY & TOOLS", pt: "QUALIDADE & FERRAMENTAS", es: "CALIDAD Y HERRAMIENTAS" },
+    items: ["Git", "Playwright", "Vitest", "Testing Library", "ESLint"],
   },
 ];
+
+/** Principais (os que mais se repetem nos projetos): aparecem no acento. */
+export const SKILL_HIGHLIGHTS = ["TypeScript", "React", "Supabase", "Claude API"];
 
 export const MARQUEE: Localized<string[]> = {
   en: ["AGENTIC SYSTEMS", "DEVELOPER TOOLS", "TYPESCRIPT", "NEXT.JS", "LLM INTEGRATION", "THOUGHTFUL PRODUCTS"],

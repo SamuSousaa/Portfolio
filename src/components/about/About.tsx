@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRef } from "react";
-import { EXPERIENCE, PROFILE, SKILLS } from "@/config/content";
+import { EXPERIENCE, PROFILE, SKILLS, SKILL_HIGHLIGHTS } from "@/config/content";
 import { findNav, navNumber } from "@/config/nav";
 import { useIntro } from "@/lib/useIntro";
 import { useReveal } from "@/lib/useReveal";
@@ -190,7 +190,13 @@ export function About() {
         <section data-reveal data-probe="stack" className="divider mt-16 grid gap-6 border-t border-line pt-8 nav:grid-cols-[14rem_minmax(0,1fr)] nav:gap-12">
           <SectionHead letter="B" title={a.stack} meta={pad(SKILLS.reduce((n, g) => n + g.items.length, 0))} />
           {SKILLS.length ? (
-            <dl>
+            <div>
+            {/* legenda dos principais */}
+            <p className="label mb-4 flex items-center gap-2">
+              <span aria-hidden="true" className="size-2.5 bg-accent" />
+              {a.core}
+            </p>
+            <dl className="border-t border-line">
               {SKILLS.map((g, i) => (
                 <div
                   key={g.group.en}
@@ -201,18 +207,26 @@ export function About() {
                     <Swap v={g.group} />
                   </dt>
                   <dd className="flex flex-wrap gap-2">
-                    {g.items.map((s) => (
-                      <span
-                        key={s}
-                        className="border border-line-strong px-2.5 py-1.5 font-mono text-[11px] uppercase tracking-[0.1em] text-fg transition-colors duration-200 hover:border-accent hover:bg-accent hover:text-on-accent"
-                      >
-                        {s}
-                      </span>
-                    ))}
+                    {g.items.map((s) => {
+                      const name = typeof s === "string" ? s : s.en;
+                      const core = SKILL_HIGHLIGHTS.includes(name);
+                      return (
+                        <span
+                          key={name}
+                          className={`border px-2.5 py-1.5 font-mono text-[11px] uppercase tracking-[0.1em] transition-colors duration-200 hover:border-accent hover:bg-accent hover:text-on-accent ${
+                            core ? "border-accent text-accent" : "border-line-strong text-fg"
+                          }`}
+                        >
+                          {core ? <span className="sr-only">{a.core}: </span> : null}
+                          {typeof s === "string" ? s : <Swap v={s} />}
+                        </span>
+                      );
+                    })}
                   </dd>
                 </div>
               ))}
             </dl>
+            </div>
           ) : (
             <Awaiting cmd={a.fetchStack} text={t.awaiting} />
           )}
