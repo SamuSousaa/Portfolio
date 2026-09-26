@@ -64,7 +64,7 @@ const cap = (w: string) => w.charAt(0) + w.slice(1).toLowerCase();
 export const fullName = `${cap(PROFILE.firstName)} ${cap(PROFILE.lastName)}`;
 
 export const CONTACT = {
-  email: { user: "samusousaaicloud", domain: "gmail.com" }, // montado só no cliente
+  email: { user: "samusousadev", domain: "zohomail.com" }, // montado só no cliente
   github: "https://github.com/SamuSousaa",
   linkedin: "https://www.linkedin.com/in/samuel-sousa-33153443a/",
 };

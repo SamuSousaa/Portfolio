@@ -31,7 +31,7 @@ for (const theme of ["terminal", "blueprint"]) {
       // fluxo do e-mail: revelar, errar, acertar
       await p.evaluate(() => window.scrollTo(0, 0));
       const html = await (await p.request.get(BASE + ROUTE)).text(); // HTML servido, antes do JS
-      const leaked = html.includes("samusousaaicloud@");
+      const leaked = html.includes("samusousadev@");
       await p.locator("button.btn-primary").first().click();
       await p.waitForTimeout(300);
       await p.locator("form input").fill("99");
