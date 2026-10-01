@@ -9,7 +9,8 @@ const MIN = 64;
  * Linhas de varredura CRT por cima da tela inteira (sidebar, menu mobile, loader),
  * menos sobre as imagens: a máscara da camada ganha um recorte em cada imagem
  * visível, recalculado a cada quadro (scroll suave, prévia que segue o mouse).
- * Só trabalha quando o tema liga a varredura (--crt-opacity > 0).
+ * Só trabalha quando o tema liga a varredura (--crt-opacity > 0). Durante a
+ * transição de página (html[data-transition]) não há recortes: tela toda coberta.
  */
 export function Crt() {
   const ref = useRef<HTMLDivElement>(null);
@@ -47,7 +48,8 @@ export function Crt() {
 
     const frame = () => {
       raf = requestAnimationFrame(frame);
-      const on = getComputedStyle(el).opacity !== "0";
+      // durante a transição de página a varredura cobre tudo, imagens inclusive
+      const on = getComputedStyle(el).opacity !== "0" && !("transition" in document.documentElement.dataset);
       const h = on ? holes() : [];
       const next = h.join(",");
       if (next === last) return;

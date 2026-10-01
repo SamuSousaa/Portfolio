@@ -35,7 +35,12 @@ export function PageTransitionProvider({ children }: { children: React.ReactNode
     if (!covered.current) return;
     covered.current = false;
     gsap
-      .timeline({ onComplete: () => void (busy.current = false) })
+      .timeline({
+        onComplete: () => {
+          busy.current = false;
+          delete document.documentElement.dataset.transition;
+        },
+      })
       .to(labelRef.current, { opacity: 0, duration: 0.15 })
       .to(tiles(), {
         scaleY: 0,
@@ -49,6 +54,8 @@ export function PageTransitionProvider({ children }: { children: React.ReactNode
   /** Cobre a tela com os blocos e chama onCovered quando termina. */
   const cover = useCallback((label: string, onCovered: () => void) => {
     busy.current = true;
+    // o CRT cobre a tela toda até o fim da revelação (sem recortes piscando nos blocos)
+    document.documentElement.dataset.transition = "";
     setTarget(label);
     gsap
       .timeline({
