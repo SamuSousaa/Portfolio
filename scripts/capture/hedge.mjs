@@ -1,6 +1,7 @@
 // Telas do Hedge com dados FICTÍCIOS: node scripts/capture/hedge.mjs [baseURL]
 // O Supabase é interceptado (ver mock-supabase.mjs): nenhuma conta real é lida.
-import { fakeSession, openMocked, shot } from "./mock-supabase.mjs";
+import { chromium } from "playwright-core";
+import { CHROME, fakeSession, openMocked, shot } from "./mock-supabase.mjs";
 
 const BASE = process.argv[2] ?? "https://gethedge.vercel.app";
 const OUT = "public/projects/hedge";
@@ -87,7 +88,21 @@ const tables = {
   pagamentos_parciais: own([{ id: "pp1", pessoa: "Ana Lima", mes: "2026-09", valor: 200, data_pagamento: "2026-09-10" }]),
   observacoes_mes: [],
   push_subscriptions: [],
+  receitas_confirmacoes: [],
 };
+
+// Os dados foram escritos com setembro de 2026 como "mês atual"; o app abre no mês
+// de hoje, então todas as datas andam junto (senão as telas ficam vazias).
+const BASE_MONTH = 2026 * 12 + 8; // setembro de 2026
+const now = new Date();
+const delta = now.getFullYear() * 12 + now.getMonth() - BASE_MONTH;
+const shiftMonth = (y, m) => {
+  const t = +y * 12 + (+m - 1) + delta;
+  return `${Math.floor(t / 12)}-${String((t % 12) + 1).padStart(2, "0")}`;
+};
+for (const [name, rows] of Object.entries(tables)) {
+  tables[name] = JSON.parse(JSON.stringify(rows).replace(/"(\d{4})-(\d{2})(-\d{2})?/g, (_, y, m, d = "") => `"${shiftMonth(y, m)}${d}`));
+}
 
 const rpc = {
   get_my_role: [{ role: "user", is_active: true }],
@@ -96,7 +111,7 @@ const rpc = {
 };
 
 const PAGES = [
-  ["cover", "/"],
+  ["inicio", "/"],
   ["lancamentos", "/gastos/lancamentos"],
   ["metas", "/gastos/metas"],
   ["a-receber", "/a-receber/mes"],
@@ -106,7 +121,36 @@ const PAGES = [
   ["cartoes", "/carteira/cartoes"],
 ];
 
+// Landing (sem sessão): [arquivo, posição de rolagem do trecho]. A página tem scroll
+// suave e anima com ele, então chega lá pela roda do mouse, corrigindo até assentar.
+const LANDING = [
+  ["cover", 0],
+  ["landing-experimente", 900],
+  ["landing-dividir", 2700],
+  ["landing-cobrar", 8100],
+  ["landing-comecar", 13800],
+];
+
 const only = process.argv[3]?.split(",");
+{
+  const browser = await chromium.launch({ executablePath: CHROME });
+  const page = await browser.newPage({ viewport: { width: 1600, height: 1000 }, deviceScaleFactor: 2, locale: "pt-BR" });
+  for (const [name, y] of LANDING) {
+    if (only && !only.includes(name)) continue;
+    await page.goto(BASE + "/", { waitUntil: "networkidle" });
+    await page.waitForTimeout(2000);
+    for (let i = 0; i < 200; i++) {
+      const diff = y - (await page.evaluate(() => scrollY));
+      if (Math.abs(diff) < 8) break;
+      await page.mouse.wheel(0, Math.max(-300, Math.min(300, diff)));
+      await page.waitForTimeout(Math.abs(diff) > 300 ? 120 : 700);
+    }
+    await shot(page, `${OUT}/${name}.jpg`, { wait: 2200 });
+    console.log("ok", name, "→ scroll", await page.evaluate(() => scrollY));
+  }
+  await browser.close();
+}
+
 // tutoriais guiados de cada aba já "vistos" (senão abrem por cima da tela)
 const TUTORIALS = ["cartoes_credito", "contas_bancarias", "dashboard", "devedores", "dividas", "gastos", "metas_gasto", "meus_gastos"];
 const init = Object.fromEntries(TUTORIALS.map((k) => [`${k}_tutorial_seen_v1`, JSON.stringify({ seen: true, lastStepIndex: null })]));

@@ -297,10 +297,30 @@ export const PROJECTS: Project[] = [
     links: { live: "https://gethedge.vercel.app", repo: "https://github.com/georgepxto/gestaofinanceira" },
     cover: {
       src: "/projects/hedge/cover.jpg",
-      alt: { en: "Hedge dashboard (demo data)", pt: "Dashboard do Hedge (dados fictícios)", es: "Dashboard de Hedge (datos ficticios)" },
+      alt: { en: "Hedge landing page: “Seu dinheiro deixa pistas.” beside the dashboard (demo data)", pt: "Landing page do Hedge: “Seu dinheiro deixa pistas.” ao lado do dashboard (dados fictícios)", es: "Landing page de Hedge: “Seu dinheiro deixa pistas.” junto al dashboard (datos ficticios)" },
     },
     demoData: true,
     gallery: [
+      {
+        src: "/projects/hedge/landing-experimente.jpg",
+        caption: { en: "Try before signing up", pt: "Experimente antes de criar a conta", es: "Pruébalo antes de crear la cuenta" },
+        alt: { en: "Hedge — landing page, try before signing up", pt: "Hedge — landing page, experimente antes de criar a conta", es: "Hedge — landing page, pruébalo antes de crear la cuenta" },
+      },
+      {
+        src: "/projects/hedge/landing-dividir.jpg",
+        caption: { en: "Features", pt: "Funcionalidades", es: "Funcionalidades" },
+        alt: { en: "Hedge — landing page, features", pt: "Hedge — landing page, funcionalidades", es: "Hedge — landing page, funcionalidades" },
+      },
+      {
+        src: "/projects/hedge/landing-cobrar.jpg",
+        caption: { en: "Split bills", pt: "Contas divididas", es: "Cuentas divididas" },
+        alt: { en: "Hedge — landing page, split bills", pt: "Hedge — landing page, contas divididas", es: "Hedge — landing page, cuentas divididas" },
+      },
+      {
+        src: "/projects/hedge/inicio.jpg",
+        caption: { en: "Home", pt: "Início", es: "Inicio" },
+        alt: { en: "Hedge — Home (demo data)", pt: "Hedge — Início (dados fictícios)", es: "Hedge — Inicio (datos ficticios)" },
+      },
       {
         src: "/projects/hedge/lancamentos.jpg",
         caption: { en: "Expenses", pt: "Lançamentos", es: "Gastos" },
@@ -312,29 +332,34 @@ export const PROJECTS: Project[] = [
         alt: { en: "Hedge — Spending goals (demo data)", pt: "Hedge — Metas de gasto (dados fictícios)", es: "Hedge — Metas de gasto (datos ficticios)" },
       },
       {
-        src: "/projects/hedge/a-receber.jpg",
-        caption: { en: "Owed this month", pt: "A receber no mês", es: "Por cobrar del mes" },
-        alt: { en: "Hedge — Owed this month (demo data)", pt: "Hedge — A receber no mês (dados fictícios)", es: "Hedge — Por cobrar del mes (datos ficticios)" },
-      },
-      {
         src: "/projects/hedge/pessoas.jpg",
-        caption: { en: "Debtors", pt: "Devedores", es: "Deudores" },
-        alt: { en: "Hedge — Debtors (demo data)", pt: "Hedge — Devedores (dados fictícios)", es: "Hedge — Deudores (datos ficticios)" },
+        caption: { en: "People", pt: "Pessoas", es: "Personas" },
+        alt: { en: "Hedge — People (demo data)", pt: "Hedge — Pessoas (dados fictícios)", es: "Hedge — Personas (datos ficticios)" },
       },
       {
         src: "/projects/hedge/em-aberto.jpg",
-        caption: { en: "Open debts", pt: "Dívidas em aberto", es: "Deudas pendientes" },
-        alt: { en: "Hedge — Open debts (demo data)", pt: "Hedge — Dívidas em aberto (dados fictícios)", es: "Hedge — Deudas pendientes (datos ficticios)" },
+        caption: { en: "Collections", pt: "Cobranças", es: "Cobros" },
+        alt: { en: "Hedge — Collections (demo data)", pt: "Hedge — Cobranças (dados fictícios)", es: "Hedge — Cobros (datos ficticios)" },
+      },
+      {
+        src: "/projects/hedge/a-receber.jpg",
+        caption: { en: "Month by month", pt: "Mês a mês", es: "Mes a mes" },
+        alt: { en: "Hedge — Month by month (demo data)", pt: "Hedge — Mês a mês (dados fictícios)", es: "Hedge — Mes a mes (datos ficticios)" },
       },
       {
         src: "/projects/hedge/contas.jpg",
-        caption: { en: "Bank accounts", pt: "Contas bancárias", es: "Cuentas bancarias" },
-        alt: { en: "Hedge — Bank accounts (demo data)", pt: "Hedge — Contas bancárias (dados fictícios)", es: "Hedge — Cuentas bancarias (datos ficticios)" },
+        caption: { en: "Accounts and income", pt: "Contas e receitas", es: "Cuentas e ingresos" },
+        alt: { en: "Hedge — Accounts and income (demo data)", pt: "Hedge — Contas e receitas (dados fictícios)", es: "Hedge — Cuentas e ingresos (datos ficticios)" },
       },
       {
         src: "/projects/hedge/cartoes.jpg",
         caption: { en: "Credit cards", pt: "Cartões de crédito", es: "Tarjetas de crédito" },
         alt: { en: "Hedge — Credit cards (demo data)", pt: "Hedge — Cartões de crédito (dados fictícios)", es: "Hedge — Tarjetas de crédito (datos ficticios)" },
+      },
+      {
+        src: "/projects/hedge/landing-comecar.jpg",
+        caption: { en: "Sign-up", pt: "Cadastro", es: "Registro" },
+        alt: { en: "Hedge — landing page, sign-up", pt: "Hedge — landing page, cadastro", es: "Hedge — landing page, registro" },
       },
     ],
     partners: [{ name: "George Peixoto", url: "https://github.com/georgepxto" }],

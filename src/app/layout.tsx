@@ -18,6 +18,7 @@ import { Loader } from "@/components/Loader";
 import { isHardReload, loaderInitScript } from "@/lib/loader";
 import { sidebarInitScript } from "@/lib/sidebar";
 import { SkipLink } from "@/components/SkipLink";
+import { Crt } from "@/components/Crt";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
@@ -99,7 +100,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               <Loader />
               <Cursor />
               <div className="grain vt-grain" aria-hidden="true" />
-              <div className="crt vt-crt" aria-hidden="true" />
+              <Crt />
             </PageTransitionProvider>
           </ThemeProvider>
         </I18nProvider>

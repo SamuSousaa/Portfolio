@@ -565,14 +565,20 @@ html.loader-on {
   background: var(--fx-bg);
   animation: var(--fx-anim);
 }
-/* linhas de varredura CRT (TERMINAL) */
+/*
+ * linhas de varredura CRT (TERMINAL): por cima da tela toda, inclusive menu mobile,
+ * transição de página e loader (só o link de pular e o cursor ficam acima). As imagens
+ * ficam limpas: o componente Crt recorta cada uma da máscara (camadas excluídas da 1ª).
+ */
 .crt {
   position: fixed;
   inset: 0;
-  z-index: 65;
+  z-index: 9550;
   pointer-events: none;
   opacity: var(--crt-opacity);
   background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0 1px, transparent 1px 3px);
+  mask-repeat: no-repeat;
+  mask-composite: exclude;
 }
 .fx::before {
   content: "";
@@ -683,10 +689,10 @@ html.loader-on {
 ::view-transition-group(sidebar-bg) { z-index: 7; }
 ::view-transition-group(sidebar) { z-index: 8; }
 ::view-transition-group(grain) { z-index: 9; }
-::view-transition-group(crt) { z-index: 10; }
+::view-transition-group(crt) { z-index: 13; } /* acima do menu, como na página */
 ::view-transition-group(menu-bg) { z-index: 11; }
 ::view-transition-group(menu) { z-index: 12; }
-::view-transition-group(cursor) { z-index: 13; }
+::view-transition-group(cursor) { z-index: 14; }
 
 /* tamanho/posição das camadas não mudam: sem morph, só crossfade */
 html.vt-theme::view-transition-group(*) {
