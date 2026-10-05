@@ -14,7 +14,7 @@ const Corner = ({ className }: { className: string }) => (
   <span aria-hidden="true" className={`absolute z-10 size-4 border-accent ${className}`} />
 );
 
-type Slide = { src: string; alt: Localized; caption: Localized; wide?: boolean };
+type Slide = { src: string; alt: Localized; caption: Localized };
 
 /** Seta discreta na lateral do quadro; ganha fundo no acento com o hover. */
 function Arrow({ dir, label, onClick }: { dir: "prev" | "next"; label: string; onClick: () => void }) {
@@ -35,15 +35,14 @@ function Arrow({ dir, label, onClick }: { dir: "prev" | "next"; label: string; o
 /**
  * Visor do projeto: capa + telas no mesmo quadro, em loop, trocadas pelas setas das
  * laterais, pelo teclado (← →) ou deslizando o dedo. O quadro é limitado pela altura
- * da janela, para caber inteiro na tela. Projetos mobile-first mostram as telas em pé,
- * com moldura de celular, no centro do quadro.
+ * da janela, para caber inteiro na tela. Só telas de desktop (16:10): as de celular
+ * têm lugar próprio na página (funcionalidades ou a faixa "no celular").
  */
 export function ProjectViewer({ project }: { project: Project }) {
   const { t, tr, pick } = useI18n();
   const p = t.projects;
   const slides: Slide[] = [
-    // a capa é sempre 16:10 (num app mobile, já é a composição com os celulares)
-    ...(project.cover ? [{ ...project.cover, caption: tr((d) => d.projects.coverCaption), wide: true }] : []),
+    ...(project.cover ? [{ ...project.cover, caption: tr((d) => d.projects.coverCaption) }] : []),
     ...(project.gallery ?? []),
   ];
   const [index, setIndex] = useState(0);
@@ -70,12 +69,7 @@ export function ProjectViewer({ project }: { project: Project }) {
       <div
         // sempre 16:10 (as imagens são 16:10: nada é cortado). Largura toda do conteúdo, mas nunca
         // mais alto que a janela (menos o topo e uma folga): aí o quadro estreita e fica centrado.
-        // No celular, projeto mobile-first ganha quadro 4:5 (as telas em pé ficam legíveis).
-        className={`relative mx-auto overflow-hidden border border-line-strong bg-surface ${
-          mobile
-            ? "h-[min(calc(100svh-var(--topbar-h)-5rem),calc((100vw-2.5rem)*1.25))] nav:aspect-[16/10] nav:h-auto nav:w-[min(100%,calc((100svh-var(--topbar-h)-5rem)*1.6))]"
-            : "aspect-[16/10] w-[min(100%,calc((100svh-var(--topbar-h)-5rem)*1.6))]"
-        }`}
+        className="relative mx-auto aspect-[16/10] w-[min(100%,calc((100svh-var(--topbar-h)-5rem)*1.6))] overflow-hidden border border-line-strong bg-surface"
         onPointerDown={(e) => (touch.current = e.clientX)}
         onPointerUp={(e) => {
           if (touch.current === null) return;
@@ -96,25 +90,15 @@ export function ProjectViewer({ project }: { project: Project }) {
             aria-hidden={i !== index}
             className={`absolute inset-0 transition-opacity duration-300 ease-out ${i === index ? "opacity-100" : "pointer-events-none opacity-0"}`}
           >
-            {mobile && !s.wide ? (
-              <div className="absolute inset-0 grid place-items-center p-[4%]">
-                <div className="h-full rounded-[22px] border border-line-strong bg-surface p-1.5">
-                  <div className="relative aspect-[390/844] h-full overflow-hidden rounded-[16px]">
-                    <Image src={s.src} alt={pick(s.alt)} fill priority={i === 0} sizes="(min-width: 900px) 30vw, 60vw" quality={90} className="object-cover object-top" />
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <Image
-                src={s.src}
-                alt={pick(s.alt)}
-                fill
-                priority={i === 0}
-                sizes="(min-width: 900px) calc(100vw - 340px), 100vw"
-                quality={90}
-                className={`object-cover ${mobile ? "object-center nav:object-top" : "object-top"}`}
-              />
-            )}
+            <Image
+              src={s.src}
+              alt={pick(s.alt)}
+              fill
+              priority={i === 0}
+              sizes="(min-width: 900px) calc(100vw - 340px), 100vw"
+              quality={90}
+              className="object-cover object-top"
+            />
           </div>
         ))}
 

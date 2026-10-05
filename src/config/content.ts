@@ -88,19 +88,44 @@ export type Project = {
   links?: { live?: string; repo?: string };
   /** Quem fez junto (aparece na ficha como "Em parceria com", com link) */
   partners?: { name: string; url: string }[];
-  /** Imagem em /public (ex.: "/projects/hedge/cover.jpg"), idealmente 16:10 */
+  /** Imagem em /public (ex.: "/projects/hedge/d-cover.jpg"), idealmente 16:10 */
   cover?: { src: string; alt: Localized };
-  /** Feito para celular: a galeria mostra as telas em pé, com moldura de aparelho */
+  /** Feito para celular (o visor mostra o aviso "feito para celular") */
   device?: "mobile";
   /** As telas usam dados de demonstração (a galeria mostra o aviso "dados fictícios") */
   demoData?: boolean;
-  /** Telas do projeto (16:10, em /public/projects/<slug>/): legenda curta + texto alternativo */
+  /** Funcionalidades em destaque: o que cada uma faz, com a tela de celular ao lado */
+  features?: Feature[];
+  /** Telas de celular (390×844, até 3) numa faixa própria; para projetos sem `features` */
+  mobile?: Shot[];
+  /** Telas de desktop no visor (16:10, em /public/projects/<slug>/), 2 ou 3 além da capa: legenda curta + texto alternativo */
   gallery?: { src: string; caption: Localized; alt: Localized }[];
   /** Parágrafo de apresentação da página do projeto */
   overview?: Localized;
   /** Blocos livres: problema, solução, resultado... */
   sections?: { title: Localized; body: Localized }[];
 };
+
+/** Uma captura de tela: arquivo em /public + texto alternativo */
+export type Shot = { src: string; alt: Localized };
+export type Feature = {
+  /** Aba ou área do app (rótulo curto) */
+  tag: Localized;
+  title: Localized;
+  body: Localized;
+  /** Detalhes curtos, em lista */
+  points?: Localized[];
+  /** Tela de celular (390×844) em que a funcionalidade aparece */
+  shot: Shot;
+};
+
+/** Captura com dados de demonstração: o texto alternativo sai do nome do app + nome da tela. */
+const shot = (app: string, src: string, name: Localized): Shot => ({
+  src,
+  alt: { en: `${app} — ${name.en} (demo data)`, pt: `${app} — ${name.pt} (dados fictícios)`, es: `${app} — ${name.es} (datos ficticios)` },
+});
+/** Tela da galeria: a legenda é o próprio nome da tela. */
+const screen = (app: string, src: string, name: Localized) => ({ ...shot(app, src, name), caption: name });
 
 export const PROJECTS: Project[] = [
   {
@@ -116,56 +141,57 @@ export const PROJECTS: Project[] = [
     role: { en: "Full-stack · Freelance", pt: "Full-stack · Freelance", es: "Full-stack · Freelance" },
     status: "wip",
     cover: {
-      src: "/projects/wellnessy/cover.jpg",
-      alt: { en: "Three Wellnessy screens on phones (demo data)", pt: "Três telas do Wellnessy em celulares (dados fictícios)", es: "Tres pantallas de Wellnessy en móviles (datos ficticios)" },
+      src: "/projects/wellnessy/d-hoje.jpg",
+      alt: { en: "Wellnessy — Today's doses (demo data)", pt: "Wellnessy — Doses de hoje (dados fictícios)", es: "Wellnessy — Dosis de hoy (datos ficticios)" },
     },
     device: "mobile",
     demoData: true,
     gallery: [
+      screen("Wellnessy", "/projects/wellnessy/d-remedios.jpg", { en: "Medicines", pt: "Remédios", es: "Medicamentos" }),
+      screen("Wellnessy", "/projects/wellnessy/d-monitor.jpg", { en: "Blood pressure", pt: "Pressão arterial", es: "Presión arterial" }),
+    ],
+    features: [
       {
-        src: "/projects/wellnessy/inicio.jpg",
-        caption: { en: "Today's doses", pt: "Doses de hoje", es: "Dosis de hoy" },
-        alt: { en: "Wellnessy — Today's doses (demo data)", pt: "Wellnessy — Doses de hoje (dados fictícios)", es: "Wellnessy — Dosis de hoy (datos ficticios)" },
+        tag: { en: "Today", pt: "Hoje", es: "Hoy" },
+        title: { en: "The next dose, first", pt: "A dose de agora, primeiro", es: "La dosis de ahora, primero" },
+        body: {
+          en: "The screen opens by answering what the person came to find out: which medicine is next, and whether this one has already been taken. Each dose is confirmed with one tap, and its state is told by shape and word, never by colour alone.",
+          pt: "A tela abre respondendo o que a pessoa veio saber: qual é o próximo remédio e se este já foi tomado. Cada dose é confirmada com um toque, e o estado dela é dito pela forma e pela palavra, nunca só pela cor.",
+          es: "La pantalla abre respondiendo lo que la persona vino a saber: cuál es el próximo remedio y si este ya fue tomado. Cada dosis se confirma con un toque, y su estado se dice con la forma y la palabra, nunca solo con el color.",
+        },
+        points: [
+          { en: "Reminders by Web Push, with the app closed", pt: "Lembrete por Web Push, com o app fechado", es: "Recordatorio por Web Push, con la app cerrada" },
+          { en: "A larger-text mode for older users", pt: "Modo de letras maiores para quem precisa", es: "Modo de letras grandes para quien lo necesita" },
+        ],
+        shot: shot("Wellnessy", "/projects/wellnessy/m-hoje.jpg", { en: "Today's doses", pt: "Doses de hoje", es: "Dosis de hoy" }),
       },
       {
-        src: "/projects/wellnessy/medicamentos.jpg",
-        caption: { en: "Medicines", pt: "Remédios", es: "Medicamentos" },
-        alt: { en: "Wellnessy — Medicines (demo data)", pt: "Wellnessy — Remédios (dados fictícios)", es: "Wellnessy — Medicamentos (datos ficticios)" },
+        tag: { en: "Prescription", pt: "Receita", es: "Receta" },
+        title: { en: "The prescription, read on the phone", pt: "A receita, lida no aparelho", es: "La receta, leída en el móvil" },
+        body: {
+          en: "Take a photo of the prescription and the app suggests the medicines, with name, dose and form already filled in. The reading happens in the browser itself: the photo is never uploaded, and no paid service is involved.",
+          pt: "Fotografe a receita e o app sugere os remédios, com nome, dose e forma já preenchidos. A leitura acontece no próprio navegador: a foto não é enviada para lugar nenhum e não há serviço pago no meio.",
+          es: "Fotografía la receta y la app sugiere los remedios, con nombre, dosis y forma ya completados. La lectura ocurre en el propio navegador: la foto no se envía a ningún lado y no hay servicio de pago de por medio.",
+        },
+        points: [
+          { en: "OCR with Tesseract.js, on the device", pt: "OCR com Tesseract.js, no aparelho", es: "OCR con Tesseract.js, en el dispositivo" },
+          { en: "You check each item before saving", pt: "Você confere cada item antes de salvar", es: "Revisas cada ítem antes de guardar" },
+        ],
+        shot: shot("Wellnessy", "/projects/wellnessy/m-receita.jpg", { en: "Prescription scan", pt: "Leitura de receita", es: "Lectura de receta" }),
       },
       {
-        src: "/projects/wellnessy/historico.jpg",
-        caption: { en: "Dose history", pt: "Histórico de doses", es: "Historial de dosis" },
-        alt: { en: "Wellnessy — Dose history (demo data)", pt: "Wellnessy — Histórico de doses (dados fictícios)", es: "Wellnessy — Historial de dosis (datos ficticios)" },
-      },
-      {
-        src: "/projects/wellnessy/consultas.jpg",
-        caption: { en: "Appointments", pt: "Consultas", es: "Citas" },
-        alt: { en: "Wellnessy — Appointments (demo data)", pt: "Wellnessy — Consultas (dados fictícios)", es: "Wellnessy — Citas (datos ficticios)" },
-      },
-      {
-        src: "/projects/wellnessy/monitores.jpg",
-        caption: { en: "Health monitors", pt: "Monitores de saúde", es: "Monitores de salud" },
-        alt: { en: "Wellnessy — Health monitors (demo data)", pt: "Wellnessy — Monitores de saúde (dados fictícios)", es: "Wellnessy — Monitores de salud (datos ficticios)" },
-      },
-      {
-        src: "/projects/wellnessy/perfis.jpg",
-        caption: { en: "Caregiver profiles", pt: "Perfis de quem você cuida", es: "Perfiles bajo cuidado" },
-        alt: { en: "Wellnessy — Caregiver profiles (demo data)", pt: "Wellnessy — Perfis de quem você cuida (dados fictícios)", es: "Wellnessy — Perfiles bajo cuidado (datos ficticios)" },
-      },
-      {
-        src: "/projects/wellnessy/gastos.jpg",
-        caption: { en: "Expenses", pt: "Gastos", es: "Gastos" },
-        alt: { en: "Wellnessy — Expenses (demo data)", pt: "Wellnessy — Gastos (dados fictícios)", es: "Wellnessy — Gastos (datos ficticios)" },
-      },
-      {
-        src: "/projects/wellnessy/contatos.jpg",
-        caption: { en: "Health contacts", pt: "Contatos de saúde", es: "Contactos de salud" },
-        alt: { en: "Wellnessy — Health contacts (demo data)", pt: "Wellnessy — Contatos de saúde (dados fictícios)", es: "Wellnessy — Contactos de salud (datos ficticios)" },
-      },
-      {
-        src: "/projects/wellnessy/diario.jpg",
-        caption: { en: "Journal", pt: "Diário", es: "Diario" },
-        alt: { en: "Wellnessy — Journal (demo data)", pt: "Wellnessy — Diário (dados fictícios)", es: "Wellnessy — Diario (datos ficticios)" },
+        tag: { en: "Profiles", pt: "Perfis", es: "Perfiles" },
+        title: { en: "The whole family in one place", pt: "A família num lugar só", es: "La familia en un solo lugar" },
+        body: {
+          en: "One account looks after the medicines of people who don't use the app — an elderly mother, a child — each in a separate profile, with their own doses and history. Those who do use it can invite a caregiver, who follows along in read-only mode.",
+          pt: "Uma conta cuida dos remédios de quem não usa o app — uma mãe idosa, uma criança — cada um num perfil separado, com as próprias doses e o próprio histórico. Quem usa pode convidar um cuidador, que acompanha em modo só leitura.",
+          es: "Una cuenta cuida los remedios de quien no usa la app — una madre mayor, un niño — cada uno en un perfil separado, con sus propias dosis e historial. Quien la usa puede invitar a un cuidador, que acompaña en modo solo lectura.",
+        },
+        points: [
+          { en: "Caregiver access by invitation and approval", pt: "Cuidador entra por convite e aprovação", es: "El cuidador entra por invitación y aprobación" },
+          { en: "Archiving a profile can be undone", pt: "Arquivar um perfil pode ser desfeito", es: "Archivar un perfil se puede deshacer" },
+        ],
+        shot: shot("Wellnessy", "/projects/wellnessy/m-perfil.jpg", { en: "Profile of a person under care", pt: "Perfil de quem você cuida", es: "Perfil de una persona bajo cuidado" }),
       },
     ],
     overview: {
@@ -204,80 +230,57 @@ export const PROJECTS: Project[] = [
     slug: "apice",
     name: "Ápice",
     description: {
-      en: "ENARE study platform with a self-adjusting plan and AI support.",
-      pt: "Plataforma de estudos para o ENARE, com plano que se reajusta e IA.",
-      es: "Plataforma de estudio para el ENARE, con plan que se reajusta e IA.",
+      en: "ENARE study platform: topic tracks, spaced review and AI support.",
+      pt: "Plataforma de estudos para o ENARE: trilhas, revisão espaçada e IA.",
+      es: "Plataforma de estudio para el ENARE: rutas, repaso espaciado e IA.",
     },
-    stack: ["React", "TypeScript", "Supabase", "Claude API", "Zustand", "PWA", "GitHub Actions"],
+    stack: ["React", "TypeScript", "Supabase", "Claude API", "TanStack Query", "Zustand", "PWA", "GitHub Actions"],
     year: "2026",
     role: { en: "Full-stack · AI · Freelance", pt: "Full-stack · IA · Freelance", es: "Full-stack · IA · Freelance" },
     status: "live",
     links: { live: "https://apice-ten.vercel.app" },
     cover: {
-      src: "/projects/apice/cover.jpg",
-      alt: { en: "Ápice — Today page (demo data)", pt: "Ápice — página Hoje (dados fictícios)", es: "Ápice — página Hoy (datos ficticios)" },
+      src: "/projects/apice/d-inicio.jpg",
+      alt: { en: "Ápice — Home (demo data)", pt: "Ápice — Início (dados fictícios)", es: "Ápice — Inicio (datos ficticios)" },
     },
     demoData: true,
     gallery: [
-      {
-        src: "/projects/apice/plano.jpg",
-        caption: { en: "56-week plan", pt: "Plano de 56 semanas", es: "Plan de 56 semanas" },
-        alt: { en: "Ápice — 56-week plan (demo data)", pt: "Ápice — Plano de 56 semanas (dados fictícios)", es: "Ápice — Plan de 56 semanas (datos ficticios)" },
-      },
-      {
-        src: "/projects/apice/progresso.jpg",
-        caption: { en: "Progress", pt: "Progresso", es: "Progreso" },
-        alt: { en: "Ápice — Progress (demo data)", pt: "Ápice — Progresso (dados fictícios)", es: "Ápice — Progreso (datos ficticios)" },
-      },
-      {
-        src: "/projects/apice/semana.jpg",
-        caption: { en: "Weekly review", pt: "Balanço da semana", es: "Balance de la semana" },
-        alt: { en: "Ápice — Weekly review (demo data)", pt: "Ápice — Balanço da semana (dados fictícios)", es: "Ápice — Balance de la semana (datos ficticios)" },
-      },
-      {
-        src: "/projects/apice/questoes.jpg",
-        caption: { en: "Cards and doubts", pt: "Cartas e dúvidas", es: "Tarjetas y dudas" },
-        alt: { en: "Ápice — Cards and doubts (demo data)", pt: "Ápice — Cartas e dúvidas (dados fictícios)", es: "Ápice — Tarjetas y dudas (datos ficticios)" },
-      },
-      {
-        src: "/projects/apice/simulados.jpg",
-        caption: { en: "Mock exams", pt: "Simulados", es: "Simulacros" },
-        alt: { en: "Ápice — Mock exams (demo data)", pt: "Ápice — Simulados (dados fictícios)", es: "Ápice — Simulacros (datos ficticios)" },
-      },
-      {
-        src: "/projects/apice/bloco.jpg",
-        caption: { en: "Study block", pt: "Bloco de estudo", es: "Bloque de estudio" },
-        alt: { en: "Ápice — Study block (demo data)", pt: "Ápice — Bloco de estudo (dados fictícios)", es: "Ápice — Bloque de estudio (datos ficticios)" },
-      },
+      screen("Ápice", "/projects/apice/d-modulo.jpg", { en: "Topics of a module", pt: "Tópicos de um módulo", es: "Temas de un módulo" }),
+      screen("Ápice", "/projects/apice/d-desempenho.jpg", { en: "Performance", pt: "Desempenho", es: "Rendimiento" }),
+    ],
+    mobile: [
+      shot("Ápice", "/projects/apice/m-inicio.jpg", { en: "Home on a phone", pt: "Início no celular", es: "Inicio en el móvil" }),
+      shot("Ápice", "/projects/apice/m-modulo.jpg", { en: "Topics of a module on a phone", pt: "Tópicos de um módulo no celular", es: "Temas de un módulo en el móvil" }),
+      shot("Ápice", "/projects/apice/m-revisar.jpg", { en: "Review queue on a phone", pt: "Fila de revisão no celular", es: "Cola de repaso en el móvil" }),
     ],
     overview: {
-      en: "A study platform that simulates a full prep course for ENARE 2027 in Dentistry. It turns a 56-week plan into daily goals, collects questions from past exams, runs mock tests and keeps a notebook of review cards — with AI answering doubts right where they come up.",
-      pt: "Uma plataforma de estudos que simula um cursinho completo para o ENARE 2027 em Odontologia. Ela transforma um plano de 56 semanas em metas diárias, reúne questões de provas anteriores, aplica simulados e mantém um caderno de cartas de revisão — com IA respondendo dúvidas no lugar onde elas surgem.",
-      es: "Una plataforma de estudio que simula un curso completo para el ENARE 2027 en Odontología. Convierte un plan de 56 semanas en metas diarias, reúne preguntas de exámenes anteriores, aplica simulacros y mantiene un cuaderno de tarjetas de repaso — con IA respondiendo dudas justo donde surgen.",
+      en: "A prep platform for ENARE in Dentistry, built for a study group: each person joins by invitation and keeps their own study data, while the question bank is shared. Study is organised by topic — 243 of them, each the size of one sitting, across three tracks — with lessons, questions from past exams, mock tests and reviews that come back at the right time.",
+      pt: "Uma plataforma de preparação para o ENARE em Odontologia, feita para uma turma: cada pessoa entra por convite e tem os próprios dados de estudo, e o banco de questões é compartilhado. O estudo é por tópico — 243, cada um do tamanho de uma sentada, em três trilhas — com aulas, questões de provas anteriores, simulados e revisões que voltam na hora certa.",
+      es: "Una plataforma de preparación para el ENARE en Odontología, hecha para un grupo de estudio: cada persona entra por invitación y tiene sus propios datos, y el banco de preguntas es compartido. El estudio es por tema — 243, cada uno del tamaño de una sentada, en tres rutas — con clases, preguntas de exámenes anteriores, simulacros y repasos que vuelven en el momento justo.",
     },
     sections: [
       {
         title: { en: "Problem", pt: "Problema", es: "Problema" },
         body: {
-          en: "A rigid study plan breaks the first time life gets in the way: a late topic pushes everything back, and the student ends up deciding alone what to cut.",
-          pt: "Um plano de estudos rígido quebra na primeira vez que a vida atrapalha: um assunto atrasado empurra todo o resto, e o aluno acaba decidindo sozinho o que cortar.",
-          es: "Un plan de estudio rígido se rompe la primera vez que la vida se interpone: un tema atrasado empuja todo lo demás, y el alumno termina decidiendo solo qué recortar.",
+          en: "A study plan with deadlines turns into pressure: one late topic pushes everything back, the countdown weighs, and the student starts studying for the tool. The decision was to invert it — showing what has been done is a reward; showing what is missing is pressure.",
+          pt: "Plano de estudo com prazo vira cobrança: um assunto atrasado empurra todo o resto, a contagem regressiva pesa e a pessoa passa a estudar para a ferramenta. A decisão foi inverter — mostrar o que já foi feito é recompensa; mostrar o que falta é pressão.",
+          es: "Un plan de estudio con plazos se vuelve presión: un tema atrasado empuja todo lo demás, la cuenta regresiva pesa y la persona termina estudiando para la herramienta. La decisión fue invertirlo — mostrar lo que ya se hizo es recompensa; mostrar lo que falta es presión.",
         },
       },
       {
         title: { en: "Solution", pt: "Solução", es: "Solución" },
         body: {
-          en: "A pure replanning engine moves late blocks to a free review week or the nearest week with room, and ranks what can be cut by each subject's weight in the exam. The Claude API answers open doubts and comments on questions through a server function, so the key never reaches the browser.",
-          pt: "Um motor de reajuste, em função pura, move blocos atrasados para uma semana de revisão livre ou a semana mais próxima com espaço, e ordena o que pode ser cortado pelo peso de cada assunto na prova. A Claude API responde dúvidas e comenta questões por uma função no servidor, então a chave nunca chega ao navegador.",
-          es: "Un motor de reajuste, en función pura, mueve bloques atrasados a una semana de repaso libre o a la semana más cercana con espacio, y ordena lo que se puede recortar según el peso de cada tema en el examen. La Claude API responde dudas y comenta preguntas mediante una función en el servidor, así la clave nunca llega al navegador.",
+          en: "Three review engines written as pure functions: topic review, where the score decides whether you advance, repeat or restart; SM-2 flashcards; and an error notebook that brings a missed question back without the answer key. The home screen asks how much time you have today and builds the session that fits. The Claude API answers doubts through a server function with a daily cap, so the key never reaches the browser.",
+          pt: "Três motores de revisão em funções puras: a revisão de tópico, em que o acerto decide se você avança, repete ou recomeça; cartas em SM-2; e um caderno de erros que devolve a questão errada sem o gabarito. A tela inicial pergunta quanto tempo há hoje e monta a sessão que cabe nele. A Claude API responde dúvidas por uma função no servidor, com teto diário, então a chave nunca chega ao navegador.",
+          es: "Tres motores de repaso en funciones puras: el repaso por tema, donde el acierto decide si avanzas, repites o reinicias; tarjetas en SM-2; y un cuaderno de errores que devuelve la pregunta fallada sin la respuesta. La pantalla de inicio pregunta cuánto tiempo hay hoy y arma la sesión que cabe en él. La Claude API responde dudas mediante una función en el servidor, con tope diario, así la clave nunca llega al navegador.",
         },
       },
       {
         title: { en: "Result", pt: "Resultado", es: "Resultado" },
         body: {
-          en: "A plan that bends instead of breaking, installable as a PWA with push reminders and automatic backups via GitHub Actions.",
-          pt: "Um plano que se dobra em vez de quebrar, instalável como PWA, com lembretes por push e backups automáticos pelo GitHub Actions.",
-          es: "Un plan que se dobla en lugar de romperse, instalable como PWA, con recordatorios push y copias de seguridad automáticas vía GitHub Actions.",
+          en: "No screen shows a delay, a target or a countdown; reviews stay available and never expire. Installable as a PWA, with search across all content and automatic backups via GitHub Actions.",
+          pt: "Nenhuma tela mostra atraso, meta ou contagem regressiva; as revisões ficam disponíveis e nunca vencem. Instalável como PWA, com busca em todo o conteúdo e backups automáticos pelo GitHub Actions.",
+          es: "Ninguna pantalla muestra atraso, meta o cuenta regresiva; los repasos quedan disponibles y nunca vencen. Instalable como PWA, con búsqueda en todo el contenido y copias de seguridad automáticas vía GitHub Actions.",
         },
       },
     ],
@@ -296,71 +299,57 @@ export const PROJECTS: Project[] = [
     status: "live",
     links: { live: "https://gethedge.vercel.app", repo: "https://github.com/georgepxto/gestaofinanceira" },
     cover: {
-      src: "/projects/hedge/cover.jpg",
+      src: "/projects/hedge/d-cover.jpg",
       alt: { en: "Hedge landing page: “Seu dinheiro deixa pistas.” beside the dashboard (demo data)", pt: "Landing page do Hedge: “Seu dinheiro deixa pistas.” ao lado do dashboard (dados fictícios)", es: "Landing page de Hedge: “Seu dinheiro deixa pistas.” junto al dashboard (datos ficticios)" },
     },
     demoData: true,
+    features: [
+      {
+        tag: { en: "Home", pt: "Início", es: "Inicio" },
+        title: { en: "Month-end, seen today", pt: "O fim do mês, hoje", es: "El fin de mes, hoy" },
+        body: {
+          en: "The home screen starts from today's balance and adds what still comes in and goes out until the last day — salary, what friends will pay back, fixed bills and the card statement — to show how much is really left.",
+          pt: "A tela inicial parte do saldo de hoje e soma o que ainda entra e sai até o último dia — salário, o que vão te devolver, contas fixas e a fatura do cartão — para mostrar quanto sobra de verdade.",
+          es: "La pantalla de inicio parte del saldo de hoy y suma lo que aún entra y sale hasta el último día — sueldo, lo que te van a devolver, cuentas fijas y la factura de la tarjeta — para mostrar cuánto queda de verdad.",
+        },
+        points: [
+          { en: "Balance computed from the entry history", pt: "Saldo calculado do histórico de lançamentos", es: "Saldo calculado del historial de movimientos" },
+          { en: "Asks whether the salary has landed", pt: "Pergunta se o salário já caiu na conta", es: "Pregunta si el sueldo ya entró a la cuenta" },
+        ],
+        shot: shot("Hedge", "/projects/hedge/m-inicio.jpg", { en: "Home on a phone", pt: "Início no celular", es: "Inicio en el móvil" }),
+      },
+      {
+        tag: { en: "People", pt: "Pessoas", es: "Personas" },
+        title: { en: "Who owes you, by person", pt: "Quem te deve, por pessoa", es: "Quién te debe, por persona" },
+        body: {
+          en: "When you log a split expense, each share becomes a charge under that person's name. The screen adds everything up per person — this month's and what was left from earlier ones — so nobody has to remember who paid for what.",
+          pt: "Ao lançar um gasto dividido, a parte de cada um vira uma cobrança no nome da pessoa. A tela soma tudo por pessoa — o que é do mês e o que ficou de meses anteriores — e ninguém precisa lembrar quem pagou o quê.",
+          es: "Al registrar un gasto dividido, la parte de cada uno se vuelve un cobro a nombre de la persona. La pantalla suma todo por persona — lo del mes y lo que quedó de meses anteriores — y nadie tiene que recordar quién pagó qué.",
+        },
+        points: [
+          { en: "Installments of up to 24 payments", pt: "Parcelamento em até 24 vezes", es: "Cuotas de hasta 24 pagos" },
+          { en: "Fixed expenses can be split too", pt: "Gasto fixo também pode ser dividido", es: "El gasto fijo también se puede dividir" },
+        ],
+        shot: shot("Hedge", "/projects/hedge/m-pessoas.jpg", { en: "People on a phone", pt: "Pessoas no celular", es: "Personas en el móvil" }),
+      },
+      {
+        tag: { en: "Collections", pt: "Cobranças", es: "Cobros" },
+        title: { en: "Partial payments, on record", pt: "Pagou uma parte? Fica anotado", es: "¿Pagó una parte? Queda anotado" },
+        body: {
+          en: "A charge can be paid bit by bit: every payment goes into its history, the bar shows how much has come back, and the rest stays open. When the month closes, what wasn't paid becomes an outstanding balance instead of disappearing.",
+          pt: "Uma cobrança pode ser paga aos poucos: cada pagamento entra no histórico, a barra mostra quanto já voltou e o resto continua em aberto. No fechamento do mês, o que não foi pago vira saldo devedor em vez de sumir.",
+          es: "Un cobro puede pagarse de a poco: cada pago entra en el historial, la barra muestra cuánto ya volvió y el resto sigue abierto. Al cerrar el mes, lo que no se pagó se vuelve saldo pendiente en vez de desaparecer.",
+        },
+        points: [
+          { en: "Payment history, with undo", pt: "Histórico de pagamentos, com reversão", es: "Historial de pagos, con reversión" },
+          { en: "Filter by person and by status", pt: "Filtro por pessoa e por situação", es: "Filtro por persona y por estado" },
+        ],
+        shot: shot("Hedge", "/projects/hedge/m-cobrancas.jpg", { en: "Collections on a phone", pt: "Cobranças no celular", es: "Cobros en el móvil" }),
+      },
+    ],
     gallery: [
-      {
-        src: "/projects/hedge/landing-experimente.jpg",
-        caption: { en: "Try before signing up", pt: "Experimente antes de criar a conta", es: "Pruébalo antes de crear la cuenta" },
-        alt: { en: "Hedge — landing page, try before signing up", pt: "Hedge — landing page, experimente antes de criar a conta", es: "Hedge — landing page, pruébalo antes de crear la cuenta" },
-      },
-      {
-        src: "/projects/hedge/landing-dividir.jpg",
-        caption: { en: "Features", pt: "Funcionalidades", es: "Funcionalidades" },
-        alt: { en: "Hedge — landing page, features", pt: "Hedge — landing page, funcionalidades", es: "Hedge — landing page, funcionalidades" },
-      },
-      {
-        src: "/projects/hedge/landing-cobrar.jpg",
-        caption: { en: "Split bills", pt: "Contas divididas", es: "Cuentas divididas" },
-        alt: { en: "Hedge — landing page, split bills", pt: "Hedge — landing page, contas divididas", es: "Hedge — landing page, cuentas divididas" },
-      },
-      {
-        src: "/projects/hedge/inicio.jpg",
-        caption: { en: "Home", pt: "Início", es: "Inicio" },
-        alt: { en: "Hedge — Home (demo data)", pt: "Hedge — Início (dados fictícios)", es: "Hedge — Inicio (datos ficticios)" },
-      },
-      {
-        src: "/projects/hedge/lancamentos.jpg",
-        caption: { en: "Expenses", pt: "Lançamentos", es: "Gastos" },
-        alt: { en: "Hedge — Expenses (demo data)", pt: "Hedge — Lançamentos (dados fictícios)", es: "Hedge — Gastos (datos ficticios)" },
-      },
-      {
-        src: "/projects/hedge/metas.jpg",
-        caption: { en: "Spending goals", pt: "Metas de gasto", es: "Metas de gasto" },
-        alt: { en: "Hedge — Spending goals (demo data)", pt: "Hedge — Metas de gasto (dados fictícios)", es: "Hedge — Metas de gasto (datos ficticios)" },
-      },
-      {
-        src: "/projects/hedge/pessoas.jpg",
-        caption: { en: "People", pt: "Pessoas", es: "Personas" },
-        alt: { en: "Hedge — People (demo data)", pt: "Hedge — Pessoas (dados fictícios)", es: "Hedge — Personas (datos ficticios)" },
-      },
-      {
-        src: "/projects/hedge/em-aberto.jpg",
-        caption: { en: "Collections", pt: "Cobranças", es: "Cobros" },
-        alt: { en: "Hedge — Collections (demo data)", pt: "Hedge — Cobranças (dados fictícios)", es: "Hedge — Cobros (datos ficticios)" },
-      },
-      {
-        src: "/projects/hedge/a-receber.jpg",
-        caption: { en: "Month by month", pt: "Mês a mês", es: "Mes a mes" },
-        alt: { en: "Hedge — Month by month (demo data)", pt: "Hedge — Mês a mês (dados fictícios)", es: "Hedge — Mes a mes (datos ficticios)" },
-      },
-      {
-        src: "/projects/hedge/contas.jpg",
-        caption: { en: "Accounts and income", pt: "Contas e receitas", es: "Cuentas e ingresos" },
-        alt: { en: "Hedge — Accounts and income (demo data)", pt: "Hedge — Contas e receitas (dados fictícios)", es: "Hedge — Cuentas e ingresos (datos ficticios)" },
-      },
-      {
-        src: "/projects/hedge/cartoes.jpg",
-        caption: { en: "Credit cards", pt: "Cartões de crédito", es: "Tarjetas de crédito" },
-        alt: { en: "Hedge — Credit cards (demo data)", pt: "Hedge — Cartões de crédito (dados fictícios)", es: "Hedge — Tarjetas de crédito (datos ficticios)" },
-      },
-      {
-        src: "/projects/hedge/landing-comecar.jpg",
-        caption: { en: "Sign-up", pt: "Cadastro", es: "Registro" },
-        alt: { en: "Hedge — landing page, sign-up", pt: "Hedge — landing page, cadastro", es: "Hedge — landing page, registro" },
-      },
+      screen("Hedge", "/projects/hedge/d-inicio.jpg", { en: "Home", pt: "Início", es: "Inicio" }),
+      screen("Hedge", "/projects/hedge/d-lancamentos.jpg", { en: "Expenses", pt: "Lançamentos", es: "Gastos" }),
     ],
     partners: [{ name: "George Peixoto", url: "https://github.com/georgepxto" }],
     overview: {

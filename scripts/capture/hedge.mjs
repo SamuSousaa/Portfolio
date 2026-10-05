@@ -1,10 +1,14 @@
-// Telas do Hedge com dados FICTÍCIOS: node scripts/capture/hedge.mjs [baseURL]
+// Telas do Hedge com dados FICTÍCIOS: node scripts/capture/hedge.mjs [baseURL] [telas,separadas]
+//   MOBILE=1 → 390×844, salvas como m-<nome>.jpg (desktop: d-<nome>.jpg)      OUT=<pasta> → outra pasta de saída
 // O Supabase é interceptado (ver mock-supabase.mjs): nenhuma conta real é lida.
 import { chromium } from "playwright-core";
 import { CHROME, fakeSession, openMocked, shot } from "./mock-supabase.mjs";
 
 const BASE = process.argv[2] ?? "https://gethedge.vercel.app";
-const OUT = "public/projects/hedge";
+const OUT = process.env.OUT ?? "public/projects/hedge";
+const MOBILE = !!process.env.MOBILE; // 390×844 (telas em pé) em vez de 1600×1000
+const PRE = MOBILE ? "m-" : "d-"; // telas de celular: m-<nome>.jpg
+const VIEW = MOBILE ? { viewport: { width: 390, height: 844 }, dpr: 3 } : {};
 const SUPABASE = "https://sagiylhxrqvknacwpesp.supabase.co";
 const U = "00000000-0000-4000-8000-000000000001";
 const session = fakeSession({ id: U, email: "marina@exemplo.com", name: "Marina Duarte" });
@@ -113,10 +117,10 @@ const rpc = {
 const PAGES = [
   ["inicio", "/"],
   ["lancamentos", "/gastos/lancamentos"],
-  ["metas", "/gastos/metas"],
+  ["limites", "/gastos/limites"],
   ["a-receber", "/a-receber/mes"],
   ["pessoas", "/a-receber/pessoas"],
-  ["em-aberto", "/a-receber/aberto"],
+  ["cobrancas", "/a-receber/aberto"],
   ["contas", "/carteira/contas"],
   ["cartoes", "/carteira/cartoes"],
 ];
@@ -125,16 +129,23 @@ const PAGES = [
 // suave e anima com ele, então chega lá pela roda do mouse, corrigindo até assentar.
 const LANDING = [
   ["cover", 0],
-  ["landing-experimente", 900],
-  ["landing-dividir", 2700],
-  ["landing-cobrar", 8100],
-  ["landing-comecar", 13800],
+  ["landing-experimente", 1000],
+  ["landing-dashboard", 2008],
+  ["landing-pessoais", 2989],
+  ["landing-dividir", 3789],
+  ["landing-cartoes", 4789],
+  ["landing-limites", 5589],
+  ["landing-relatorios", 7189],
+  ["landing-acerto", 8149],
+  ["landing-como", 9139],
+  ["landing-seguranca", 12739],
+  ["landing-comecar", 13967],
 ];
 
 const only = process.argv[3]?.split(",");
 {
   const browser = await chromium.launch({ executablePath: CHROME });
-  const page = await browser.newPage({ viewport: { width: 1600, height: 1000 }, deviceScaleFactor: 2, locale: "pt-BR" });
+  const page = await browser.newPage(MOBILE ? { viewport: { width: 390, height: 844 }, deviceScaleFactor: 3, isMobile: true, hasTouch: true, locale: "pt-BR" } : { viewport: { width: 1600, height: 1000 }, deviceScaleFactor: 2, locale: "pt-BR" });
   for (const [name, y] of LANDING) {
     if (only && !only.includes(name)) continue;
     await page.goto(BASE + "/", { waitUntil: "networkidle" });
@@ -145,7 +156,7 @@ const only = process.argv[3]?.split(",");
       await page.mouse.wheel(0, Math.max(-300, Math.min(300, diff)));
       await page.waitForTimeout(Math.abs(diff) > 300 ? 120 : 700);
     }
-    await shot(page, `${OUT}/${name}.jpg`, { wait: 2200 });
+    await shot(page, `${OUT}/${PRE}${name}.jpg`, { wait: 2200 });
     console.log("ok", name, "→ scroll", await page.evaluate(() => scrollY));
   }
   await browser.close();
@@ -154,15 +165,16 @@ const only = process.argv[3]?.split(",");
 // tutoriais guiados de cada aba já "vistos" (senão abrem por cima da tela)
 const TUTORIALS = ["cartoes_credito", "contas_bancarias", "dashboard", "devedores", "dividas", "gastos", "metas_gasto", "meus_gastos"];
 const init = Object.fromEntries(TUTORIALS.map((k) => [`${k}_tutorial_seen_v1`, JSON.stringify({ seen: true, lastStepIndex: null })]));
-const { browser, ctx, unknown } = await openMocked({ supabaseUrl: SUPABASE, tables, rpc, session, init });
+const { browser, ctx, unknown } = await openMocked({ supabaseUrl: SUPABASE, tables, rpc, session, init, ...VIEW });
 const page = await ctx.newPage();
 const errors = [];
 page.on("pageerror", (e) => errors.push(String(e)));
 for (const [name, path] of PAGES) {
   if (only && !only.includes(name)) continue;
-  await page.goto(BASE + path, { waitUntil: "networkidle" });
+  // algumas telas mantêm requisições abertas: se a rede não assentar, segue com o que carregou
+  await page.goto(BASE + path, { waitUntil: "networkidle", timeout: 12000 }).catch(() => {});
   await page.keyboard.press("Escape"); // fecha tour/tutorial, se abrir
-  await shot(page, `${OUT}/${name}.jpg`, { wait: 1500 });
+  await shot(page, `${OUT}/${PRE}${name}.jpg`, { wait: 1500 });
   console.log("ok", name, "→", page.url());
 }
 console.log("não simulados:", [...unknown].join(", ") || "nenhum");

@@ -9,6 +9,8 @@ import { TransitionLink } from "../PageTransition";
 import { useI18n } from "../I18nProvider";
 import { Swap } from "@/components/Swap";
 import { ProjectViewer } from "./ProjectViewer";
+import { ProjectPhones } from "./ProjectPhones";
+import { ProjectFeatures } from "./ProjectFeatures";
 
 const Awaiting = ({ text }: { text: string }) => (
   <p className="font-mono text-[12px] text-muted">
@@ -44,6 +46,10 @@ export function ProjectDetail({ project }: { project: Project }) {
       ) : null,
     },
   ];
+  // seções em ordem: A visão geral, depois funcionalidades ou telas de celular (quando houver), depois os blocos livres
+  let n = 0;
+  const letter = () => String.fromCharCode(65 + n++);
+
   const links = [
     project.links?.live && { href: project.links.live, label: p.live },
     project.links?.repo && { href: project.links.repo, label: p.repo },
@@ -126,14 +132,20 @@ export function ProjectDetail({ project }: { project: Project }) {
         {/* visão geral */}
         <section data-reveal className="divider grid gap-6 border-t border-line pt-8 min-[1100px]:grid-cols-[14rem_minmax(0,1fr)] min-[1100px]:gap-12">
           <h2 className="label !text-fg">
-            <span className="text-accent">A</span> — {p.overview}
+            <span className="text-accent">{letter()}</span> — {p.overview}
           </h2>
           {project.overview ? (
-            <p className="max-w-[62ch] text-[clamp(15px,1.1vw,17px)] leading-relaxed text-fg">{pick(project.overview)}</p>
+            <p className="max-w-[62ch] text-[clamp(15px,1.1vw,17px)] leading-relaxed text-fg">
+              <Swap block v={project.overview} />
+            </p>
           ) : (
             <Awaiting text={t.awaiting} />
           )}
         </section>
+
+        {project.features?.length ? <ProjectFeatures project={project} letter={letter()} label={p.features} /> : null}
+
+        {!project.features?.length && project.mobile?.length ? <ProjectPhones project={project} letter={letter()} label={p.onMobile} /> : null}
 
         {project.sections?.map((s, i) => (
           <section
@@ -142,9 +154,11 @@ export function ProjectDetail({ project }: { project: Project }) {
             className="divider mt-12 grid gap-6 border-t border-line pt-8 min-[1100px]:grid-cols-[14rem_minmax(0,1fr)] min-[1100px]:gap-12"
           >
             <h2 className="label !text-fg">
-              <span className="text-accent">{String.fromCharCode(66 + i)}</span> — {pick(s.title).toUpperCase()}
+              <span className="text-accent">{letter()}</span> — {pick(s.title).toUpperCase()}
             </h2>
-            <p className="max-w-[62ch] text-[clamp(15px,1.1vw,17px)] leading-relaxed text-fg">{pick(s.body)}</p>
+            <p className="max-w-[62ch] text-[clamp(15px,1.1vw,17px)] leading-relaxed text-fg">
+              <Swap block v={s.body} />
+            </p>
           </section>
         ))}
 
