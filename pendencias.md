@@ -16,9 +16,9 @@ Tudo em `src/config/content.ts`. Campo vazio = a página mostra "aguardando dado
 
 ## Briefing (`/briefing/portal-noticias`)
 
-Código pronto e testado de ponta a ponta no ambiente local (banco, upload e e-mail), ainda sem commit.
+No ar em https://samuelsousadev.com.br/briefing/portal-noticias. Testado de ponta a ponta no ambiente local (banco, upload e e-mail).
 
-- [ ] **Vercel**: cadastrar as quatro variáveis do `.env.local` em Settings → Environment Variables antes de publicar.
+- [ ] **Envio em produção**: fazer um envio real pelo site no ar e conferir se o e-mail chega (as chaves do Supabase já respondem em produção; a do Resend só dá para confirmar enviando).
 - [ ] **Registro de teste**: apagar a linha de teste da tabela `briefings` e o arquivo `icon.svg` do bucket `briefings`.
 - [ ] **Remetente próprio** (opcional): verificar `samuelsousadev.com.br` no Resend e definir `BRIEFING_EMAIL_FROM`. Hoje o aviso sai de `onboarding@resend.dev` e só chega no e-mail da conta do Resend.
 - [ ] **`/briefing/admin`**: página com login listando os envios. Fica para depois; por enquanto, a consulta é pelo painel do Supabase.
