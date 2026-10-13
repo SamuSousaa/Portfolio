@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import "./globals.css";
+import "../globals.css";
 import { fontVariables } from "@/lib/fonts";
 import { DEFAULT_THEME, themeInitScript } from "@/config/themes";
 import { CONTACT, PROFILE, fullName } from "@/config/content";

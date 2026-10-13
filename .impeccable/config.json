@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "layout-transition",
+        "value": "*",
+        "files": [
+          "src/app/globals.css"
+        ],
+        "createdAt": "2026-10-13T21:35:31.970Z",
+        "reason": "user confirmed: transição de largura da sidebar recolhível e do padding do conteúdo é intencional (aprovada e no ar)"
+      }
+    ]
+  }
+}

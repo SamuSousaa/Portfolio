@@ -1,0 +1,217 @@
+/*
+ * BRIEFING (/briefing/[slug])
+ * Usa os tokens do tema TERMINAL; aqui só o que os utilitários não cobrem.
+ * Mais calmo que o portfólio: o acento aparece só no progresso, no foco do campo
+ * e no botão principal.
+ */
+
+/* a página não rola: quem rola é a área da pergunta (ou do resumo) */
+.bf-root {
+  height: 100dvh;
+  overflow: hidden;
+}
+.bf-scroll {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+/* troca de tela: a atual sai, a próxima entra. --bf-dir: 1 avança, -1 volta */
+.bf-in {
+  animation: bf-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.bf-out {
+  animation: bf-out 0.15s ease-in both;
+}
+@keyframes bf-in {
+  from {
+    opacity: 0;
+    transform: translateY(calc(var(--bf-dir, 1) * 16px));
+  }
+}
+@keyframes bf-out {
+  to {
+    opacity: 0;
+    transform: translateY(calc(var(--bf-dir, 1) * -12px));
+  }
+}
+
+/* pergunta: fonte display, sem caixa alta (texto longo precisa ser lido, não só visto) */
+.bf-title {
+  font-family: var(--ff-display);
+  font-weight: var(--display-weight);
+  letter-spacing: -0.01em;
+  line-height: 1.14;
+  text-wrap: balance;
+}
+
+/* campo de texto: só a linha de baixo; no foco, a linha engrossa no acento sem mexer no layout */
+.bf-input {
+  width: 100%;
+  border-bottom: 1px solid var(--line-strong);
+  border-radius: 0;
+  background: transparent;
+  padding: 0.75rem 0;
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+  line-height: 1.35;
+  color: var(--fg);
+  outline: none;
+  transition:
+    border-color 0.2s ease-out,
+    box-shadow 0.2s ease-out;
+}
+.bf-input::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+.bf-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 1px 0 var(--accent);
+}
+.bf-input[aria-invalid="true"] {
+  border-color: var(--fg);
+}
+textarea.bf-input {
+  display: block;
+  resize: none;
+  min-height: 6.5rem;
+  max-height: 40dvh;
+  field-sizing: content;
+}
+/* campos menores, dentro de grupos e listas */
+.bf-input--sm {
+  font-size: 1.0625rem;
+  padding: 0.625rem 0;
+}
+
+/* opção: bloco reto; marcada = invertida (sem acento) */
+.bf-option {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  width: 100%;
+  min-height: 3.25rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  text-align: left;
+  font-size: 1rem;
+  line-height: 1.3;
+  color: var(--fg);
+  transition:
+    background-color 0.15s ease-out,
+    color 0.15s ease-out,
+    border-color 0.15s ease-out,
+    opacity 0.15s ease-out;
+}
+@media (hover: hover) {
+  .bf-option:hover {
+    border-color: var(--fg);
+  }
+}
+.bf-option[aria-checked="true"] {
+  background: var(--fg);
+  border-color: var(--fg);
+  color: var(--bg);
+}
+.bf-option[aria-disabled="true"] {
+  opacity: 0.45;
+}
+.bf-key {
+  flex: none;
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+.bf-option[aria-checked="true"] .bf-key {
+  color: inherit;
+}
+/* tecla de atalho só onde existe teclado */
+@media not ((hover: hover) and (pointer: fine)) {
+  .bf-key--atalho {
+    display: none;
+  }
+}
+
+/* botão principal: o único elemento preenchido com o acento */
+.bf-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75em;
+  min-height: 3rem;
+  padding: 0 1.4rem;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: var(--on-accent);
+  font-family: var(--ff-mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition:
+    background-color 0.2s ease-out,
+    color 0.2s ease-out,
+    opacity 0.2s ease-out;
+}
+@media (hover: hover) {
+  .bf-primary:hover:not(:disabled) {
+    background: transparent;
+    color: var(--accent);
+  }
+}
+.bf-primary:disabled {
+  opacity: 0.6;
+}
+
+/* botão de texto (voltar, pular, editar) */
+.bf-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  min-height: 3rem;
+  font-family: var(--ff-mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: color 0.2s ease-out;
+}
+.bf-ghost:hover,
+.bf-ghost:focus-visible {
+  color: var(--fg);
+}
+
+/* barra de progresso: um segmento por etapa */
+.bf-seg {
+  height: 3px;
+  background: var(--line-strong);
+}
+.bf-seg > span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* número da etapa ao fundo, vazado */
+.bf-ghost-number {
+  font-family: var(--ff-display);
+  font-size: clamp(14rem, 26vw, 24rem);
+  line-height: 0.8;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--line-strong);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* honeypot: fora da tela, sem display:none (robôs ignoram campos escondidos assim) */
+.bf-hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
