@@ -751,24 +751,23 @@ html.vt-theme::view-transition-new(menu) {
 }
 /*
  * Títulos, monograma, marca d'água, capa e grid mudam de FORMA entre temas (outra
- * fonte, outro desenho de grid). Num crossfade as duas versões apareceriam
- * sobrepostas por um instante (dupla exposição = "piscada"). Aqui a antiga se
- * dissolve em 200 ms e só então a nova surge em 200 ms: nunca há duas versões
- * na tela, e a troca de fonte acontece no ponto em que nenhuma está visível.
+ * fonte, outro desenho de grid), mas trocam no mesmo crossfade de 400 ms do
+ * conteúdo. Antes a antiga sumia em 200 ms e só então a nova surgia: no meio não
+ * havia nenhuma das duas, e a textura (tela toda) e o título piscavam a cada troca.
+ * No crossfade as duas somam em plus-lighter: onde coincidem, nada esmaece.
  */
 html.vt-theme::view-transition-old(display-title),
-html.vt-theme::view-transition-old(display-mono),
-html.vt-theme::view-transition-old(display-watermark),
-html.vt-theme::view-transition-old(display-cover),
-html.vt-theme::view-transition-old(texture) {
-  animation: vt-fade-out 0.2s ease-in both;
-}
 html.vt-theme::view-transition-new(display-title),
+html.vt-theme::view-transition-old(display-mono),
 html.vt-theme::view-transition-new(display-mono),
+html.vt-theme::view-transition-old(display-watermark),
 html.vt-theme::view-transition-new(display-watermark),
+html.vt-theme::view-transition-old(display-cover),
 html.vt-theme::view-transition-new(display-cover),
+html.vt-theme::view-transition-old(texture),
 html.vt-theme::view-transition-new(texture) {
-  animation: vt-fade-in 0.2s ease-out 0.2s both;
+  animation-duration: 0.4s;
+  animation-timing-function: ease;
 }
 
 /*

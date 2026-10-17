@@ -262,7 +262,7 @@ export const PROJECTS: Project[] = [
     year: "2026",
     role: { en: "Full-stack · AI · Freelance", pt: "Full-stack · IA · Freelance", es: "Full-stack · IA · Freelance" },
     status: "live",
-    links: { live: "https://apice-ten.vercel.app" },
+    links: { live: "https://apice-ten.vercel.app", repo: "https://github.com/SamuelSousaDEV/apice-publico" },
     cover: {
       src: "/projects/apice/d-inicio.jpg",
       alt: { en: "Ápice — Home (demo data)", pt: "Ápice — Início (dados fictícios)", es: "Ápice — Inicio (datos ficticios)" },

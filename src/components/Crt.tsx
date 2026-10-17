@@ -2,8 +2,8 @@
 
 import { useEffect, useRef } from "react";
 
-/** Imagens menores que isso (ícones, logo) não abrem buraco na varredura. */
-const MIN = 64;
+/** Imagens menores que isso (ícones) não abrem buraco na varredura; miniaturas de tela abrem. */
+const MIN = 24;
 
 /**
  * Linhas de varredura CRT por cima da tela inteira (sidebar, menu mobile, loader),
@@ -11,6 +11,9 @@ const MIN = 64;
  * visível, recalculado a cada quadro (scroll suave, prévia que segue o mouse).
  * Só trabalha quando o tema liga a varredura (--crt-opacity > 0). Durante a
  * transição de página (html[data-transition]) não há recortes: tela toda coberta.
+ * Recortes sobrepostos se anulariam (mask-composite: exclude é um XOR), então um
+ * recorte contido em outro é descartado: no crossfade do visor as duas telas
+ * ocupam o mesmo lugar e a varredura voltava por cima delas.
  */
 export function Crt() {
   const ref = useRef<HTMLDivElement>(null);
@@ -24,7 +27,7 @@ export function Crt() {
     const holes = () => {
       const vw = innerWidth;
       const vh = innerHeight;
-      const out: string[] = [];
+      const rects: DOMRect[] = [];
       for (const img of document.querySelectorAll<HTMLElement>("img, video")) {
         let r = img.getBoundingClientRect();
         if (r.width < MIN || r.height < MIN || r.bottom <= 0 || r.top >= vh || r.right <= 0 || r.left >= vw) continue;
@@ -41,9 +44,13 @@ export function Crt() {
         // coberta pelo menu mobile ou pelo loader: a varredura continua por cima deles
         const top = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
         if (top?.closest(".menu-mobile, .loader")) continue;
-        out.push(`${Math.round(r.left)}px ${Math.round(r.top)}px / ${Math.round(r.width)}px ${Math.round(r.height)}px`);
+        // contido num recorte já aberto (ou o contrário): fica só o maior
+        const inside = (a: DOMRect, b: DOMRect) => a.left >= b.left - 1 && a.top >= b.top - 1 && a.right <= b.right + 1 && a.bottom <= b.bottom + 1;
+        if (rects.some((o) => inside(r, o))) continue;
+        for (let i = rects.length - 1; i >= 0; i--) if (inside(rects[i], r)) rects.splice(i, 1);
+        rects.push(r);
       }
-      return out;
+      return rects.map((r) => `${Math.round(r.left)}px ${Math.round(r.top)}px / ${Math.round(r.width)}px ${Math.round(r.height)}px`);
     };
 
     const frame = () => {
