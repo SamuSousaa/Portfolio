@@ -17,7 +17,7 @@ for (const [w, h, mobile] of [[1440, 900, false], [390, 844, true]]) {
   const p = await ctx.newPage();
   await p.goto(`${BASE}/projects/${SLUG}`, { waitUntil: "networkidle" });
   await p.waitForTimeout(1500);
-  const targets = { viewer: "figure[aria-roledescription=carousel]", f1: "[data-probe=feature-1]", f2: "[data-probe=feature-2]", phones: "[data-probe=phones]" };
+  const targets = { viewer: "figure[aria-roledescription=carousel]", screens: "[data-probe=screen-1]" };
   for (const [name, sel] of Object.entries(targets)) {
     const loc = p.locator(sel).first();
     if (!(await loc.count())) continue;

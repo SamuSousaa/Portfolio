@@ -65,8 +65,8 @@ export const fullName = `${cap(PROFILE.firstName)} ${cap(PROFILE.lastName)}`;
 
 export const CONTACT = {
   email: { user: "samusousadev", domain: "zohomail.com" }, // montado só no cliente
-  github: "https://github.com/SamuSousaa",
-  linkedin: "https://www.linkedin.com/in/samuel-sousa-33153443a/",
+  github: "https://github.com/SamuelSousaDEV",
+  linkedin: "https://www.linkedin.com/in/samuelsousadev",
 };
 
 export type ProjectStatus = "live" | "wip" | "archived";
@@ -104,6 +104,8 @@ export type Project = {
   overview?: Localized;
   /** Blocos livres: problema, solução, resultado... */
   sections?: { title: Localized; body: Localized }[];
+  /** Resumo curto (até ~20 palavras cada) na faixa abaixo do topo; sem ele, a faixa usa as três primeiras `sections` */
+  brief?: { problem: Localized; solution: Localized; result: Localized };
 };
 
 /** Uma captura de tela: arquivo em /public + texto alternativo */
@@ -113,6 +115,8 @@ export type Feature = {
   tag: Localized;
   title: Localized;
   body: Localized;
+  /** Uma linha que resume a funcionalidade, mostrada embaixo da tela (sem ela, vale o `body`) */
+  line?: Localized;
   /** Detalhes curtos, em lista */
   points?: Localized[];
   /** Tela de celular (390×844) em que a funcionalidade aparece */
@@ -159,6 +163,7 @@ export const PROJECTS: Project[] = [
           pt: "A tela abre respondendo o que a pessoa veio saber: qual é o próximo remédio e se este já foi tomado. Cada dose é confirmada com um toque, e o estado dela é dito pela forma e pela palavra, nunca só pela cor.",
           es: "La pantalla abre respondiendo lo que la persona vino a saber: cuál es el próximo remedio y si este ya fue tomado. Cada dosis se confirma con un toque, y su estado se dice con la forma y la palabra, nunca solo con el color.",
         },
+        line: { en: "Which medicine is next, and whether this one was taken — one tap to confirm.", pt: "Qual é o próximo remédio e se este já foi tomado — um toque para confirmar.", es: "Cuál es el próximo remedio y si este ya se tomó — un toque para confirmar." },
         points: [
           { en: "Reminders by Web Push, with the app closed", pt: "Lembrete por Web Push, com o app fechado", es: "Recordatorio por Web Push, con la app cerrada" },
           { en: "A larger-text mode for older users", pt: "Modo de letras maiores para quem precisa", es: "Modo de letras grandes para quien lo necesita" },
@@ -173,6 +178,7 @@ export const PROJECTS: Project[] = [
           pt: "Fotografe a receita e o app sugere os remédios, com nome, dose e forma já preenchidos. A leitura acontece no próprio navegador: a foto não é enviada para lugar nenhum e não há serviço pago no meio.",
           es: "Fotografía la receta y la app sugiere los remedios, con nombre, dosis y forma ya completados. La lectura ocurre en el propio navegador: la foto no se envía a ningún lado y no hay servicio de pago de por medio.",
         },
+        line: { en: "Photograph it and the medicines come filled in; the photo never leaves the phone.", pt: "Fotografe e os remédios vêm preenchidos; a foto não sai do aparelho.", es: "Fotografíala y los remedios vienen completados; la foto no sale del móvil." },
         points: [
           { en: "OCR with Tesseract.js, on the device", pt: "OCR com Tesseract.js, no aparelho", es: "OCR con Tesseract.js, en el dispositivo" },
           { en: "You check each item before saving", pt: "Você confere cada item antes de salvar", es: "Revisas cada ítem antes de guardar" },
@@ -187,6 +193,7 @@ export const PROJECTS: Project[] = [
           pt: "Uma conta cuida dos remédios de quem não usa o app — uma mãe idosa, uma criança — cada um num perfil separado, com as próprias doses e o próprio histórico. Quem usa pode convidar um cuidador, que acompanha em modo só leitura.",
           es: "Una cuenta cuida los remedios de quien no usa la app — una madre mayor, un niño — cada uno en un perfil separado, con sus propias dosis e historial. Quien la usa puede invitar a un cuidador, que acompaña en modo solo lectura.",
         },
+        line: { en: "A profile per person you care for, plus a read-only caregiver by invitation.", pt: "Um perfil para cada pessoa que você cuida, e um cuidador só leitura por convite.", es: "Un perfil para cada persona que cuidas, y un cuidador de solo lectura por invitación." },
         points: [
           { en: "Caregiver access by invitation and approval", pt: "Cuidador entra por convite e aprovação", es: "El cuidador entra por invitación y aprobación" },
           { en: "Archiving a profile can be undone", pt: "Arquivar um perfil pode ser desfeito", es: "Archivar un perfil se puede deshacer" },
@@ -198,6 +205,23 @@ export const PROJECTS: Project[] = [
       en: "A web app for managing medication — for yourself or for someone you care for. It tracks medicines and schedules, sends automatic reminders, reads prescriptions from a photo and brings together the rest of a health routine: appointments, vital signs, expenses, a journal and health contacts.",
       pt: "Um app web para gerenciar medicamentos — os seus ou os de quem você cuida. Ele registra remédios e horários, envia lembretes automáticos, lê receitas a partir de uma foto e reúne o resto da rotina de saúde: consultas, sinais vitais, gastos, diário e contatos de saúde.",
       es: "Una app web para gestionar medicamentos — los tuyos o los de alguien a quien cuidas. Registra remedios y horarios, envía recordatorios automáticos, lee recetas a partir de una foto y reúne el resto de la rutina de salud: citas, signos vitales, gastos, diario y contactos de salud.",
+    },
+    brief: {
+      problem: {
+        en: "Forgotten doses, lost prescriptions and health data scattered across apps — worse when you care for someone, and on zero budget.",
+        pt: "Doses esquecidas, receitas perdidas e dados de saúde espalhados — pior quando se cuida de alguém, e com custo zero.",
+        es: "Dosis olvidadas, recetas perdidas y datos de salud dispersos — peor cuando cuidas de alguien, y con costo cero.",
+      },
+      solution: {
+        en: "Web Push reminders fired by pg_cron, prescription OCR in the browser, and dependent profiles with a caregiver mode.",
+        pt: "Lembretes por Web Push disparados pelo pg_cron, OCR de receita no navegador e perfis dependentes com modo cuidador.",
+        es: "Recordatorios por Web Push disparados por pg_cron, OCR de recetas en el navegador y perfiles dependientes con modo cuidador.",
+      },
+      result: {
+        en: "The whole health routine in one place, with tests, error monitoring and analytics — and no running cost.",
+        pt: "A rotina de saúde inteira num lugar só, com testes, monitoramento de erros e analytics — e sem custo de operação.",
+        es: "Toda la rutina de salud en un solo lugar, con pruebas, monitoreo de errores y analítica — y sin costo de operación.",
+      },
     },
     sections: [
       {
@@ -258,6 +282,23 @@ export const PROJECTS: Project[] = [
       pt: "Uma plataforma de preparação para o ENARE em Odontologia, feita para uma turma: cada pessoa entra por convite e tem os próprios dados de estudo, e o banco de questões é compartilhado. O estudo é por tópico — 243, cada um do tamanho de uma sentada, em três trilhas — com aulas, questões de provas anteriores, simulados e revisões que voltam na hora certa.",
       es: "Una plataforma de preparación para el ENARE en Odontología, hecha para un grupo de estudio: cada persona entra por invitación y tiene sus propios datos, y el banco de preguntas es compartido. El estudio es por tema — 243, cada uno del tamaño de una sentada, en tres rutas — con clases, preguntas de exámenes anteriores, simulacros y repasos que vuelven en el momento justo.",
     },
+    brief: {
+      problem: {
+        en: "Study plans with deadlines become pressure: one late topic pushes everything back and the countdown weighs.",
+        pt: "Plano de estudo com prazo vira cobrança: um assunto atrasado empurra o resto e a contagem regressiva pesa.",
+        es: "Un plan de estudio con plazos se vuelve presión: un tema atrasado empuja el resto y la cuenta regresiva pesa.",
+      },
+      solution: {
+        en: "Three review engines (topics, SM-2 cards, error notebook), sessions sized to today's time, and Claude for doubts.",
+        pt: "Três motores de revisão (tópicos, cartas SM-2, caderno de erros), sessão do tamanho do tempo de hoje e Claude para dúvidas.",
+        es: "Tres motores de repaso (temas, tarjetas SM-2, cuaderno de errores), sesión del tamaño del tiempo de hoy y Claude para dudas.",
+      },
+      result: {
+        en: "No screen shows delays, targets or countdowns; reviews never expire. Installable PWA with automatic backups.",
+        pt: "Nenhuma tela mostra atraso, meta ou contagem regressiva; revisões nunca vencem. PWA instalável, com backups automáticos.",
+        es: "Ninguna pantalla muestra atraso, meta o cuenta regresiva; los repasos nunca vencen. PWA instalable, con copias automáticas.",
+      },
+    },
     sections: [
       {
         title: { en: "Problem", pt: "Problema", es: "Problema" },
@@ -312,6 +353,7 @@ export const PROJECTS: Project[] = [
           pt: "A tela inicial parte do saldo de hoje e soma o que ainda entra e sai até o último dia — salário, o que vão te devolver, contas fixas e a fatura do cartão — para mostrar quanto sobra de verdade.",
           es: "La pantalla de inicio parte del saldo de hoy y suma lo que aún entra y sale hasta el último día — sueldo, lo que te van a devolver, cuentas fijas y la factura de la tarjeta — para mostrar cuánto queda de verdad.",
         },
+        line: { en: "Today's balance plus what still comes in and goes out until month-end.", pt: "O saldo de hoje mais o que ainda entra e sai até o fim do mês.", es: "El saldo de hoy más lo que aún entra y sale hasta fin de mes." },
         points: [
           { en: "Balance computed from the entry history", pt: "Saldo calculado do histórico de lançamentos", es: "Saldo calculado del historial de movimientos" },
           { en: "Asks whether the salary has landed", pt: "Pergunta se o salário já caiu na conta", es: "Pregunta si el sueldo ya entró a la cuenta" },
@@ -326,6 +368,7 @@ export const PROJECTS: Project[] = [
           pt: "Ao lançar um gasto dividido, a parte de cada um vira uma cobrança no nome da pessoa. A tela soma tudo por pessoa — o que é do mês e o que ficou de meses anteriores — e ninguém precisa lembrar quem pagou o quê.",
           es: "Al registrar un gasto dividido, la parte de cada uno se vuelve un cobro a nombre de la persona. La pantalla suma todo por persona — lo del mes y lo que quedó de meses anteriores — y nadie tiene que recordar quién pagó qué.",
         },
+        line: { en: "Each share of a split expense becomes a charge in that person's name.", pt: "Cada parte de um gasto dividido vira cobrança no nome da pessoa.", es: "Cada parte de un gasto dividido se vuelve un cobro a nombre de la persona." },
         points: [
           { en: "Installments of up to 24 payments", pt: "Parcelamento em até 24 vezes", es: "Cuotas de hasta 24 pagos" },
           { en: "Fixed expenses can be split too", pt: "Gasto fixo também pode ser dividido", es: "El gasto fijo también se puede dividir" },
@@ -340,6 +383,7 @@ export const PROJECTS: Project[] = [
           pt: "Uma cobrança pode ser paga aos poucos: cada pagamento entra no histórico, a barra mostra quanto já voltou e o resto continua em aberto. No fechamento do mês, o que não foi pago vira saldo devedor em vez de sumir.",
           es: "Un cobro puede pagarse de a poco: cada pago entra en el historial, la barra muestra cuánto ya volvió y el resto sigue abierto. Al cerrar el mes, lo que no se pagó se vuelve saldo pendiente en vez de desaparecer.",
         },
+        line: { en: "Paid bit by bit, with history; what's left becomes an open balance.", pt: "Paga aos poucos, com histórico; o que sobra vira saldo devedor.", es: "Se paga de a poco, con historial; lo que queda se vuelve saldo pendiente." },
         points: [
           { en: "Payment history, with undo", pt: "Histórico de pagamentos, com reversão", es: "Historial de pagos, con reversión" },
           { en: "Filter by person and by status", pt: "Filtro por pessoa e por situação", es: "Filtro por persona y por estado" },
@@ -356,6 +400,23 @@ export const PROJECTS: Project[] = [
       en: "A personal and collaborative finance tracker: it records expenses, splits bills between friends while tracking who paid, manages credit cards, bank accounts and spending goals, and delivers dashboards and PDF reports. Built together with developer George Peixoto.",
       pt: "Um controle financeiro pessoal e colaborativo: registra gastos, divide contas entre amigos com rastreio de quem pagou, gerencia cartões de crédito, contas bancárias e metas de gasto, e entrega dashboards e relatórios em PDF. Construído em parceria com o desenvolvedor George Peixoto.",
       es: "Un control financiero personal y colaborativo: registra gastos, divide cuentas entre amigos con seguimiento de quién pagó, gestiona tarjetas de crédito, cuentas bancarias y metas de gasto, y entrega dashboards e informes en PDF. Construido junto al desarrollador George Peixoto.",
+    },
+    brief: {
+      problem: {
+        en: "Shared expenses get lost in chats and spreadsheets: who paid, who still owes, which installment ends.",
+        pt: "Gastos divididos se perdem entre conversas e planilhas: quem pagou, quem ainda deve, qual parcela acaba.",
+        es: "Los gastos compartidos se pierden entre chats y planillas: quién pagó, quién todavía debe, qué cuota termina.",
+      },
+      solution: {
+        en: "Installments, partial payments and month closing per person, with each user's data isolated by Supabase RLS.",
+        pt: "Parcelas, pagamentos parciais e fechamento do mês por pessoa, com os dados de cada usuário isolados por RLS no Supabase.",
+        es: "Cuotas, pagos parciales y cierre de mes por persona, con los datos de cada usuario aislados por RLS en Supabase.",
+      },
+      result: {
+        en: "One question per screen: real balance, what you owe and what you're owed. Tested end to end with Playwright.",
+        pt: "Uma pergunta por tela: saldo real, o que você deve e o que tem a receber. Testado de ponta a ponta no Playwright.",
+        es: "Una pregunta por pantalla: saldo real, lo que debes y lo que te deben. Probado de punta a punta con Playwright.",
+      },
     },
     sections: [
       {
@@ -396,7 +457,7 @@ export const PROJECTS: Project[] = [
     year: "2026",
     role: { en: "Design · Full-stack", pt: "Design · Full-stack", es: "Diseño · Full-stack" },
     status: "live",
-    links: { live: "https://samuelsousadev.com.br", repo: "https://github.com/SamuSousaa/Portfolio" },
+    links: { live: "https://samuelsousadev.com.br", repo: "https://github.com/SamuelSousaDEV/Portfolio" },
     cover: {
       src: "/projects/portfolio/cover.jpg",
       alt: {
@@ -441,6 +502,23 @@ export const PROJECTS: Project[] = [
       en: "My own portfolio, designed and built as a project in its own right. A terminal-brutalist identity with six complete themes — each with its own typography, texture and cursor — in English, Portuguese and Spanish, where changing theme or language feels like a transformation, not a jump.",
       pt: "Meu próprio portfólio, desenhado e construído como um projeto de verdade. Uma identidade terminal-brutalista com seis temas completos — cada um com tipografia, textura e cursor próprios — em inglês, português e espanhol, onde trocar de tema ou de idioma parece uma transformação, não um salto.",
       es: "Mi propio portafolio, diseñado y construido como un proyecto en sí mismo. Una identidad terminal-brutalista con seis temas completos — cada uno con su tipografía, textura y cursor — en inglés, portugués y español, donde cambiar de tema o de idioma se siente como una transformación, no un salto.",
+    },
+    brief: {
+      problem: {
+        en: "Different fonts and translations have different sizes: a naive theme or language switch makes the page jump.",
+        pt: "Fontes e traduções têm tamanhos diferentes: uma troca ingênua de tema ou idioma faz a página inteira pular.",
+        es: "Fuentes y traducciones tienen tamaños distintos: un cambio ingenuo de tema o idioma hace saltar la página.",
+      },
+      solution: {
+        en: "Titles sized from a base unit, text that reserves its longest translation, and a three-layer theme wave.",
+        pt: "Títulos a partir de uma unidade-base, textos que reservam a tradução mais longa e uma onda de tema em três camadas.",
+        es: "Títulos a partir de una unidad base, textos que reservan la traducción más larga y una ola de tema en tres capas.",
+      },
+      result: {
+        en: "Zero layout shift across 6 themes and 3 languages, measured element by element with Playwright.",
+        pt: "Zero deslocamento em 6 temas e 3 idiomas, medido elemento por elemento no Playwright.",
+        es: "Cero desplazamiento en 6 temas y 3 idiomas, medido elemento por elemento con Playwright.",
+      },
     },
     sections: [
       {

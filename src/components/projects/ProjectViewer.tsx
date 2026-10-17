@@ -130,6 +130,30 @@ export function ProjectViewer({ project }: { project: Project }) {
           ) : null}
         </div>
       </div>
+
+      {/* miniaturas: todas as telas à vista, a atual marcada no acento */}
+      {many ? (
+        // cada miniatura tem até 6rem, mas todas dividem a largura do quadro quando são muitas
+        <div
+          className="mx-auto mt-3 grid w-[min(100%,calc((100svh-var(--topbar-h)-5rem)*1.6))] gap-2"
+          style={{ gridTemplateColumns: `repeat(${slides.length}, minmax(0, 6rem))` }}
+        >
+          {slides.map((s, i) => (
+            <button
+              key={s.src}
+              type="button"
+              onClick={() => setIndex(i)}
+              aria-label={`${p.showScreen} ${pad(i + 1)} — ${pick(s.caption)}`}
+              aria-current={i === index}
+              className={`relative aspect-[16/10] overflow-hidden border transition-[border-color,opacity] duration-200 ${
+                i === index ? "border-accent opacity-100" : "border-line-strong opacity-50 hover:opacity-100"
+              }`}
+            >
+              <Image src={s.src} alt="" fill sizes="96px" className="object-cover object-top" />
+            </button>
+          ))}
+        </div>
+      ) : null}
     </figure>
   );
 }
