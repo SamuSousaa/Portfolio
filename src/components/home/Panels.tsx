@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { EXPERIENCE, FEATURED_SLOTS, PROFILE, PROJECTS } from "@/config/content";
+import { EXPERIENCE, FEATURED, PROFILE, PROJECTS } from "@/config/content";
 import { useReveal } from "@/lib/useReveal";
 import { TransitionLink } from "../PageTransition";
 import { HudStatus } from "../Hud";
@@ -28,8 +28,8 @@ export function Panels() {
 
   useReveal(ref);
 
-  // os primeiros FEATURED_SLOTS projetos; o que faltar vira slot vazio (o índice completo fica em /projects)
-  const slots = Array.from({ length: FEATURED_SLOTS }, (_, i) => PROJECTS[i] ?? null);
+  // os projetos escolhidos em FEATURED; o que faltar vira slot vazio (o índice completo fica em /projects)
+  const slots = FEATURED.map((slug) => PROJECTS.find((p) => p.slug === slug) ?? null);
 
   const info = [
     { label: t.discipline, value: t.disciplineValue },

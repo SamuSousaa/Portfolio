@@ -133,6 +133,50 @@ const screen = (app: string, src: string, name: Localized) => ({ ...shot(app, sr
 
 export const PROJECTS: Project[] = [
   {
+    slug: "dispeaker",
+    name: "Dispeaker",
+    description: {
+      en: "Voice, screen sharing and chat in the style of Discord, with its own media server.",
+      pt: "Voz, transmissão de tela e chat no estilo Discord, com servidor de mídia próprio.",
+      es: "Voz, transmisión de pantalla y chat al estilo Discord, con servidor de medios propio.",
+    },
+    stack: ["TypeScript", "React", "mediasoup", "WebRTC", "Fastify", "PostgreSQL", "Redis", "Electron"],
+    year: "2026",
+    role: { en: "Full-stack · Real-time · Solo", pt: "Full-stack · Tempo real · Solo", es: "Full-stack · Tiempo real · Solo" },
+    status: "live",
+    links: { repo: "https://github.com/SamuelSousaDEV/Dispeak" },
+    cover: {
+      src: "/projects/dispeaker/d-voz.jpg",
+      alt: {
+        en: "Dispeaker — Voice channel with a 1080p screen share (demo data)",
+        pt: "Dispeaker — Canal de voz com transmissão de tela em 1080p (dados fictícios)",
+        es: "Dispeaker — Canal de voz con transmisión de pantalla en 1080p (datos ficticios)",
+      },
+    },
+    demoData: true,
+    gallery: [
+      screen("Dispeaker", "/projects/dispeaker/d-chat.jpg", { en: "Text channel", pt: "Canal de texto", es: "Canal de texto" }),
+      screen("Dispeaker", "/projects/dispeaker/d-amigos.jpg", { en: "Direct messages", pt: "Mensagens diretas", es: "Mensajes directos" }),
+    ],
+    brief: {
+      problem: {
+        en: "Voice apps lean on managed media services (LiveKit, Agora, Twilio): the hard part stays in someone else’s black box.",
+        pt: "Apps de voz se apoiam em serviços de mídia gerenciados (LiveKit, Agora, Twilio): a parte difícil fica na caixa-preta de outro.",
+        es: "Las apps de voz se apoyan en servicios de medios gestionados (LiveKit, Agora, Twilio): lo difícil queda en la caja negra de otro.",
+      },
+      solution: {
+        en: "Its own SFU on mediasoup, a resumable WebSocket gateway and typed signalling end to end; web and desktop app.",
+        pt: "SFU próprio sobre mediasoup, gateway WebSocket com retomada e sinalização tipada de ponta a ponta; web e app de desktop.",
+        es: "SFU propio sobre mediasoup, gateway WebSocket con reanudación y señalización tipada de punta a punta; web y app de escritorio.",
+      },
+      result: {
+        en: "1080p60 sharing encoded on the GPU; 24 people on voice and screen share used 0.58 of a core. 393 tests.",
+        pt: "Transmissão em 1080p60 codificada na placa de vídeo; 24 pessoas em voz e tela usaram 0,58 de um núcleo. 393 testes.",
+        es: "Transmisión en 1080p60 codificada en la GPU; 24 personas en voz y pantalla usaron 0,58 de un núcleo. 393 pruebas.",
+      },
+    },
+  },
+  {
     slug: "wellnessy",
     name: "Wellnessy",
     description: {
@@ -549,8 +593,8 @@ export const PROJECTS: Project[] = [
   },
 ];
 
-/** Quantos cartões o painel da home reserva; o que faltar vira slot vazio. */
-export const FEATURED_SLOTS = 3;
+/** Projetos dos cartões da home, nesta ordem (01, 02, 03); slug que não existir vira slot vazio. */
+export const FEATURED = ["dispeaker", "hedge", "apice"];
 
 export type Experience = { period: string; role: Localized; org: string };
 
