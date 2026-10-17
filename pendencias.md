@@ -11,6 +11,7 @@ Tudo em `src/config/content.ts`. Campo vazio = a página mostra "aguardando dado
 
 ## Projetos
 
+- [ ] **Dispeaker — usuários**: você passa o número e ele entra na ficha (linha "USUÁRIOS" entre Status e Stack).
 - [ ] **Hedge**: as telas vieram da branch local `redesign-app`, um commit à frente da produção (a aba "Limites" ainda não está em gethedge.vercel.app).
 - [ ] **Wellnessy**: trocar a senha da conta de teste `samusousaaicloud@gmail.com` (foi passada em conversa). Ela está com os dados fictícios das capturas.
 
